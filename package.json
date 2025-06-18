@@ -1,0 +1,19 @@
+{
+  "name": "missoin1_jaesung",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qkrwotjd1731/nb3"
+  },
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Park Jaesung",
+  "license": "ISC",
+  "description": "codeit nb3 mission1 Park Jaesung's code",
+  "dependencies": {
+    "axios": "^1.9.0"
+  }
+}
