@@ -1,0 +1,13 @@
+node_modules/
+
+# Keep environment variables out of version control
+.env
+
+# dev test file
+http
+mock.js
+seed.js
+upload
+
+# Prisma ver6.6 이상에서 Prisma Client가 자동 생성하는 코드 디렉토리
+/src/generated/prisma
