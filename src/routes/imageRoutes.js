@@ -1,0 +1,12 @@
+import express from 'express';
+import multer from 'multer';
+import { asyncHandler } from '../lib/asyncHandler.js';
+import { uploadImage } from '../controllers/imageController.js'
+
+const imageRouter = express.Router();
+
+const upload = multer({ dest: 'upload/'});
+
+imageRouter.post('/upload', upload.single('image'), asyncHandler(uploadImage));
+
+export default imageRouter;
