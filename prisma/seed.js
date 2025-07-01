@@ -1,5 +1,5 @@
 import { PrismaClient } from '../src/generated/prisma/index.js';
-import { PRODUCTS } from './mock.js';
+import { PRODUCTS, ARTICLE, COMMENT } from './mock.js';
 
 const prisma = new PrismaClient();
 
@@ -8,7 +8,7 @@ async function main() {
   await prisma.article.deleteMany();
   await prisma.comment.deleteMany();
 
-  await prisma.$executeRaw`TRUNCATE TABLE "Product, Article, Comment" RESTART IDENTITY CASCADE`;
+  await prisma.$executeRaw`TRUNCATE TABLE "Product", "Article", "Comment" RESTART IDENTITY CASCADE`;
 
   await prisma.product.createMany({
     data: PRODUCTS,

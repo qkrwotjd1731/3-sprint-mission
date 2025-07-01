@@ -5,7 +5,7 @@ import { uploadImage } from '../controllers/imageController.js'
 
 const imageRouter = express.Router();
 
-const upload = multer({ dest: 'upload/'});
+const upload = multer({ dest: 'uploads/'});
 
 imageRouter.post('/upload', upload.single('image'), asyncHandler(uploadImage));
 

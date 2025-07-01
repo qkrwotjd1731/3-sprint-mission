@@ -113,3 +113,33 @@ export const PRODUCTS = [
     updatedAt: '2023-07-14T16:00:00Z',
   },
 ];
+
+export const ARTICLE = [
+  {
+    title: '최초의 게시글',
+    content: '내가 1빠임.',
+  },
+  {
+    title: '두번째 게시글',
+    content: '내가 2빠임.',
+  },
+  {
+    title: '세번째 게시글',
+    content: '내가 3빠임.',
+  }
+];
+
+export const COMMENT = [
+  {
+    productId: 1,
+    content: '샤워젤이 38000원이면 너무 비싼거 아니냐?',
+  },
+  {
+    articleId: 1,
+    content: '와 1빠를 먹다니 고수인걸.',
+  },
+  {
+    productId: 1,
+    content: '윗댓 거지인듯.',
+  }
+]
