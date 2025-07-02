@@ -1,19 +1,24 @@
 {
-  "name": "missoin1_jaesung",
-  "version": "1.0.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/qkrwotjd1731/nb3"
-  },
-  "main": "main.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon ./src/app.js",
+    "start": "node ./src/app.js"
   },
-  "author": "Park Jaesung",
-  "license": "ISC",
-  "description": "codeit nb3 mission1 Park Jaesung's code",
   "dependencies": {
-    "axios": "^1.9.0"
+    "@prisma/client": "^6.10.1",
+    "cloudinary": "^2.7.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "multer": "^2.0.1",
+    "superstruct": "^2.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "prettier": "^3.6.0",
+    "prisma": "^6.10.1"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }

@@ -1,54 +1,105 @@
-# 스프린트 미션 2
-## 요구사항
-### 기본
-- [x] class 키워드를 이용해서 Product 클래스와 ElectronicProduct 클래스를 만들어 주세요.
-  * Product 클래스는 name(상품명) description(상품 설명), price(판매 가격), tags(해시태그 배열), images(이미지 배열), favoriteCount(찜하기 수)프로퍼티를 가집니다.
-  * Product 클래스는 favorite 메소드를 가집니다. favorite 메소드가 호출될 경우 찜하기 수가 1 증가합니다.
-  * ElectronicProduct 클래스는 Product를 상속하며, 추가로 manufacturer(제조사) 프로퍼티를 가집니다.
-- [x] class 키워드를 이용해서 Product 클래스와 ElectronicProduct 클래스를 만들어 주세요.
-  * Article 클래스는 title(제목), content(내용), writer(작성자), likeCount(좋아요 수) 프로퍼티를 가집니다.
-  * Article 클래스는 like 메소드를 가집니다. like 메소드가 호출될 경우 좋아요 수가 1 증가합니다.
-- [x] 각 클래스 마다 constructor를 작성해 주세요.
-- [x] 추상화/캡슐화/상속/다형성을 고려하여 코드를 작성해 주세요.
-- [x] 'https://panda-market-api-crud.vercel.app/docs' 의 Article API를 이용하여 아래 함수들을 구현해 주세요.
-  * getArticleList() : GET 메소드를 사용해 주세요.
-    * page, pageSize, keyword 쿼리 파라미터를 이용해 주세요.
-  * getArticle() : GET 메소드를 사용해 주세요.
-  * createArticle() : POST 메소드를 사용해 주세요.
-    * request body에 title, content, image 를 포함해 주세요.
-  * patchArticle() : PATCH 메소드를 사용해 주세요.
-  * deleteArticle() : DELETE 메소드를 사용해 주세요.
-- [x] fetch 혹은 axios를 이용해 주세요.
-  * 응답의 상태 코드가 2XX가 아닐 경우, 에러 메시지를 콘솔에 출력해 주세요.
-- [x] .then() 메소드를 이용하여 비동기 처리를 해주세요.
-- [x] .catch() 를 이용하여 오류 처리를 해주세요.
-- [x] 'https://panda-market-api-crud.vercel.app/docs' 의 Product API를 이용하여 아래 함수들을 구현해 주세요.
-  * getProductList() : GET 메소드를 사용해 주세요.
-    * page, pageSize, keyword 쿼리 파라미터를 이용해 주세요.
-  * getProduct() : GET 메소드를 사용해 주세요.
-  * createProduct() : POST 메소드를 사용해 주세요.
-    * request body에 name, description, price, tags, images 를 포함해 주세요.
-  * patchProduct() : PATCH 메소드를 사용해 주세요.
-  * deleteProduct() : DELETE 메소드를 사용해 주세요.
-- [x] async/await 을 이용하여 비동기 처리를 해주세요.
-- [x] try/catch 를 이용하여 오류 처리를 해주세요.
-- [x] getProductList()를 통해서 받아온 상품 리스트를 각각 인스턴스로 만들어  products 배열에 저장해 주세요.
-  * 해시태그에 "전자제품"이 포함되어 있는 상품들은 Product 클래스 대신 ElectronicProduct 클래스를 사용해 인스턴스를 생성해 주세요.
-  * 나머지 상품들은 모두 Product 클래스를 사용해 인스턴스를 생성해 주세요.
-- [x] 구현한 함수들을 아래와 같이 파일을 분리해 주세요.
-  * export를 활용해 주세요.
-  * ProductService.js 파일 Product API 관련 함수들을 작성해 주세요.
-  * ArticleService.js 파일에 Article API 관련 함수들을 작성해 주세요.
-- [x] 이외의 코드들은 모두 main.js 파일에 작성해 주세요.
-  * import를 활용해 주세요.
-  * 각 함수를 실행하는 코드를 작성하고, 제대로 동작하는지 확인해 주세요.
-### 심화
-- [x] Article 클래스에 createdAt(생성일자) 프로퍼티를 만들어 주세요.
-  * 새로운 객체가 생성되어 constructor가 호출될 시 createdAt에 현재 시간을 저장합니다.
-## 주요 변경사항
-* 캡슐화를 위한 set 메소드의 유효성 검사를 위해서 다양한 조건과 문법을 사용하였습니다.
-* Test Code를 main.js에 주석으로 작성했습니다.
-## 멘토님에게
-요구사항을 만족하려고 노력했습니다. 요구사항에서 클래스 등의 추가적인 모듈화를 요구하지 않아서 클래스 선언은 main.js에 담았습니다.
-기본적인 테스트는 마쳤지만 코드에 잘못된 부분이 남아 있을 수 있을 것 같습니다.
-저는 컴퓨터공학을 전공했지만 체계적이고 탄탄하게 프로그래밍을 해본 경험이 거의 없습니다. 피드백 후 코드 수정 해보겠습니다.
+# 기본 요구 사항
+
+## 공통
+
+- [x] PostgreSQL를 이용해 주세요.
+- [x] 데이터 모델 간의 관계를 고려하여 onDelete를 설정해 주세요.
+- [x] 데이터베이스 시딩 코드를 작성해 주세요.
+- [x] 각 API에 적절한 에러 처리를 해 주세요.
+- [x] 각 API 응답에 적절한 상태 코드를 리턴하도록 해 주세요.
+
+## 중고마켓
+
+### 스키마
+
+- [x] Product 스키마를 작성해 주세요.
+- 필드: `id`, `name`, `description`, `price`, `tags`, `createdAt`, `updatedAt`
+- 필요한 경우 자유롭게 필드 추가해 주세요
+
+### API
+
+- [x] 상품 등록 API 를 만들어주세요
+- `name`, `description`, `price`, `tags`를 입력하여 상품 등록해주세요
+
+- [x] 상품 상세 조회 API 를 만들어주세요
+- `id`, `name`, `description`, `price`, `tags`, `createdAt` 조회해 주세요
+- [x] 상품 수정 API 를 만들어주세요
+- `PATCH` 메서드 사용
+- [x] 상품 삭제 API 를 만들어주세요
+- [x] 상품 목록 조회 API 를 만들어주세요
+- id, name, price, createdAt를 조회합니다.
+- offset 방식의 페이지네이션 기능을 포함해 주세요.
+- 최신순(recent)으로 정렬할 수 있습니다.
+- name, description에 포함된 단어로 검색할 수 있습니다.
+- [x] 각 API에 적절한 에러 처리해 주세요
+- [x] 각 API 응답에 적절한 상태 코드 리턴해주세요
+
+## 자유게시판
+
+### 스키마
+
+- [x] Article 스키마 작성 해주세요
+- 필드: `id`, `title`, `content`, `createdAt`, `updatedAt`
+
+### API
+
+- [x] 게시글 등록 API 만들어 주세요
+
+- `title`, `content` 입력
+- [x] 게시글 상세 조회 API 만들어 주세요
+- `id`, `title`, `content`, `createdAt` 조회
+- [x] 게시글 수정 API 만들어 주세요
+- [x] 게시글 삭제 API 만들어 주세요
+- [x] 게시글 목록 조회 API 만들어 주세요
+- `id`, `title`, `content`, `createdAt` 조회 해주세요
+- offset 방식 페이지네이션 방식의 페이지네이션 기능을 포함해 주세요.
+- 최신순 정렬 (recent) 으로 정렬할 수 있습니다.
+- `title`, `content` 포함 검색 가능에 포함된 단어로 검색할 수 있습니다.
+
+## 댓글
+
+- [x] 댓글 등록 API 만들어 주세요
+- `content` 입력하여 댓글을 등록합니다.
+- 중고마켓 / 자유게시판 댓글 등록 API 분리해주세요
+
+- [x] 댓글 수정 API 만들어 주세요
+- `PATCH` 메서드 사용해 주세요.
+
+- [x] 댓글 삭제 API 만들어 주세요
+
+- [x] 댓글 목록 조회 API 만들어 주세요
+- `id`, `content`, `createdAt` 조회 해주세요
+- cursor 방식 페이지네이션 기능을 포함해 주세요.
+- 중고마켓 / 자유게시판 댓글 목록 조회 API를 따로 만들어 주세요
+
+## 유효성 검증
+
+- [x] 상품 등록 시 `name`, `description`, `price` 등 필드 유효성 검증 미들웨어 구현해 주세요
+- [x] 게시물 등록 시 `title`, `content` 등 필드 유효성 검증 미들웨어 구현해주세요
+
+## 이미지 업로드
+
+- [x] `multer` 미들웨어를 사용해 이미지 업로드 API 구현해주세요
+- [x] 업로드된 이미지를 서버에 저장하고, 해당 경로를 response로 반환해주세요
+
+## 에러 처리
+
+- [x] 예외 상황 처리 가능한 에러 핸들러 미들웨어 구현해주세요
+- [x] 500, 400번대, 404 등 상황별 HTTP 상태코드 반환해주세요
+
+## 라우트 중복 제거
+
+- [x] `app.route()`로 중복 라우트 통합해주세요
+- [x] `express.Router()`로 중고마켓 / 자유게시판 라우트 모듈화해주세요
+
+## 배포
+
+- [x] `.env` 파일에 환경변수 설정해주세요
+- [x] CORS 설정해주세요
+- [x] `render.com`으로 배포해주세요
+
+---
+
+## 멘토에게
+
+- 천천히 이해하며 짜려고 욕심내다보니 많이 늦어졌습니다. 시간약속 지키지 못해 죄송합니다!
