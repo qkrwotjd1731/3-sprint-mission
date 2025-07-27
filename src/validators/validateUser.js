@@ -1,8 +1,8 @@
 import { assert, object, partial, size, string } from 'superstruct';
-import { Url } from '../utils/structs.js';
+import { Email, Url } from '../utils/structs.js';
 
 const UpdateUserStruct = partial(object({
-  email: Url,
+  email: Email,
   nickname: size(string(), 1, 30),
   image: Url,
 }));

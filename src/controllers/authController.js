@@ -34,8 +34,8 @@ export async function login(req, res) {
     throwHttpError('Unauthorized', 401);
   }
 
-  const accessToken = createToken(user.id);
-  const refreshToken = createToken(user.id, 'refresh');
+  const accessToken = createToken(user);
+  const refreshToken = createToken(user, 'refresh');
   await prisma.user.update({
     where: { id: user.id },
     data: { refreshToken },
@@ -43,8 +43,8 @@ export async function login(req, res) {
   res.cookie('refreshToken', refreshToken, {
     path: '/auth/refresh',
     httpOnly: true,
-    sameSite: 'none',
-    secure: true,
+    sameSite: 'lax',
+    secure: false,
   });
 
   res.json({ accessToken });
@@ -54,8 +54,8 @@ export async function logout(req, res) {
   res.clearCookie('refreshToken', {
     path: '/auth/refresh',
     httpOnly: true,
-    sameSite: 'none',
-    secure: true,
+    sameSite: 'lax',
+    secure: false,
   });
 
   res.status(200).json({ message: 'Logout successfully' });
@@ -64,8 +64,13 @@ export async function logout(req, res) {
 export async function refreshToken(req, res) {
   const { userId } = req.user;
 
-  const accessToken = createToken(userId);
-  const newRefreshToken = createToken(userId, 'refresh');
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user) {
+    throwHttpError('User not found', 404);
+  }
+
+  const accessToken = createToken(user);
+  const newRefreshToken = createToken(user, 'refresh');
 
   await prisma.user.update({
     where: { id: userId },
@@ -75,8 +80,8 @@ export async function refreshToken(req, res) {
   res.cookie('refreshToken', newRefreshToken, {
     path: '/auth/refresh',
     httpOnly: true,
-    sameSite: 'none',
-    secure: true,
+    sameSite: 'lax',
+    secure: false,
   });
   
   res.status(200).json({ accessToken });

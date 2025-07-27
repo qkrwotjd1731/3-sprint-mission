@@ -7,6 +7,7 @@ export const PRODUCTS = [
     tags: [
       'BEAUTY',
     ],
+    userId: 1,
     createdAt: '2023-07-14T10:00:00Z',
     updatedAt: '2023-07-14T10:00:00Z',
   },
@@ -19,6 +20,7 @@ export const PRODUCTS = [
       'FASHION',
       'SPORTS',
     ],
+    userId: 2,
     createdAt: '2023-07-14T10:30:00Z',
     updatedAt: '2023-07-14T10:30:00Z',
   },
@@ -31,6 +33,7 @@ export const PRODUCTS = [
       'ELECTRONICS',
       'AUDIO',
     ],
+    userId: 3,
     createdAt: '2023-07-14T11:00:00Z',
     updatedAt: '2023-07-14T11:00:00Z',
   },
@@ -43,6 +46,7 @@ export const PRODUCTS = [
       'BEAUTY',
       'LUXURY',
     ],
+    userId: 1,
     createdAt: '2023-07-14T11:30:00Z',
     updatedAt: '2023-07-14T11:30:00Z',
   },
@@ -54,6 +58,7 @@ export const PRODUCTS = [
     tags: [
       'SPORTS'
     ],
+    userId: 2,
     createdAt: '2023-07-14T12:00:00Z',
     updatedAt: '2023-07-14T12:00:00Z',
   },
@@ -65,6 +70,7 @@ export const PRODUCTS = [
     tags: [
       'ELECTRONICS'
     ],
+    userId: 3,
     createdAt: '2023-07-14T14:00:00Z',
     updatedAt: '2023-07-14T14:00:00Z',
   },
@@ -76,6 +82,7 @@ export const PRODUCTS = [
     tags: [
       'ELECTRONICS'
     ],
+    userId: 3,
     createdAt: '2023-07-14T14:30:00Z',
     updatedAt: '2023-07-14T14:30:00Z',
   },
@@ -87,6 +94,7 @@ export const PRODUCTS = [
     tags: [
       'FASHION'
     ],
+    userId: 2,
     createdAt: '2023-07-14T15:00:00Z',
     updatedAt: '2023-07-14T15:00:00Z',
   },
@@ -98,6 +106,7 @@ export const PRODUCTS = [
     tags: [
       'ELECTRONICS'
     ],
+    userId: 3,
     createdAt: '2023-07-14T15:30:00Z',
     updatedAt: '2023-07-14T15:30:00Z',
   },
@@ -109,37 +118,167 @@ export const PRODUCTS = [
     tags: [
       'BEAUTY'
     ],
+    userId: 1,
     createdAt: '2023-07-14T16:00:00Z',
     updatedAt: '2023-07-14T16:00:00Z',
   },
 ];
 
-export const ARTICLE = [
+export const ARTICLES = [
   {
-    title: '최초의 게시글',
-    content: '내가 1빠임.',
+    title: 'PandaMarket 오픈',
+    content:
+      'PandaMarket이 드디어 오픈했습니다! 다양한 상품과 서비스를 제공하며, 모든 사용자에게 편리한 쇼핑 경험을 선사합니다. 지금 바로 방문해보세요!',
+    userId: 1
   },
   {
-    title: '두번째 게시글',
-    content: '내가 2빠임.',
+    title: 'PandaMarket에서의 첫 구매 이벤트',
+    content: 'PandaMarket에서 첫 구매를 하시는 모든 고객님께 특별한 할인 혜택을 드립니다. 다양한 상품을 저렴한 가격에 만나보실 수 있는 기회를 놓치지 마세요!',
+    userId: 1
   },
   {
-    title: '세번째 게시글',
-    content: '내가 3빠임.',
+    title: 'PandaMarket의 새로운 기능 소개',
+    content: 'PandaMarket에 새로운 기능이 추가되었습니다! 이제 더 편리하게 상품을 검색하고, 원하는 상품을 쉽게 찾을 수 있습니다. 많은 이용 부탁드립니다.',
+    userId: 2
+  },
+  {
+    title: 'PandaMarket에서의 안전한 쇼핑',
+    content: 'PandaMarket은 고객님의 안전한 쇼핑을 위해 다양한 보안 시스템을 갖추고 있습니다. 안심하고 쇼핑을 즐기세요!',
+    userId: 2
+  },
+  {
+    title: 'PandaMarket의 고객 서비스 안내',
+    content: 'PandaMarket은 고객님의 소중한 의견을 항상 귀 기울이고 있습니다. 언제든지 문의사항이 있으시면 고객센터로 연락주세요.',
+    userId: 1
+  },
+  {
+    title: '첫 구매 했습니다!',
+    content: 'PandaMarket에서 첫 구매를 했습니다! 다양한 상품을 저렴한 가격에 구매할 수 있어서 너무 기쁩니다. 앞으로 자주 이용할 것 같아요.',
+    userId: 4
+  },
+  {
+    title: 'PandaMarket에서의 쇼핑 후기',
+    content: 'PandaMarket에서 쇼핑을 해봤는데, 정말 편리하고 다양한 상품이 많아서 좋았습니다. 앞으로 자주 이용할 것 같아요!',
+    userId: 5
+  },
+  {
+    title: 'PandaMarket의 할인 이벤트',
+    content: 'PandaMarket에서 진행하는 할인 이벤트를 놓치지 마세요! 다양한 상품을 저렴한 가격에 구매할 수 있는 기회입니다.',
+    userId: 1
+  },
+  {
+    title: 'PandaMarket의 추천 상품',
+    content: 'PandaMarket에서 추천하는 상품들을 소개합니다. 다양한 카테고리의 인기 상품들을 만나보세요!',
+    userId: 6
   }
 ];
 
-export const COMMENT = [
+export const COMMENTS = [
   {
-    productId: 1,
-    content: '샤워젤이 38000원이면 너무 비싼거 아니냐?',
+    content: 'PandaMarket 오픈을 축하합니다! 앞으로 자주 이용할게요.',
+    userId: 4,
+    articleId: 1
   },
   {
-    articleId: 1,
-    content: '와 1빠를 먹다니 고수인걸.',
+    content: '첫 구매 이벤트 너무 기대돼요! 할인 혜택을 놓치지 않을게요.',
+    userId: 5,
+    articleId: 2
   },
   {
-    productId: 1,
-    content: '윗댓 거지인듯.',
+    content: '새로운 기능이 추가되었다니 정말 기대돼요! 사용해보고 싶어요.',
+    userId: 6,
+    articleId: 3
+  },
+  {
+    content: '안전한 쇼핑을 위해 노력해주셔서 감사합니다. 안심하고 쇼핑할 수 있을 것 같아요.',
+    userId: 4,
+    articleId: 4
+  },
+  {
+    content: '랑방 샤워젤 세트 너무 좋아요! 향기가 정말 좋네요.',
+    userId: 4,
+    productId: 1
+  },
+  {
+    content: '공감합니다! 랑방 샤워젤 세트는 정말 향기가 좋고 피부도 부드럽게 해줘요.',
+    userId: 5,
+    productId: 1
+  },
+  {
+    content: '나이키 테크조그거팬츠는 정말 편안하고 스타일도 좋아요.',
+    userId: 5,
+    productId: 2
+  },
+  {
+    content: 'Apple AirPods 프로는 정말 좋은 제품이에요. 사운드 품질이 뛰어나요.',
+    userId: 6,
+    productId: 3
+  },
+  {
+    content: '베르사체 화장품 세트는 정말 고급스러워요. 사용해보고 싶어요!',
+    userId: 4,
+    productId: 4
+  },
+  {
+    content: '아이언맨 골프 클럽 세트는 디자인이 너무 멋져요! 골프 치러 가고 싶네요.',
+    userId: 5,
+    productId: 5
+  },
+  {
+    content: '삼성 갤럭시 S21 울트라 5G 스마트폰은 정말 성능이 뛰어나요. 추천합니다!',
+    userId: 6,
+    productId: 6
+  }
+]
+
+export const USERS = [
+  {
+    email: 'seller1@panda.com',
+    nickname: '판매자1',
+    password: 'password1'
+  },
+  {
+    email: 'seller2@panda.com',
+    nickname: '판매자2',
+    password: 'password2'
+  },
+  {
+    email: 'seller3@panda.com',
+    nickname: '판매자3',
+    password: 'password3'
+  },
+  {
+    email: 'customer1@codeit.com',
+    nickname: '고객1',
+    password: 'password4'
+  },
+  {
+    email: 'customer2@naver.com',
+    nickname: '고객2',
+    password: 'password5'
+  },
+  {
+    email: 'customer3@example.com',
+    nickname: '고객3',
+    password: 'password6'
+  }
+];
+
+export const LIKES = [
+  {
+    userId: 4,
+    productId: 1
+  },
+  {
+    userId: 5,
+    productId: 1
+  },
+  {
+    userId: 5,
+    articleId: 1
+  },
+  {
+    userId: 4,
+    productId: 3
   }
 ]

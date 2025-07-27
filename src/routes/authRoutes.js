@@ -6,7 +6,7 @@ import { verifyRefreshToken } from '../middlewares/auth.js';
 
 const authRouter = express.Router();
 
-authRouter.post('/', validateCreateUser, asyncHandler(authController.createUser));
+authRouter.post('/signup', validateCreateUser, asyncHandler(authController.createUser));
 authRouter.post('/login', validateLogin, asyncHandler(authController.login));
 authRouter.post('/logout', asyncHandler(authController.logout));
 authRouter.post('/refresh', verifyRefreshToken, asyncHandler(authController.refreshToken));

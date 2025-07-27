@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 export function createToken(user, type) {
-  const payload = { userId: user.id };
+  const payload = { id: user.id };
   const options = {
     expiresIn: type === 'refresh' ? '2w' : '1h',
   };

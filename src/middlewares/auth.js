@@ -8,11 +8,21 @@ export const verifyAccessToken = expressjwt({
   secret: process.env.JWT_SECRET,
   algorithms: ['HS256'],
   requestProperty: 'user',
+  getToken: (req) => req.headers.authorization?.split(' ')[1],
 });
+
+export const optionalAuth = (req, res, next) => {
+  if (req.headers.authorization) {
+    return verifyAccessToken(req, res, next);
+  }
+  req.user = undefined;
+  next();
+};
 
 export const verifyRefreshToken = expressjwt({
   secret: process.env.JWT_SECRET,
   algorithms: ['HS256'],
+  requestProperty: 'user',
   getToken: (req) => req.cookies.refreshToken,
 });
 
@@ -26,7 +36,7 @@ export function verifyResourceAuth(resourceType) {
         throwHttpError('Not found', 404);
       }
 
-      if (resource.userId !== req.user.userId) {
+      if (resource.userId !== req.user.id) {
         throwHttpError('Forbidden', 403);
       }
 

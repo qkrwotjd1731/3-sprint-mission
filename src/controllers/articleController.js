@@ -16,7 +16,7 @@ export async function createArticle(req, res) {
 export async function getArticle(req, res) {
   const id = parseInt(req.params.id);
 
-  const article = await prisma.article.findUniqueOrThrow({
+  const article = await prisma.article.findUnique({
     where: { id },
     include: { likes: true },
   });
@@ -29,13 +29,13 @@ export async function getArticle(req, res) {
     likesCount: article.likes.length,
     isLiked: req.user
       ? article.likes.some((like) => like.userId === req.user.id)
-      : undefined,
+      : false,
   };
   res.json(articleWithLikes);
 }
 
 export async function updateArticle(req, res) {
-  const id = parseInt(req.params.idm, 10);
+  const id = parseInt(req.params.id, 10);
 
   const existingArticle = await prisma.article.findUnique({ where: { id } });
   if (!existingArticle) {
@@ -82,7 +82,7 @@ export async function getArticleList(req, res) {
     likesCount: article.likes.length,
     isLiked: req.user
       ? article.likes.some((like) => like.userId === req.user.id)
-      : undefined,
+      : false,
   }));
   
   res.json(articlesWithLikes);

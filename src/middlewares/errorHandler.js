@@ -5,6 +5,14 @@ import {
 } from '@prisma/client/runtime/library';
 
 export function errorHandler(err, req, res, next) {
+  // 커스텀 HTTP 에러 (throwHttpError로 생성된 에러)
+  if (err.code && typeof err.code === 'number') {
+    return res.status(err.code).json({ 
+      message: err.message,
+      ...(err.data && { data: err.data })
+    });
+  }
+
   // Superstruct 검증 or Prisma 검증 에러
   if (err instanceof StructError || err instanceof PrismaClientValidationError) {
     return res.status(400).json({ message: err.message });
@@ -23,6 +31,11 @@ export function errorHandler(err, req, res, next) {
   // 기타 Prisma 에러
   if (err instanceof PrismaClientKnownRequestError) {
     return res.status(400).json({ message: err.message });
+  }
+
+  // JWT 에러 처리
+  if (err.name === 'UnauthorizedError') {
+    return res.status(401).json({ message: 'Unauthorized Token' });
   }
 
   // 기본 서버 에러

@@ -4,16 +4,16 @@ import * as productController from '../controllers/productController.js';
 import { validateCreateProduct, validateUpdateProduct } from '../validators/validateProduct.js';
 import { validateOffsetParams, validateCursorParams } from '../validators/validateQuery.js';
 import { validateCreateComment } from '../validators/validateComment.js';
-import { verifyAccessToken, verifyResourceAuth } from '../middlewares/auth.js';
+import { verifyAccessToken, verifyResourceAuth, optionalAuth } from '../middlewares/auth.js';
 
 const productRouter = express.Router();
 
 productRouter.route('/')
   .post(validateCreateProduct, verifyAccessToken, asyncHandler(productController.createProduct))
-  .get(validateOffsetParams, asyncHandler(productController.getProductList));
+  .get(optionalAuth, validateOffsetParams, asyncHandler(productController.getProductList));
 
 productRouter.route('/:id')
-  .get(asyncHandler(productController.getProduct))
+  .get(optionalAuth, asyncHandler(productController.getProduct))
   .patch(validateUpdateProduct, verifyAccessToken, verifyResourceAuth('product'), asyncHandler(productController.updateProduct))
   .delete(verifyAccessToken, verifyResourceAuth('product'), asyncHandler(productController.deleteProduct));
 

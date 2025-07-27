@@ -1,14 +1,14 @@
 import { assert, object, size, string } from 'superstruct';
-import { Url } from '../utils/structs.js';
+import { Email } from '../utils/structs.js';
 
 const CreateUserStruct = object({
-  email: Url,
+  email: Email,
   nickname: size(string(), 1, 30),
   password: size(string(), 1, 30),
 });
 
 const LoginStruct = object({
-  email: Url,
+  email: Email,
   password: size(string(), 1, 30),
 });
 

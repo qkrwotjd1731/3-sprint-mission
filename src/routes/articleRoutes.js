@@ -4,21 +4,21 @@ import * as articleController from '../controllers/articleController.js';
 import { validateCreateArticle, validateUpdateArticle } from '../validators/validateArticle.js';
 import { validateOffsetParams, validateCursorParams } from '../validators/validateQuery.js';
 import { validateCreateComment } from '../validators/validateComment.js';
-import { verifyAccessToken, verifyResourceAuth } from '../middlewares/auth.js';
+import { verifyAccessToken, verifyResourceAuth, optionalAuth } from '../middlewares/auth.js';
 
 const articleRouter = express.Router();
 
 articleRouter.route('/')
   .post(validateCreateArticle, verifyAccessToken, asyncHandler(articleController.createArticle))
-  .get(validateOffsetParams, asyncHandler(articleController.getArticleList));
+  .get(optionalAuth, validateOffsetParams, asyncHandler(articleController.getArticleList));
 
 articleRouter.route('/:id')
-  .get(asyncHandler(articleController.getArticle))
+  .get(optionalAuth, asyncHandler(articleController.getArticle))
   .patch(validateUpdateArticle, verifyAccessToken, verifyResourceAuth('article'), asyncHandler(articleController.updateArticle))
   .delete(verifyAccessToken, verifyResourceAuth('article'), asyncHandler(articleController.deleteArticle));
 
 articleRouter.route('/:id/comments')
-  .post(validateCreateComment, asyncHandler(articleController.createComment))
+  .post(validateCreateComment, verifyAccessToken, asyncHandler(articleController.createComment))
   .get(validateCursorParams, asyncHandler(articleController.getCommentList));
 
 articleRouter.route('/:id/likes')

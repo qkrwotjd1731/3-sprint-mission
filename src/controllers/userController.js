@@ -70,3 +70,30 @@ export async function getMyProductList(req, res) {
   }));
   res.json(productsWithLikes);
 }
+
+export async function getMyLikeList(req, res) {
+  const { offset = 0, limit = 10, orderBy, keyword } = req.validatedQuery;
+
+  const where = keyword
+    ? {
+        OR: [{ name: { contains: keyword } }, { description: { contains: keyword } }],
+      }
+    : {};
+  const products = await prisma.product.findMany({
+    skip: parseInt(offset, 10),
+    take: parseInt(limit, 10),
+    orderBy: orderBy === 'recent' ? { createdAt: 'desc' } : { id: 'asc' },
+    where: { 
+      likes: { some: { userId: req.user.id } },
+      ...where 
+    },
+    include: { likes: true },
+  });
+
+  const productsWithLikes = products.map((product) => ({
+    ...product,
+    isLiked: true,
+    likeCount: product.likes.length,
+  }));
+  res.json(productsWithLikes);
+}

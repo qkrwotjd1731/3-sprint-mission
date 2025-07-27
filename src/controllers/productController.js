@@ -29,7 +29,7 @@ export async function getProduct(req, res) {
     likesCount: product.likes.length,
     isLiked: req.user
       ? product.likes.some((like) => like.userId === req.user.id)
-      : undefined,
+      : false,
   };
   res.json(productWithLikes);
 }
@@ -82,7 +82,7 @@ export async function getProductList(req, res) {
     likesCount: product.likes.length,
     isLiked: req.user
       ? product.likes.some((like) => like.userId === req.user.id)
-      : undefined,
+      : false,
   }));
   
   res.json(productsWithLikes);
