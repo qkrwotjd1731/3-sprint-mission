@@ -7,6 +7,6 @@ const imageRouter = express.Router();
 
 const upload = multer({ dest: 'uploads/'});
 
-imageRouter.post('/upload', upload.single('image'), asyncHandler(uploadImage));
+imageRouter.post('/', upload.single('image'), asyncHandler(uploadImage));
 
 export default imageRouter;

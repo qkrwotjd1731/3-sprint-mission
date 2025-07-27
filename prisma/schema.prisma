@@ -14,7 +14,10 @@ model Product {
   description String
   price       Int
   tags        String[]
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
   comments    Comment[]
+  likes       Like[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
@@ -23,18 +26,50 @@ model Article {
   id        Int       @id @default(autoincrement())
   title     String
   content   String
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
   comments  Comment[]
+  likes     Like[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
 
 model Comment {
   id        Int      @id @default(autoincrement())
+  content   String
   productId Int?
   product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
   articleId Int?
   article   Article? @relation(fields: [articleId], references: [id], onDelete: Cascade)
-  content   String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  nickname     String
+  image        String?
+  password     String
+  refreshToken String?
+  products     Product[]
+  articles     Article[]
+  comments     Comment[]
+  likes        Like[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId Int?
+  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  articleId Int?
+  article   Article? @relation(fields: [articleId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

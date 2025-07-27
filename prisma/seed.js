@@ -7,8 +7,10 @@ async function main() {
   await prisma.product.deleteMany();
   await prisma.article.deleteMany();
   await prisma.comment.deleteMany();
+  await prisma.user.deleteMany();
+  await prisma.like.deleteMany();
 
-  await prisma.$executeRaw`TRUNCATE TABLE "Product", "Article", "Comment" RESTART IDENTITY CASCADE`;
+  await prisma.$executeRaw`TRUNCATE TABLE "Product", "Article", "Comment", "User", "Like" RESTART IDENTITY CASCADE`;
 
   await prisma.product.createMany({
     data: PRODUCTS,
@@ -24,14 +26,24 @@ async function main() {
     data: COMMENT,
     skipDuplicates: true,
   });
+
+  await prisma.user.createMany({
+    data: USER,
+    skipDuplicates: true,
+  });
+
+  await prisma.like.createMany({
+    data: LIKES, 
+    skipDuplicates: true,
+  });
 }
 
 main()
   .then(async () => {
     await prisma.$disconnect();
   })
-  .catch(async (e) => {
-    console.error(e);
+  .catch(async (err) => {
+    console.error(err);
     await prisma.$disconnect();
     process.exit(1);
   });
