@@ -43,11 +43,22 @@
 - [x] 유저가 '좋아요'를 표시한 상품의 목록을 조회하는 기능을 구현합니다.
 
 # 주요 변경사항
+
+## 요구사항 충족
 - JWT 토큰 기반 인증 시스템 구현 (Access Token + Refresh Token)
 - 사용자 권한 기반 리소스 접근 제어 (verifyResourceAuth)
 - 선택적 인증 미들웨어 (optionalAuth)로 비로그인 사용자도 상품 조회 가능
-- 비밀번호 해시화 및 안전한 저장
+- bcrypt를 이용한 비밀번호 해시화 및 안전한 저장
 - 사용자 정보 보안 (filterSensitiveUserData)
+
+## 피드백 반영
+- findUnique + 404에러 처리로 통일
+- 리스트 totalCount, nextOffset 추가
+- 전역 에러헨들러 추가
+
+## 기타
+- validate 파일들을 middlewares에서 validators로 분리
+- 에러 처리 유틸 (throwHttpError)
 
 # 멘토에게
 - 인증, 인가 과정의 구현에 대한 이해도가 부족한 상태에서 구현하여 테스트 및 오류 해결에 상당한 시간이 소요됐습니다. AI 도구를 활용한 덕분에 아해도도 높이며 무사히 구현할 수 있었습니다.
