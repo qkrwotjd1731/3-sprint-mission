@@ -62,16 +62,18 @@ export async function deleteArticle(req, res) {
 }
 
 export async function getArticleList(req, res) {
-  const { offset = 0, limit = 10, orderBy, keyword } = req.validatedQuery;
+  const { offset, limit, orderBy, keyword } = req.validatedQuery;
 
   const where = keyword
     ? {
         OR: [{ title: { contains: keyword } }, { content: { contains: keyword } }],
       }
     : {};
+
+  const totalCount = await prisma.article.count({ where });
   const articles = await prisma.article.findMany({
-    skip: parseInt(offset, 10),
-    take: parseInt(limit, 10),
+    skip: offset,
+    take: limit,
     orderBy: orderBy === 'recent' ? { createdAt: 'desc' } : { id: 'asc' },
     where,
     include: { likes: true },
@@ -84,8 +86,12 @@ export async function getArticleList(req, res) {
       ? article.likes.some((like) => like.userId === req.user.id)
       : false,
   }));
+
+  const nextOffset = articles.length === limit
+    ? offset + articles.length
+    : null;
   
-  res.json(articlesWithLikes);
+  res.json({ articles: articlesWithLikes, totalCount, nextOffset });
 }
 
 export async function createComment(req, res) {
@@ -105,21 +111,27 @@ export async function createComment(req, res) {
 
 export async function getCommentList(req, res) {
   const articleId = parseInt(req.params.id, 10);
-  const { cursor, limit = 10 } = req.query;
+  const { cursor, limit } = req.validatedQuery;
 
   const article = await prisma.article.findUnique({ where: { id: articleId } });
   if (!article) {
     throwHttpError('Article not found', 404);
   }
 
+  const totalCount = await prisma.comment.count({ where: { articleId } });
   const comments = await prisma.comment.findMany({
-    cursor: cursor ? { id: parseInt(cursor, 10) } : undefined,
+    cursor: cursor ? { id: cursor } : undefined,
     skip: cursor ? 1 : 0,
-    take: parseInt(limit, 10),
+    take: limit,
+    orderBy: { id: 'asc' }, 
     where: { articleId },
   });
 
-  res.json(comments);
+  const nextCursor = comments.length === limit
+    ? comments[comments.length - 1].id
+    : null;
+
+  res.json({ comments, totalCount, nextCursor });
 }
 
 export async function createLike(req, res) {

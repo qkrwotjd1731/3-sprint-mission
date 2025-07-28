@@ -62,16 +62,18 @@ export async function deleteProduct(req, res) {
 }
 
 export async function getProductList(req, res) {
-  const { offset = 0, limit = 10, orderBy, keyword } = req.validatedQuery;
+  const { offset, limit, orderBy, keyword } = req.validatedQuery;
 
   const where = keyword
     ? {
         OR: [{ name: { contains: keyword } }, { description: { contains: keyword } }],
       }
     : {};
+
+  const totalCount = await prisma.product.count({ where });
   const products = await prisma.product.findMany({
-    skip: parseInt(offset, 10),
-    take: parseInt(limit, 10),
+    skip: offset,
+    take: limit,
     orderBy: orderBy === 'recent' ? { createdAt: 'desc' } : { id: 'asc' },
     where,
     include: { likes: true },
@@ -84,8 +86,12 @@ export async function getProductList(req, res) {
       ? product.likes.some((like) => like.userId === req.user.id)
       : false,
   }));
+
+  const nextOffset = products.length === limit
+    ? offset + products.length
+    : null;
   
-  res.json(productsWithLikes);
+  res.json({ products: productsWithLikes, totalCount, nextOffset });
 }
 
 export async function createComment(req, res) {
@@ -105,21 +111,26 @@ export async function createComment(req, res) {
 
 export async function getCommentList(req, res) {
   const productId = parseInt(req.params.id, 10);
-  const { cursor, limit = 10 } = req.query;
+  const { cursor, limit } = req.validatedQuery;
 
   const product = await prisma.product.findUnique({ where: { id: productId } });
   if (!product) {
     throwHttpError('Product not found', 404);
   }
 
+  const totalCount = await prisma.comment.count({ where: { productId } });
   const comments = await prisma.comment.findMany({
-    cursor: cursor ? { id: parseInt(cursor, 10) } : undefined,
+    cursor: cursor ? { id: cursor } : undefined,
     skip: cursor ? 1 : 0,
-    take: parseInt(limit, 10),
+    take: limit,
+    orderBy: { id: 'asc' },
     where: { productId },
   });
+  const nextCursor = comments.length === limit
+    ? comments[comments.length - 1].id
+    : null;
 
-  res.json(comments);
+  res.json({ comments, totalCount, nextCursor });
 }
 
 export async function createLike(req, res) {

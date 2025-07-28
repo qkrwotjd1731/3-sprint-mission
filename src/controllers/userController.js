@@ -46,16 +46,18 @@ export async function updatePassword(req, res) {
 }
 
 export async function getMyProductList(req, res) {
-  const { offset = 0, limit = 10, orderBy, keyword } = req.validatedQuery;
+  const { offset, limit, orderBy, keyword } = req.validatedQuery;
 
   const where = keyword
     ? {
         OR: [{ name: { contains: keyword } }, { description: { contains: keyword } }],
       }
     : {};
+
+  const totalCount = await prisma.product.count({ where: { userId: req.user.id, ...where } });
   const products = await prisma.product.findMany({
-    skip: parseInt(offset, 10),
-    take: parseInt(limit, 10),
+    skip: offset,
+    take: limit,
     orderBy: orderBy === 'recent' ? { createdAt: 'desc' } : { id: 'asc' },
     where: { userId: req.user.id, ...where },
     include: {
@@ -68,24 +70,34 @@ export async function getMyProductList(req, res) {
     isLiked: product.likes.some((like) => like.userId === req.user.id),
     likeCount: product.likes.length,
   }));
-  res.json(productsWithLikes);
+
+  const nextOffset = products.length === limit
+    ? offset + products.length 
+    : null;
+
+  res.json({ products: productsWithLikes, totalCount, nextOffset });
 }
 
 export async function getMyLikeList(req, res) {
-  const { offset = 0, limit = 10, orderBy, keyword } = req.validatedQuery;
+  const { offset, limit, orderBy, keyword } = req.validatedQuery;
 
   const where = keyword
     ? {
         OR: [{ name: { contains: keyword } }, { description: { contains: keyword } }],
       }
     : {};
+
+  const totalCount = await prisma.product.count({ where: {
+    likes: { some: { userId: req.user.id } },
+    ...where,
+  }});
   const products = await prisma.product.findMany({
-    skip: parseInt(offset, 10),
-    take: parseInt(limit, 10),
+    skip: offset,
+    take: limit,
     orderBy: orderBy === 'recent' ? { createdAt: 'desc' } : { id: 'asc' },
     where: { 
       likes: { some: { userId: req.user.id } },
-      ...where 
+      ...where,
     },
     include: { likes: true },
   });
@@ -95,5 +107,10 @@ export async function getMyLikeList(req, res) {
     isLiked: true,
     likeCount: product.likes.length,
   }));
-  res.json(productsWithLikes);
+
+  const nextOffset = products.length === limit
+    ? offset + products.length 
+    : null;
+
+  res.json({ products: productsWithLikes, totalCount, nextOffset });
 }

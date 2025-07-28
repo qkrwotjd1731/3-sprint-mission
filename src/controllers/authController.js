@@ -26,7 +26,7 @@ export async function login(req, res) {
 
   const user = await prisma.user.findUnique({ where: { email } });
   if (!user) {
-    throwHttpError('Unauthorized', 401);
+    throwHttpError('User not found', 404);
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
