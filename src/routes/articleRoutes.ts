@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Router } from 'express';
 import { asyncHandler } from '../lib/asyncHandler.js';
 import * as articleController from '../controllers/articleController.js';
 import { validateCreateArticle, validateUpdateArticle } from '../validators/validateArticle.js';
@@ -6,7 +6,7 @@ import { validateOffsetParams, validateCursorParams } from '../validators/valida
 import { validateCreateComment } from '../validators/validateComment.js';
 import { verifyAccessToken, verifyResourceAuth, optionalAuth } from '../middlewares/auth.js';
 
-const articleRouter = express.Router();
+const articleRouter: Router = express.Router();
 
 articleRouter.route('/')
   .post(validateCreateArticle, verifyAccessToken, asyncHandler(articleController.createArticle))
@@ -25,4 +25,4 @@ articleRouter.route('/:id/likes')
   .post(verifyAccessToken, asyncHandler(articleController.createLike))
   .delete(verifyAccessToken, asyncHandler(articleController.deleteLike));
 
-export default articleRouter;
+export default articleRouter; 

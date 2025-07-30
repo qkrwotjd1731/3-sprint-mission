@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Router } from 'express';
 import { asyncHandler } from '../lib/asyncHandler.js';
 import * as productController from '../controllers/productController.js';
 import { validateCreateProduct, validateUpdateProduct } from '../validators/validateProduct.js';
@@ -6,7 +6,7 @@ import { validateOffsetParams, validateCursorParams } from '../validators/valida
 import { validateCreateComment } from '../validators/validateComment.js';
 import { verifyAccessToken, verifyResourceAuth, optionalAuth } from '../middlewares/auth.js';
 
-const productRouter = express.Router();
+const productRouter: Router = express.Router();
 
 productRouter.route('/')
   .post(validateCreateProduct, verifyAccessToken, asyncHandler(productController.createProduct))
@@ -25,4 +25,4 @@ productRouter.route('/:id/likes')
   .post(verifyAccessToken, asyncHandler(productController.createLike))
   .delete(verifyAccessToken, asyncHandler(productController.deleteLike));
   
-export default productRouter;
+export default productRouter; 
