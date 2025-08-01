@@ -1,5 +1,6 @@
 import { assert, object, size, string } from 'superstruct';
 import { Email } from '../utils/structs.js';
+import { RequestHandler } from 'express';
 
 const CreateUserStruct = object({
   email: Email,
@@ -12,7 +13,7 @@ const LoginStruct = object({
   password: size(string(), 1, 30),
 });
 
-export function validateCreateUser(req, res, next) {
+export const validateCreateUser: RequestHandler = (req, res, next) => {
   try {
     assert(req.body, CreateUserStruct);
     next();
@@ -21,7 +22,7 @@ export function validateCreateUser(req, res, next) {
   }
 }
 
-export function validateLogin(req, res, next) {
+export const validateLogin: RequestHandler = (req, res, next) => {
   try {
     assert(req.body, LoginStruct);
     next();

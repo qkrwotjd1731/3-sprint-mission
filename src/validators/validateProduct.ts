@@ -1,4 +1,5 @@
 import { array, assert, integer, min, object, partial, size, string } from 'superstruct';
+import { RequestHandler } from 'express';
 
 const CreateProductStruct = object({
   name: size(string(), 1, 30),
@@ -9,7 +10,7 @@ const CreateProductStruct = object({
 
 const UpdateProductStruct = partial(CreateProductStruct);
 
-export function validateCreateProduct(req, res, next) {
+export const validateCreateProduct: RequestHandler = (req, res, next) => {
   try {
     assert(req.body, CreateProductStruct);
     next();
@@ -18,7 +19,7 @@ export function validateCreateProduct(req, res, next) {
   }
 }
 
-export function validateUpdateProduct(req, res, next) {
+export const validateUpdateProduct: RequestHandler = (req, res, next) => {
   try {
     assert(req.body, UpdateProductStruct);
     next();

@@ -1,7 +1,7 @@
 import { PrismaClient } from '../generated/prisma/index.js';
 import bcrypt from 'bcrypt';
 import { createToken, filterSensitiveUserData } from '../utils/userUtils.js';
-import { throwHttpError } from '../utils/httpError.js';
+import { HttpError } from '../utils/httpError.js';
 
 const prisma = new PrismaClient();
 
@@ -11,7 +11,7 @@ export async function createUser(req, res) {
 
   const existedUser = await prisma.user.findUnique({ where: { email } });
   if (existedUser) {
-    throwHttpError('User already exists', 422, { email });
+    throw new HttpError('User already exists', 422, { email });
   }
 
   const user = await prisma.user.create({
@@ -26,12 +26,12 @@ export async function login(req, res) {
 
   const user = await prisma.user.findUnique({ where: { email } });
   if (!user) {
-    throwHttpError('User not found', 404);
+    throw new HttpError('User not found', 404);
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    throwHttpError('Unauthorized', 401);
+    throw new HttpError('Unauthorized', 401);
   }
 
   const accessToken = createToken(user);
@@ -66,7 +66,7 @@ export async function refreshToken(req, res) {
 
   const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user) {
-    throwHttpError('User not found', 404);
+    throw new HttpError('User not found', 404);
   }
 
   const accessToken = createToken(user);

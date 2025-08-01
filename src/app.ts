@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import express, { Express } from 'express';
+import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import productRouter from './routes/productRoutes';
@@ -8,9 +8,9 @@ import commentRouter from './routes/commentRoutes';
 import imageRouter from './routes/imageRoutes';
 import authRouter from './routes/authRoutes';
 import userRouter from './routes/userRoutes';
-import { errorHandler } from './middlewares/errorHandler.js';
+import { errorHandler } from './middlewares/errorHandler';
 
-const app: Express = express();
+const app = express();
 
 app.use(cors());
 app.use(express.json());

@@ -1,4 +1,5 @@
 import { assert, object, partial, size, string } from 'superstruct';
+import { RequestHandler } from 'express';
 
 const CreateCommentStruct = object({
   content: size(string(), 1, 500),
@@ -6,7 +7,7 @@ const CreateCommentStruct = object({
 
 const UpdateCommentStruct = partial(CreateCommentStruct);
 
-export function validateCreateComment(req, res, next) {
+export const validateCreateComment: RequestHandler = (req, res, next) => {
   try {
     assert(req.body, CreateCommentStruct);
     next();
@@ -15,7 +16,7 @@ export function validateCreateComment(req, res, next) {
   }
 }
 
-export function validateUpdateComment(req, res, next) {
+export const validateUpdateComment: RequestHandler = (req, res, next) => {
   try {
     assert(req.body, UpdateCommentStruct);
     next();

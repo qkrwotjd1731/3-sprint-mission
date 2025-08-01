@@ -1,5 +1,5 @@
 import { PrismaClient } from '../generated/prisma/index.js';
-import { throwHttpError } from '../utils/httpError.js';
+import { HttpError } from '../utils/httpError.js';
 
 const prisma = new PrismaClient();
 
@@ -19,7 +19,7 @@ export async function deleteComment(req, res) {
   const comment = await prisma.comment.findUnique({ where: { id } });
 
   if (!comment) {
-    throwHttpError('Comment not found', 404);
+    throw new HttpError('Comment not found', 404);
   }
 
   await prisma.comment.delete({ where: { id } });

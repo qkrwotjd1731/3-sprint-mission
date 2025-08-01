@@ -4,7 +4,7 @@ node_modules/
 .env
 
 # dev test files
-http
-upload
+test
+uploads
 
 /src/generated/prisma

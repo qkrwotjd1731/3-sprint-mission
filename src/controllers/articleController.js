@@ -1,5 +1,5 @@
 import { PrismaClient } from '../generated/prisma/index.js';
-import { throwHttpError } from '../utils/httpError.js';
+import { HttpError } from '../utils/httpError.js';
 
 const prisma = new PrismaClient();
 
@@ -21,7 +21,7 @@ export async function getArticle(req, res) {
     include: { likes: true },
   });
   if (!article) {
-    throwHttpError('Article not found', 404);
+    throw new HttpError('Article not found', 404);
   }
   
   const articleWithLikes = {
@@ -39,7 +39,7 @@ export async function updateArticle(req, res) {
 
   const existingArticle = await prisma.article.findUnique({ where: { id } });
   if (!existingArticle) {
-    throwHttpError('Article not found', 404);
+    throw new HttpError('Article not found', 404);
   }
 
   const article = await prisma.article.update({
@@ -54,7 +54,7 @@ export async function deleteArticle(req, res) {
 
   const article = await prisma.article.findUnique({ where: { id } });
   if (!article) {
-    throwHttpError('Article not found', 404);
+    throw new HttpError('Article not found', 404);
   }
 
   await prisma.article.delete({ where: { id } });
@@ -99,7 +99,7 @@ export async function createComment(req, res) {
 
   const article = await prisma.article.findUnique({ where: { id: articleId } });
   if (!article) {
-    throwHttpError('Article not found', 404);
+    throw new HttpError('Article not found', 404);
   }
 
   const comment = await prisma.comment.create({
@@ -115,7 +115,7 @@ export async function getCommentList(req, res) {
 
   const article = await prisma.article.findUnique({ where: { id: articleId } });
   if (!article) {
-    throwHttpError('Article not found', 404);
+    throw new HttpError('Article not found', 404);
   }
 
   const totalCount = await prisma.comment.count({ where: { articleId } });
@@ -139,14 +139,14 @@ export async function createLike(req, res) {
 
   const article = await prisma.article.findUnique({ where: { id: articleId } });
   if (!article) {
-    throwHttpError('Article not found', 404);
+    throw new HttpError('Article not found', 404);
   }
 
   const existingLike = await prisma.like.findFirst({
     where: { articleId, userId: req.user.id },
   });
   if (existingLike) {
-    throwHttpError('Already liked', 400);
+    throw new HttpError('Already liked', 400);
   }
 
   const like = await prisma.like.create({
@@ -160,16 +160,16 @@ export async function deleteLike(req, res) {
 
   const article = await prisma.article.findUnique({ where: { id: articleId } });
   if (!article) {
-    throwHttpError('Article not found', 404);
+    throw new HttpError('Article not found', 404);
   }
 
   const like = await prisma.like.findFirst({
     where: { articleId, userId: req.user.id },
   });
   if (!like) {
-    throwHttpError('Like not found', 404);
+    throw new HttpError('Like not found', 404);
   }
 
-  await prisma.like.delete({ where: { id: existingLike.id } });
+  await prisma.like.delete({ where: { id: like.id } });
   res.sendStatus(204);
 }

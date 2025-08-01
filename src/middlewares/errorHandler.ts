@@ -3,13 +3,15 @@ import {
   PrismaClientValidationError,
   PrismaClientKnownRequestError,
 } from '@prisma/client/runtime/library';
+import { ErrorRequestHandler } from 'express';
+import { HttpError } from '../utils/httpError';
 
-export function errorHandler(err, req, res, next) {
-  // 커스텀 HTTP 에러 (throwHttpError로 생성된 에러)
-  if (err.code && typeof err.code === 'number') {
+export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+  // 커스텀 HTTP 에러 (HttpError로 생성된 에러)
+  if (err instanceof HttpError) {
     return res.status(err.code).json({ 
       message: err.message,
-      ...(err.data && { data: err.data })
+      data: err.data,
     });
   }
 
@@ -24,7 +26,7 @@ export function errorHandler(err, req, res, next) {
   }
 
   // Prisma 레코드 없음 에러
-  if (err instanceof PrismaClientKnownRequestError && err.code === 'P2025') {
+  if (err instanceof PrismaClientKnownRequestError && (err as any).code === 'P2025') {
     return res.status(404).json({ message: 'Resource not found.' });
   }
 
@@ -34,7 +36,7 @@ export function errorHandler(err, req, res, next) {
   }
 
   // JWT 에러 처리
-  if (err.name === 'UnauthorizedError') {
+  if (err instanceof Error && err.name === 'UnauthorizedError') {
     return res.status(401).json({ message: 'Unauthorized Token' });
   }
 

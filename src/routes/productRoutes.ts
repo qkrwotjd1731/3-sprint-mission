@@ -1,12 +1,13 @@
-import express, { Router } from 'express';
-import { asyncHandler } from '../lib/asyncHandler.js';
-import * as productController from '../controllers/productController.js';
-import { validateCreateProduct, validateUpdateProduct } from '../validators/validateProduct.js';
-import { validateOffsetParams, validateCursorParams } from '../validators/validateQuery.js';
-import { validateCreateComment } from '../validators/validateComment.js';
-import { verifyAccessToken, verifyResourceAuth, optionalAuth } from '../middlewares/auth.js';
+import { Router } from 'express';
+import { asyncHandler } from '../lib/asyncHandler';
+import * as productController from '../controllers/productController';
+import { validateCreateProduct, validateUpdateProduct } from '../validators/validateProduct';
+import { validateOffsetParams, validateCursorParams } from '../validators/validateQuery';
+import { validateCreateComment } from '../validators/validateComment';
+import { verifyAccessToken, verifyResourceAuth, optionalAuth } from '../middlewares/auth';
+import { ResourceType } from '../types/authTypes';
 
-const productRouter: Router = express.Router();
+const productRouter = Router();
 
 productRouter.route('/')
   .post(validateCreateProduct, verifyAccessToken, asyncHandler(productController.createProduct))
@@ -14,8 +15,8 @@ productRouter.route('/')
 
 productRouter.route('/:id')
   .get(optionalAuth, asyncHandler(productController.getProduct))
-  .patch(validateUpdateProduct, verifyAccessToken, verifyResourceAuth('product'), asyncHandler(productController.updateProduct))
-  .delete(verifyAccessToken, verifyResourceAuth('product'), asyncHandler(productController.deleteProduct));
+  .patch(validateUpdateProduct, verifyAccessToken, verifyResourceAuth(ResourceType.Product), asyncHandler(productController.updateProduct))
+  .delete(verifyAccessToken, verifyResourceAuth(ResourceType.Product), asyncHandler(productController.deleteProduct));
 
 productRouter.route('/:id/comments')
   .post(validateCreateComment, verifyAccessToken, asyncHandler(productController.createComment))

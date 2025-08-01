@@ -1,4 +1,7 @@
 import { assert, defaulted, enums, number, object, optional, size, string } from 'superstruct';
+import { RequestHandler } from 'express';
+import { HttpError } from '../utils/httpError';
+import { OffsetQueryReqDto, OffsetQueryDto, CursorQueryReqDto, CursorQueryDto, OrderByType } from '../types/queryTypes';
 
 const OffsetParamsStruct = object({
   offset: defaulted(number(), 0),
@@ -12,28 +15,36 @@ const CursorParamsStruct = object({
   limit: defaulted(number(), 10),
 });
 
-export function validateOffsetParams(req, res, next) {
+// orderBy 파싱 함수 - 확장성을 위해 분리
+function parseOrderBy(orderBy?: string): OrderByType | undefined {
+  if (!orderBy) return undefined;
+  
+  switch (orderBy) {
+    case 'recent':
+      return OrderByType.Recent;
+    default:
+      return undefined;
+  }
+}
+
+export const validateOffsetParams: RequestHandler = (req, res, next) => {
   try {
-    const query = req.query;
-    const validatedQuery = {
+    const query: OffsetQueryReqDto = req.query;
+    const validatedQuery: OffsetQueryDto = {
       offset: query.offset ? parseInt(query.offset) : 0,
       limit: query.limit ? parseInt(query.limit) : 10,
-      orderBy: query.orderBy || undefined,
+      orderBy: parseOrderBy(query.orderBy),
       keyword: query.keyword || undefined,
     };
 
     assert(validatedQuery, OffsetParamsStruct);
     
     if (validatedQuery.offset < 0) {
-      return res.status(400).json({ 
-        error: 'offset은 0 이상이어야 합니다.' 
-      });
+      throw new HttpError('offset은 0 이상이어야 합니다.', 400);
     }
     
     if (validatedQuery.limit < 1 || validatedQuery.limit > 100) {
-      return res.status(400).json({ 
-        error: 'limit은 1 이상 100 이하여야 합니다.' 
-      });
+      throw new HttpError('limit은 1 이상 100 이하여야 합니다.', 400);
     }
 
     req.validatedQuery = validatedQuery;
@@ -41,12 +52,12 @@ export function validateOffsetParams(req, res, next) {
   } catch (err) {
     next(err);
   }
-}
+};
 
-export function validateCursorParams(req, res, next) {
+export const validateCursorParams: RequestHandler = (req, res, next) => {
   try {
-    const query = req.query;
-    const validatedQuery = {
+    const query: CursorQueryReqDto = req.query;
+    const validatedQuery: CursorQueryDto = {
       cursor: query.cursor ? parseInt(query.cursor) : 0,
       limit: query.limit ? parseInt(query.limit) : 10,
     };
@@ -54,15 +65,11 @@ export function validateCursorParams(req, res, next) {
     assert(validatedQuery, CursorParamsStruct);
 
     if (validatedQuery.cursor < 0) {
-      return res.status(400).json({ 
-        error: 'cursor는 0 이상이어야 합니다.' 
-      });
+      throw new HttpError('cursor는 0 이상이어야 합니다.', 400);
     }
 
     if (validatedQuery.limit < 1 || validatedQuery.limit > 100) {
-      return res.status(400).json({ 
-        error: 'limit은 1 이상 100 이하여야 합니다.' 
-      });
+      throw new HttpError('limit은 1 이상 100 이하여야 합니다.', 400);
     }
 
     req.validatedQuery = validatedQuery;
@@ -70,4 +77,4 @@ export function validateCursorParams(req, res, next) {
   } catch (err) {
     next(err);
   }
-}
+};

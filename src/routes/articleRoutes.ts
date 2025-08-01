@@ -1,12 +1,13 @@
-import express, { Router } from 'express';
-import { asyncHandler } from '../lib/asyncHandler.js';
+import { Router } from 'express';
+import { asyncHandler } from '../lib/asyncHandler';
 import * as articleController from '../controllers/articleController.js';
 import { validateCreateArticle, validateUpdateArticle } from '../validators/validateArticle.js';
 import { validateOffsetParams, validateCursorParams } from '../validators/validateQuery.js';
 import { validateCreateComment } from '../validators/validateComment.js';
 import { verifyAccessToken, verifyResourceAuth, optionalAuth } from '../middlewares/auth.js';
+import { ResourceType } from '../types/authTypes.js';
 
-const articleRouter: Router = express.Router();
+const articleRouter = Router();
 
 articleRouter.route('/')
   .post(validateCreateArticle, verifyAccessToken, asyncHandler(articleController.createArticle))
@@ -14,8 +15,8 @@ articleRouter.route('/')
 
 articleRouter.route('/:id')
   .get(optionalAuth, asyncHandler(articleController.getArticle))
-  .patch(validateUpdateArticle, verifyAccessToken, verifyResourceAuth('article'), asyncHandler(articleController.updateArticle))
-  .delete(verifyAccessToken, verifyResourceAuth('article'), asyncHandler(articleController.deleteArticle));
+  .patch(validateUpdateArticle, verifyAccessToken, verifyResourceAuth(ResourceType.Article), asyncHandler(articleController.updateArticle))
+  .delete(verifyAccessToken, verifyResourceAuth(ResourceType.Article), asyncHandler(articleController.deleteArticle));
 
 articleRouter.route('/:id/comments')
   .post(validateCreateComment, verifyAccessToken, asyncHandler(articleController.createComment))

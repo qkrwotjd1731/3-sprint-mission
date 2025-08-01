@@ -1,10 +1,10 @@
-import express, { Router } from 'express';
-import { asyncHandler } from '../lib/asyncHandler.js';
-import * as authController from '../controllers/authController.js';
-import { validateCreateUser, validateLogin } from '../validators/validateAuth.js';
-import { verifyRefreshToken } from '../middlewares/auth.js';
+import { Router } from 'express';
+import { asyncHandler } from '../lib/asyncHandler';
+import * as authController from '../controllers/authController';
+import { validateCreateUser, validateLogin } from '../validators/validateAuth';
+import { verifyRefreshToken } from '../middlewares/auth';
 
-const authRouter: Router = express.Router();
+const authRouter = Router();
 
 authRouter.post('/signup', validateCreateUser, asyncHandler(authController.createUser));
 authRouter.post('/login', validateLogin, asyncHandler(authController.login));

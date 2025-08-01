@@ -1,10 +1,10 @@
 import { PrismaClient } from '../src/generated/prisma/index.js';
-import { PRODUCTS, ARTICLES, COMMENTS, USERS, LIKES } from './mock.js';
+import { PRODUCTS, ARTICLES, COMMENTS, USERS, LIKES } from './mock';
 import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
-async function main() {
+const main = async () => {
   await prisma.like.deleteMany();
   await prisma.comment.deleteMany();
   await prisma.article.deleteMany();

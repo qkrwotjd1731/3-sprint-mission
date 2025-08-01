@@ -1,4 +1,5 @@
 import { assert, object, partial, size, string } from 'superstruct';
+import { RequestHandler } from 'express';
 
 const CreateArticleStruct = object({
   title: size(string(), 1, 30),
@@ -7,7 +8,7 @@ const CreateArticleStruct = object({
 
 const UpdateArticleStruct = partial(CreateArticleStruct);
 
-export function validateCreateArticle(req, res, next) {
+export const validateCreateArticle: RequestHandler = (req, res, next) => {
   try {
     assert(req.body, CreateArticleStruct);
     next();
@@ -16,7 +17,7 @@ export function validateCreateArticle(req, res, next) {
   }
 }
 
-export function validateUpdateArticle(req, res, next) {
+export const validateUpdateArticle: RequestHandler = (req, res, next) => {
   try {
     assert(req.body, UpdateArticleStruct);
     next();

@@ -1,7 +1,7 @@
 import { PrismaClient } from '../generated/prisma/index.js';
 import bcrypt from 'bcrypt';
 import { filterSensitiveUserData } from '../utils/userUtils.js';
-import { throwHttpError } from '../utils/httpError.js';
+import { HttpError } from '../utils/httpError.js';
 
 const prisma = new PrismaClient();
 
@@ -32,7 +32,7 @@ export async function updatePassword(req, res) {
 
   const isMatch = await bcrypt.compare(currentPassword, user.password);
   if (!isMatch) {
-    throwHttpError('Unauthorized', 401);
+    throw new HttpError('Unauthorized', 401);
   }
 
   const hashedNewPassword = await bcrypt.hash(newPassword, 10);
