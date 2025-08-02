@@ -1,7 +1,7 @@
-import { PrismaClient } from '../generated/prisma/index.js';
-import { OrderByType } from '../types/queryTypes.js';
-import type { CreateArticleDto, UpdateArticleDto } from '../types/articleTypes.js';
-import type { CreateCommentDto } from '../types/commentTypes.js';
+import { PrismaClient } from '../generated/prisma';
+import { OrderByType } from '../types/queryTypes';
+import type { CreateArticleDto, UpdateArticleDto } from '../types/articleTypes';
+import type { CreateCommentDto } from '../types/commentTypes';
 
 const prisma = new PrismaClient();
 

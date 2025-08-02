@@ -19,8 +19,8 @@ export const createProduct: RequestHandler = async (req, res) => {
 export const getProduct: RequestHandler = async (req, res) => {
   const id = parseInt(req.params.id, 10);
 
-  const productWithLikes = await ProductService.getProduct(id);
-  res.status(200).json(productWithLikes);
+  const product = await ProductService.getProduct(id);
+  res.status(200).json(product);
 }
 
 // 상품 수정

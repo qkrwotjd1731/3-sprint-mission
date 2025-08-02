@@ -1,7 +1,7 @@
-import { PrismaClient } from '../generated/prisma/index.js';
-import { OrderByType } from '../types/queryTypes.js';
-import type { CreateProductDto, UpdateProductDto } from '../types/productTypes.js';
-import type { CreateCommentDto } from '../types/commentTypes.js';
+import { PrismaClient } from '../generated/prisma';
+import { OrderByType } from '../types/queryTypes';
+import type { CreateProductDto, UpdateProductDto } from '../types/productTypes';
+import type { CreateCommentDto } from '../types/commentTypes';
 
 const prisma = new PrismaClient();
 
@@ -21,7 +21,7 @@ export const remove = (id: number) =>
   prisma.product.delete({ where: { id } });
 
 // where 조건 생성 (findMany, countProducts 에서 사용)
-const where = (keyword?: string) =>
+export const where = (keyword?: string) =>
   keyword
     ? {
         OR: [
@@ -32,7 +32,7 @@ const where = (keyword?: string) =>
     : {};
 
 // orderBy 파싱 (확장성 고려)
-const parseOrderBy = (orderBy?: OrderByType) => {
+export const parseOrderBy = (orderBy?: OrderByType) => {
   switch (orderBy) {
     case OrderByType.Recent:
       return { createdAt: 'desc' as const };

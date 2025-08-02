@@ -10,12 +10,12 @@ import type { OffsetQueryDto, CursorQueryDto } from '../types/queryTypes';
 import type { CreateCommentDto, CommentResponseDto } from '../types/commentTypes';
 import type { LikeResponseDto } from '../types/likeTypes';
 
-// 상품 등록
+// 게시글 등록
 export const createArticle = async (data: CreateArticleDto): Promise<ArticleResponseDto> => {
   return ArticleRepository.create(data);
 }
 
-// 상품 조회
+// 게시글 조회
 export const getArticle = async (id: number): Promise<ArticleWithLikesDto> => {
   const article = await ArticleRepository.findById(id);
   if (!article) {
@@ -31,17 +31,17 @@ export const getArticle = async (id: number): Promise<ArticleWithLikesDto> => {
   return articleWithLikes;
 }
 
-// 상품 수정
+// 게시글 수정
 export const updateArticle = async (id: number, data: UpdateArticleDto): Promise<ArticleResponseDto> => {
   return ArticleRepository.update(id, data);
 }
 
-// 상품 삭제
+// 게시글 삭제
 export const deleteArticle = async (id: number): Promise<void> => {
   await ArticleRepository.remove(id);
 }
 
-// 상품 목록 조회
+// 게시글 목록 조회
 export const getArticleList = async (query: OffsetQueryDto): Promise<{
   articles: ArticleWithLikesDto[];
   totalCount: number;

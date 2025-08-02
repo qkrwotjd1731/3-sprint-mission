@@ -1,4 +1,4 @@
-import { PrismaClient } from '../generated/prisma/index.js';
+import { PrismaClient } from '../generated/prisma';
 import { UpdateCommentDto } from '../types/commentTypes.js';
 
 const prisma = new PrismaClient();

@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import { asyncHandler } from '../lib/asyncHandler';
-import * as articleController from '../controllers/articleController.js';
-import { validateCreateArticle, validateUpdateArticle } from '../validators/validateArticle.js';
-import { validateOffsetParams, validateCursorParams } from '../validators/validateQuery.js';
-import { validateCreateComment } from '../validators/validateComment.js';
-import { verifyAccessToken, verifyResourceAuth, optionalAuth } from '../middlewares/auth.js';
-import { ResourceType } from '../types/authTypes.js';
+import * as articleController from '../controllers/articleController';
+import { validateCreateArticle, validateUpdateArticle } from '../validators/validateArticle';
+import { validateOffsetParams, validateCursorParams } from '../validators/validateQuery';
+import { validateCreateComment } from '../validators/validateComment';
+import { verifyAccessToken, verifyResourceAuth, optionalAuth } from '../middlewares/auth';
+import { ResourceType } from '../types/authTypes';
 
 const articleRouter = Router();
 

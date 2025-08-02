@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { asyncHandler } from '../lib/asyncHandler';
-import * as userController from '../controllers/userController.js';
-import { validateUpdateUser, validateUpdatePassword } from '../validators/validateUser.js';
-import { validateOffsetParams } from '../validators/validateQuery.js';
-import { verifyAccessToken } from '../middlewares/auth.js';
+import * as userController from '../controllers/userController';
+import { validateUpdateUser, validateUpdatePassword } from '../validators/validateUser';
+import { validateOffsetParams } from '../validators/validateQuery';
+import { verifyAccessToken } from '../middlewares/auth';
 
 const userRouter = Router();
 
