@@ -1,4 +1,4 @@
-import { PrismaClient } from '../src/generated/prisma/index.js';
+import { PrismaClient } from '../src/generated/prisma';
 import { PRODUCTS, ARTICLES, COMMENTS, USERS, LIKES } from './mock';
 import bcrypt from 'bcrypt';
 

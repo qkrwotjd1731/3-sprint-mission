@@ -195,6 +195,31 @@ export const COMMENTS = [
     articleId: 4
   },
   {
+    content: '고객 서비스가 정말 친절해요. 감사합니다!',
+    userId: 5,
+    articleId: 5
+  },
+  {
+    content: '할인 이벤트 정말 좋네요! 기대하고 있어요.',
+    userId: 6,
+    articleId: 6
+  },
+  {
+    content: '추천 상품들이 정말 다양하고 좋아요!',
+    userId: 4,
+    articleId: 7
+  },
+  {
+    content: '첫 구매 후기 정말 도움이 됐어요!',
+    userId: 5,
+    articleId: 8
+  },
+  {
+    content: '쇼핑 후기 감사합니다! 참고해서 구매할게요.',
+    userId: 6,
+    articleId: 9
+  },
+  {
     content: '랑방 샤워젤 세트 너무 좋아요! 향기가 정말 좋네요.',
     userId: 4,
     productId: 1
@@ -228,6 +253,76 @@ export const COMMENTS = [
     content: '삼성 갤럭시 S21 울트라 5G 스마트폰은 정말 성능이 뛰어나요. 추천합니다!',
     userId: 6,
     productId: 6
+  },
+  {
+    content: 'LG 그램 노트북 정말 가벼워요! 휴대성이 최고예요.',
+    userId: 4,
+    productId: 7
+  },
+  {
+    content: '나이키 에어맥스 270 운동화 편해요! 디자인도 예뻐요.',
+    userId: 5,
+    productId: 8
+  },
+  {
+    content: '애플 맥북 프로 성능이 정말 좋아요! 작업할 때 편해요.',
+    userId: 6,
+    productId: 9
+  },
+  {
+    content: '랑방 매트 틴트 색깔이 예뻐요! 지속력도 좋아요.',
+    userId: 4,
+    productId: 10
+  },
+  {
+    content: '감사합니다! 좋은 후기 남겨주셔서 감사해요.',
+    userId: 1,
+    productId: 1
+  },
+  {
+    content: '많은 관심 감사합니다! 더 좋은 상품으로 찾아뵙겠습니다.',
+    userId: 2,
+    productId: 2
+  },
+  {
+    content: '품질 좋은 제품이라 자랑스럽습니다!',
+    userId: 3,
+    productId: 3
+  },
+  {
+    content: '고객님 만족도가 저희의 최우선입니다!',
+    userId: 1,
+    productId: 4
+  },
+  {
+    content: '골프 애호가분들께 추천드립니다!',
+    userId: 2,
+    productId: 5
+  },
+  {
+    content: '최신 기술이 적용된 제품입니다!',
+    userId: 3,
+    productId: 6
+  },
+  {
+    content: '가벼운 노트북을 원하시는 분들께 추천해요!',
+    userId: 3,
+    productId: 7
+  },
+  {
+    content: '편안한 착용감을 자랑합니다!',
+    userId: 2,
+    productId: 8
+  },
+  {
+    content: '프로 작업에 최적화된 성능입니다!',
+    userId: 3,
+    productId: 9
+  },
+  {
+    content: '지속력이 뛰어난 제품입니다!',
+    userId: 1,
+    productId: 10
   }
 ]
 
@@ -280,5 +375,69 @@ export const LIKES = [
   {
     userId: 4,
     productId: 3
+  },
+  {
+    userId: 6,
+    productId: 2
+  },
+  {
+    userId: 4,
+    articleId: 2
+  },
+  {
+    userId: 5,
+    articleId: 3
+  },
+  {
+    userId: 6,
+    articleId: 4
+  },
+  {
+    userId: 4,
+    productId: 4
+  },
+  {
+    userId: 5,
+    productId: 5
+  },
+  {
+    userId: 6,
+    productId: 6
+  },
+  {
+    userId: 4,
+    productId: 7
+  },
+  {
+    userId: 5,
+    productId: 8
+  },
+  {
+    userId: 6,
+    productId: 9
+  },
+  {
+    userId: 4,
+    productId: 10
+  },
+  {
+    userId: 5,
+    articleId: 5
+  },
+  {
+    userId: 6,
+    articleId: 6
+  },
+  {
+    userId: 4,
+    articleId: 7
+  },
+  {
+    userId: 5,
+    articleId: 8
+  },
+  {
+    userId: 6,
+    articleId: 9
   }
 ]
