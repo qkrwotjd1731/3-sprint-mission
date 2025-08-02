@@ -1,6 +1,7 @@
 import { PrismaClient } from '../generated/prisma/index.js';
 import { OrderByType } from '../types/queryTypes.js';
-import type { CreateProductDto, UpdateProductDto, CreateCommentDto } from '../types/productTypes.js';
+import type { CreateProductDto, UpdateProductDto } from '../types/productTypes.js';
+import type { CreateCommentDto } from '../types/commentTypes.js';
 
 const prisma = new PrismaClient();
 

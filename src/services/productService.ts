@@ -5,10 +5,9 @@ import type {
   UpdateProductDto,
   ProductResponseDto,
   ProductWithLikesDto,
-  CreateCommentDto,
 } from '../types/productTypes';
 import type { OffsetQueryDto, CursorQueryDto } from '../types/queryTypes';
-import type { CommentResponseDto } from '../types/commentTypes';
+import type { CreateCommentDto, CommentResponseDto } from '../types/commentTypes';
 import type { LikeResponseDto } from '../types/likeTypes';
 
 // 상품 등록

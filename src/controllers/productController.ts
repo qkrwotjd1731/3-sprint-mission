@@ -1,6 +1,7 @@
 import * as ProductService from '../services/productService';
 import type { RequestHandler } from 'express';
-import type { CreateProductDto, UpdateProductDto, CreateCommentDto } from '../types/productTypes';
+import type { CreateProductDto, UpdateProductDto } from '../types/productTypes';
+import type { CreateCommentDto } from '../types/commentTypes';
 import type { OffsetQueryDto, CursorQueryDto } from '../types/queryTypes';
 
 // 상품 등록
