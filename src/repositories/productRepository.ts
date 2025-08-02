@@ -1,6 +1,6 @@
 import { PrismaClient } from '../generated/prisma/index.js';
-import { CreateProductDto, UpdateProductDto, CreateCommentDto } from '../types/productTypes.js';
 import { OrderByType } from '../types/queryTypes.js';
+import type { CreateProductDto, UpdateProductDto, CreateCommentDto } from '../types/productTypes.js';
 
 const prisma = new PrismaClient();
 
@@ -19,8 +19,9 @@ export const update = (id: number, data: UpdateProductDto) =>
 export const remove = (id: number) =>
   prisma.product.delete({ where: { id } });
 
-const where = (keyword?: string) => {
-  return keyword
+// where 조건 생성 (findMany, countProducts 에서 사용)
+const where = (keyword?: string) =>
+  keyword
     ? {
         OR: [
           { name: { contains: keyword, mode: 'insensitive' as const } },
@@ -28,12 +29,21 @@ const where = (keyword?: string) => {
         ],
       }
     : {};
-};
+
+// orderBy 파싱 (확장성 고려)
+const parseOrderBy = (orderBy?: OrderByType) => {
+  switch (orderBy) {
+    case OrderByType.Recent:
+      return { createdAt: 'desc' as const };
+    default:
+      return undefined;
+  }
+}
 
 export const findMany = (offset: number, limit: number, orderBy?: OrderByType, keyword?: string) =>
   prisma.product.findMany({
     where: where(keyword),
-    orderBy: orderBy === 'recent' ? { createdAt: 'desc' } : undefined,
+    orderBy: parseOrderBy(orderBy),
     skip: offset,
     take: limit,
   });
@@ -64,3 +74,9 @@ export const countComments = (productId: number) =>
 
 export const createLike = (productId: number, userId: number) =>
   prisma.like.create({ data: { productId, userId } });
+
+export const findLike = (productId: number, userId: number) =>
+  prisma.like.findFirst({ where: { productId, userId } });
+
+export const deleteLike = (id: number) =>
+  prisma.like.delete({ where: { id } });

@@ -1,19 +1,22 @@
+import * as ProductRepository from '../repositories/productRepository';
 import { HttpError } from '../utils/httpError';
-import {
+import type {
   CreateProductDto,
   UpdateProductDto,
   ProductResponseDto,
   ProductWithLikesDto,
-  CreateCommentDto
+  CreateCommentDto,
 } from '../types/productTypes';
-import { OffsetQueryDto, CursorQueryDto } from '../types/queryTypes';
-import { CommentResponseDto } from '../types/commentTypes';
-import * as ProductRepository from '../repositories/productRepository';
+import type { OffsetQueryDto, CursorQueryDto } from '../types/queryTypes';
+import type { CommentResponseDto } from '../types/commentTypes';
+import type { LikeResponseDto } from '../types/likeTypes';
 
-export const createProduct = (data: CreateProductDto): Promise<ProductResponseDto> => {
+// 상품 등록
+export const createProduct = async (data: CreateProductDto): Promise<ProductResponseDto> => {
   return ProductRepository.create(data);
 }
 
+// 상품 조회
 export const getProduct = async (id: number): Promise<ProductWithLikesDto> => {
   const product = await ProductRepository.findById(id);
   if (!product) {
@@ -29,14 +32,17 @@ export const getProduct = async (id: number): Promise<ProductWithLikesDto> => {
   return productWithLikes;
 }
 
-export const updateProduct = (id: number, data: UpdateProductDto): Promise<ProductResponseDto> => {
+// 상품 수정
+export const updateProduct = async (id: number, data: UpdateProductDto): Promise<ProductResponseDto> => {
   return ProductRepository.update(id, data);
 }
 
-export const deleteProduct = (id: number): Promise<ProductResponseDto> => {
-  return ProductRepository.remove(id);
+// 상품 삭제
+export const deleteProduct = async (id: number): Promise<void> => {
+  await ProductRepository.remove(id);
 }
 
+// 상품 목록 조회
 export const getProductList = async (query: OffsetQueryDto): Promise<{
   products: ProductWithLikesDto[];
   totalCount: number;
@@ -60,6 +66,7 @@ export const getProductList = async (query: OffsetQueryDto): Promise<{
   return { products: productsWithLikes, totalCount };
 }
 
+// 댓글 등록
 export const createComment = async (data: CreateCommentDto, productId: number, userId: number): Promise<CommentResponseDto> => {
   const product = await ProductRepository.findById(productId);
   if (!product) {
@@ -69,6 +76,7 @@ export const createComment = async (data: CreateCommentDto, productId: number, u
   return ProductRepository.createComment(data, userId, productId);
 }
 
+// 댓글 목록 조회
 export const getCommentList = async (productId: number, query: CursorQueryDto): Promise<{
   comments: CommentResponseDto[];
   totalCount: number;
@@ -88,4 +96,32 @@ export const getCommentList = async (productId: number, query: CursorQueryDto): 
   return { comments, totalCount };
 }
 
+// 좋아요 등록
 export const createLike = async (productId: number, userId: number): Promise<LikeResponseDto> => {
+  const product = await ProductRepository.findById(productId);
+  if (!product) {
+    throw new HttpError('Product not found', 404);
+  }
+
+  const existingLike = await ProductRepository.findLike(productId, userId);
+  if (existingLike) {
+    throw new HttpError('Like already exists', 400);
+  }
+
+  return ProductRepository.createLike(productId, userId);
+}
+
+// 좋아요 삭제
+export const deleteLike = async (productId: number, userId: number): Promise<void> => {
+  const product = await ProductRepository.findById(productId);
+  if (!product) {
+    throw new HttpError('Product not found', 404);
+  }
+
+  const targetLike = await ProductRepository.findLike(productId, userId);
+  if (!targetLike) {
+    throw new HttpError('Like not found', 404);
+  }
+
+  await ProductRepository.deleteLike(targetLike.id);
+}

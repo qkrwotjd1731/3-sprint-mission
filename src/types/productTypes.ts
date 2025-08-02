@@ -14,8 +14,3 @@ export interface ProductWithLikesDto extends ProductResponseDto {
 export interface CreateCommentDto {
   content: string;
 };
-
-export interface LikeResponseDto {
-  productId: number;
-  userId: number;
-}

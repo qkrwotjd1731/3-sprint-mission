@@ -15,10 +15,8 @@ const CursorParamsStruct = object({
   limit: defaulted(number(), 10),
 });
 
-// orderBy 파싱 함수 - 확장성을 위해 분리
-function parseOrderBy(orderBy?: string): OrderByType | undefined {
-  if (!orderBy) return undefined;
-  
+// orderBy 파싱 (확장성 고려)
+const parseOrderBy = (orderBy?: string): OrderByType | undefined => {
   switch (orderBy) {
     case 'recent':
       return OrderByType.Recent;

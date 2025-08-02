@@ -1,11 +1,7 @@
-import { PrismaClient } from '../generated/prisma/index.js';
-import { HttpError } from '../utils/httpError.js';
-import { RequestHandler } from 'express';
-import { CreateProductDto, UpdateProductDto, CreateCommentDto } from '../types/productTypes';
-import { OffsetQueryDto, CursorQueryDto } from '../types/queryTypes';
 import * as ProductService from '../services/productService';
-
-const prisma = new PrismaClient();
+import type { RequestHandler } from 'express';
+import type { CreateProductDto, UpdateProductDto, CreateCommentDto } from '../types/productTypes';
+import type { OffsetQueryDto, CursorQueryDto } from '../types/queryTypes';
 
 // 상품 등록
 export const createProduct: RequestHandler = async (req, res) => {
@@ -14,8 +10,8 @@ export const createProduct: RequestHandler = async (req, res) => {
     userId: req.user!.id,
   };
 
-  const creadtedProduct = await ProductService.createProduct(data);
-  res.status(201).json(creadtedProduct);
+  const createdProduct = await ProductService.createProduct(data);
+  res.status(201).json(createdProduct);
 }
 
 // 상품 조회
@@ -56,6 +52,7 @@ export const getProductList: RequestHandler = async (req, res) => {
   res.status(200).json({ products, totalCount, nextOffset });
 }
 
+// 댓글 등록
 export const createComment: RequestHandler = async (req, res) => {
   const productId = parseInt(req.params.id, 10);
   const userId = req.user!.id;
@@ -65,6 +62,7 @@ export const createComment: RequestHandler = async (req, res) => {
   res.status(201).json(createdComment);
 }
 
+// 댓글 목록 조회
 export const getCommentList: RequestHandler = async (req, res) => {
   const productId = parseInt(req.params.id, 10);
   const query: CursorQueryDto = req.validatedQuery;
@@ -78,43 +76,20 @@ export const getCommentList: RequestHandler = async (req, res) => {
   res.status(200).json({ comments, totalCount, nextCursor });
 }
 
+// 좋아요 등록
 export const createLike: RequestHandler = async (req, res) => {
   const productId = parseInt(req.params.id, 10);
+  const userId = req.user!.id;
 
-  const product = await prisma.product.findUnique({ where: { id: productId } });
-  if (!product) {
-    throw new HttpError('Product not found', 404);
-  }
-
-  const existingLike = await prisma.like.findFirst({
-    where: { productId, userId: req.user.id },
-  });
-  if (existingLike) {
-    throw new HttpError('Like already exists', 400);
-  }
-
-  const like = await prisma.like.create({
-    data: { productId, userId: req.user.id }
-  });
-  res.status(201).json(like);
+  const createdLike = await ProductService.createLike(productId, userId);
+  res.status(201).json(createdLike);
 }
 
-export async function deleteLike(req, res) {
+// 좋아요 삭제
+export const deleteLike: RequestHandler = async (req, res) => {
   const productId = parseInt(req.params.id, 10);
+  const userId = req.user!.id;
 
-  const product = await prisma.product.findUnique({ where: { id: productId } });
-  if (!product) {
-    throw new HttpError('Product not found', 404);
-  }
-
-  const like = await prisma.like.findFirst({
-    where: { productId, userId: req.user.id },
-  });
-  if (!like) {
-    throw new HttpError('Like not found', 404);
-  }
-
-  await prisma.like.delete({ where: { id: like.id } });
-
+  await ProductService.deleteLike(productId, userId);
   res.sendStatus(204);
 }
