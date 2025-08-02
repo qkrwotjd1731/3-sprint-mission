@@ -32,7 +32,7 @@ export const updatePassword: RequestHandler = async (req, res) => {
 // 내 상품 목록 조회
 export const getMyProductList: RequestHandler = async (req, res) => {
   const userId = req.user!.id;
-  const query: OffsetQueryDto = req.validatedQuery;
+  const query = req.validatedQuery as OffsetQueryDto;
 
   const { products, totalCount } = await UserService.getUserProductList(userId, query);
 
@@ -46,9 +46,9 @@ export const getMyProductList: RequestHandler = async (req, res) => {
 // 내 좋아요 상품 목록 조회
 export const getMyLikeProductList: RequestHandler = async (req, res) => {
   const userId = req.user!.id;
-  const query: OffsetQueryDto = req.validatedQuery;
+  const query = req.validatedQuery as OffsetQueryDto;
 
-  const { products, totalCount } = await UserService.getUserLikeList(userId, query);
+  const { products, totalCount } = await UserService.getUserLikeProductList(userId, query);
 
   const nextOffset = products.length === query.limit
     ? query.offset + products.length 

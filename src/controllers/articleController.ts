@@ -42,7 +42,7 @@ export const deleteArticle: RequestHandler = async (req, res) => {
 
 // 게시글 목록 조회
 export const getArticleList: RequestHandler = async (req, res) => {
-  const query: OffsetQueryDto = req.validatedQuery;
+  const query = req.validatedQuery as OffsetQueryDto;
 
   const { articles, totalCount } = await ArticleService.getArticleList(query);
   
@@ -66,7 +66,7 @@ export const createComment: RequestHandler = async (req, res) => {
 // 댓글 목록 조회
 export const getCommentList: RequestHandler = async (req, res) => {
   const articleId = parseInt(req.params.id, 10);
-  const query: CursorQueryDto = req.validatedQuery;
+  const query = req.validatedQuery as CursorQueryDto;
 
   const { comments, totalCount } = await ArticleService.getCommentList(articleId, query);
 

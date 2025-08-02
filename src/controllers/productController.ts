@@ -42,7 +42,7 @@ export const deleteProduct: RequestHandler = async (req, res) => {
 
 // 상품 목록 조회
 export const getProductList: RequestHandler = async (req, res) => {
-  const query: OffsetQueryDto = req.validatedQuery;
+  const query = req.validatedQuery as OffsetQueryDto;
 
   const { products, totalCount } = await ProductService.getProductList(query);
   
@@ -66,7 +66,7 @@ export const createComment: RequestHandler = async (req, res) => {
 // 댓글 목록 조회
 export const getCommentList: RequestHandler = async (req, res) => {
   const productId = parseInt(req.params.id, 10);
-  const query: CursorQueryDto = req.validatedQuery;
+  const query = req.validatedQuery as CursorQueryDto;
 
   const { comments, totalCount } = await ProductService.getCommentList(productId, query);
 
