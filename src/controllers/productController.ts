@@ -18,8 +18,9 @@ export const createProduct: RequestHandler = async (req, res) => {
 // 상품 조회
 export const getProduct: RequestHandler = async (req, res) => {
   const id = parseInt(req.params.id, 10);
+  const userId = req.user?.id;
 
-  const product = await ProductService.getProduct(id);
+  const product = await ProductService.getProduct(id, userId);
   res.status(200).json(product);
 }
 
@@ -43,8 +44,9 @@ export const deleteProduct: RequestHandler = async (req, res) => {
 // 상품 목록 조회
 export const getProductList: RequestHandler = async (req, res) => {
   const query = req.validatedQuery as OffsetQueryDto;
+  const userId = req.user?.id;
 
-  const { products, totalCount } = await ProductService.getProductList(query);
+  const { products, totalCount } = await ProductService.getProductList(query, userId);
   
   const nextOffset = products.length === query.limit
     ? query.offset + products.length

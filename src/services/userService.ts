@@ -51,7 +51,7 @@ export const getUserProductList = async (userId: number, query: OffsetQueryDto):
     return {
       ...product,
       likesCount: likes.length,
-      isLiked: product.userId ? likes.some((like) => like.userId === product.userId) : false,
+      isLiked: likes.some((like) => like.userId === userId),
     };
   }));
 

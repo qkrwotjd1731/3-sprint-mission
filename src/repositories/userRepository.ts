@@ -33,5 +33,5 @@ export const findLikeProducts = (userId: number, offset: number, limit: number, 
     where: { likes: { some: { userId } }, ...where(keyword) },
   });
 
-  export const countLikeProducts = (userId: number, keyword?: string) =>
-    prisma.product.count({ where: { likes: { some: { userId } }, ...where(keyword) } });
+export const countLikeProducts = (userId: number, keyword?: string) =>
+  prisma.product.count({ where: { likes: { some: { userId } }, ...where(keyword) } });

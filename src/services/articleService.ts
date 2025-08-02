@@ -16,7 +16,7 @@ export const createArticle = async (data: CreateArticleDto): Promise<ArticleResp
 }
 
 // 게시글 조회
-export const getArticle = async (id: number): Promise<ArticleWithLikesDto> => {
+export const getArticle = async (id: number, userId?: number): Promise<ArticleWithLikesDto> => {
   const article = await articleRepository.findById(id);
   if (!article) {
     throw new HttpError('Article not found', 404);
@@ -26,7 +26,7 @@ export const getArticle = async (id: number): Promise<ArticleWithLikesDto> => {
   const articleWithLikes = {
     ...article,
     likesCount: likes.length,
-    isLiked: article.userId ? likes.some((like) => like.userId === article.userId) : false,
+    isLiked: userId ? likes.some((like) => like.userId === userId) : false,
   };
   return articleWithLikes;
 }
@@ -42,7 +42,7 @@ export const deleteArticle = async (id: number): Promise<void> => {
 }
 
 // 게시글 목록 조회
-export const getArticleList = async (query: OffsetQueryDto): Promise<{
+export const getArticleList = async (query: OffsetQueryDto, userId?: number): Promise<{
   articles: ArticleWithLikesDto[];
   totalCount: number;
 }> => {
@@ -58,7 +58,7 @@ export const getArticleList = async (query: OffsetQueryDto): Promise<{
     return {
       ...article,
       likesCount: likes.length,
-      isLiked: article.userId ? likes.some((like) => like.userId === article.userId) : false,
+      isLiked: userId ? likes.some((like) => like.userId === userId) : false,
     };
   }));
 

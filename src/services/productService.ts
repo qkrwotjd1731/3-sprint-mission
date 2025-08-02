@@ -16,7 +16,7 @@ export const createProduct = async (data: CreateProductDto): Promise<ProductResp
 }
 
 // 상품 조회
-export const getProduct = async (id: number): Promise<ProductWithLikesDto> => {
+export const getProduct = async (id: number, userId?: number): Promise<ProductWithLikesDto> => {
   const product = await productRepository.findById(id);
   if (!product) {
     throw new HttpError('Product not found', 404);
@@ -26,7 +26,7 @@ export const getProduct = async (id: number): Promise<ProductWithLikesDto> => {
   const productWithLikes = {
     ...product,
     likesCount: likes.length,
-    isLiked: product.userId ? likes.some((like) => like.userId === product.userId) : false,
+    isLiked: userId ? likes.some((like) => like.userId === userId) : false,
   };
   return productWithLikes;
 }
@@ -42,7 +42,7 @@ export const deleteProduct = async (id: number): Promise<void> => {
 }
 
 // 상품 목록 조회
-export const getProductList = async (query: OffsetQueryDto): Promise<{
+export const getProductList = async (query: OffsetQueryDto, userId?: number): Promise<{
   products: ProductWithLikesDto[];
   totalCount: number;
 }> => {
@@ -58,7 +58,7 @@ export const getProductList = async (query: OffsetQueryDto): Promise<{
     return {
       ...product,
       likesCount: likes.length,
-      isLiked: product.userId ? likes.some((like) => like.userId === product.userId) : false,
+      isLiked: userId ? likes.some((like) => like.userId === userId) : false,
     };
   }));
 

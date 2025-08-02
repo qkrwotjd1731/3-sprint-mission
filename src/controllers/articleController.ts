@@ -18,8 +18,9 @@ export const createArticle: RequestHandler = async (req, res) => {
 // 게시글 조회
 export const getArticle: RequestHandler = async (req, res) => {
   const id = parseInt(req.params.id, 10);
+  const userId = req.user?.id;
 
-  const articleWithLikes = await ArticleService.getArticle(id);
+  const articleWithLikes = await ArticleService.getArticle(id, userId);
   res.status(200).json(articleWithLikes);
 }
 
@@ -43,8 +44,9 @@ export const deleteArticle: RequestHandler = async (req, res) => {
 // 게시글 목록 조회
 export const getArticleList: RequestHandler = async (req, res) => {
   const query = req.validatedQuery as OffsetQueryDto;
+  const userId = req.user?.id;
 
-  const { articles, totalCount } = await ArticleService.getArticleList(query);
+  const { articles, totalCount } = await ArticleService.getArticleList(query, userId);
   
   const nextOffset = articles.length === query.limit
     ? query.offset + articles.length

@@ -43,6 +43,8 @@ export const logout = async (id: number): Promise<void> => {
 export const refreshToken = async (id: number): Promise<TokenDto> => {
   const user = await authRepository.findById(id);
   if (!user) throw new HttpError('User not found', 404);
+   
+  if (!user.refreshToken) throw new HttpError('Invalid refresh token', 401);
 
   const accessToken = createToken(user);
   const newRefreshToken = createToken(user, 'refresh');

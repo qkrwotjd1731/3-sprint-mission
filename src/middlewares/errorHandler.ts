@@ -35,9 +35,19 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     return res.status(400).json({ message: err.message });
   }
 
-  // JWT 에러 처리
+  // JWT 인증 에러
   if (err instanceof Error && err.name === 'UnauthorizedError') {
-    return res.status(401).json({ message: 'Unauthorized Token' });
+    return res.status(401).json({ message: 'Unauthorized token.' });
+  }
+
+  // JWT 토큰 만료 에러
+  if (err instanceof Error && err.name === 'TokenExpiredError') {
+    return res.status(401).json({ message: 'Token expired.' });
+  }
+
+  // JWT 토큰 형식 에러
+  if (err instanceof Error && err.name === 'JsonWebTokenError') {
+    return res.status(401).json({ message: 'Invalid token.' });
   }
 
   // 기본 서버 에러

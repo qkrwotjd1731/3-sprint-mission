@@ -3,7 +3,7 @@ import { User } from '../generated/prisma';
 export type UserResponseDto = Omit<User, 'password' | 'refreshToken'>;
 
 export interface UpdateUserDto {
-  name?: string;
+  nickname?: string;
   email?: string;
   image?: string;
 }
