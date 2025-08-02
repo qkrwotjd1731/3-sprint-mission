@@ -1,6 +1,6 @@
 import { assert, object, partial, size, string } from 'superstruct';
 import { Email, Url } from '../utils/structs';
-import { RequestHandler } from 'express';
+import type { RequestHandler } from 'express';
 
 const UpdateUserStruct = partial(object({
   email: Email,

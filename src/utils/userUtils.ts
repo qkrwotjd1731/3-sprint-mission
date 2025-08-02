@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { User } from '../generated/prisma';
-import { UserResponseDto } from '../types/userTypes';
+import type { UserResponseDto } from '../types/userTypes';
 
 export const createToken = (user: User, type?: 'refresh' | 'access') => {
   const payload = { id: user.id };

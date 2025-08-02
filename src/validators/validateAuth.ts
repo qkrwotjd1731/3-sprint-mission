@@ -1,6 +1,6 @@
 import { assert, object, size, string } from 'superstruct';
 import { Email } from '../utils/structs';
-import { RequestHandler } from 'express';
+import type { RequestHandler } from 'express';
 
 const CreateUserStruct = object({
   email: Email,

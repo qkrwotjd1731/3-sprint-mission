@@ -3,8 +3,8 @@ import {
   PrismaClientValidationError,
   PrismaClientKnownRequestError,
 } from '@prisma/client/runtime/library';
-import { ErrorRequestHandler } from 'express';
 import { HttpError } from '../utils/httpError';
+import type { ErrorRequestHandler } from 'express';
 
 export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   // 커스텀 HTTP 에러 (HttpError로 생성된 에러)

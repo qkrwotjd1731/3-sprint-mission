@@ -1,5 +1,5 @@
 import { assert, object, partial, size, string } from 'superstruct';
-import { RequestHandler } from 'express';
+import type { RequestHandler } from 'express';
 
 const CreateArticleStruct = object({
   title: size(string(), 1, 30),

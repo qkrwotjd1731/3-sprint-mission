@@ -1,64 +1,68 @@
 # 요구사항
 
 ## 기본
-- [x] 스프린트 미션 3의 구현이 완료된 상태에서 진행
+- [x] 스프린트 미션 4의 구현이 완료된 상태에서 진행
 
-### 인증
-- [x] User 스키마를 작성해 주세요.
-    id, email, nickname, image, password, createdAt, updatedAt 필드를 가집니다.
-- [x] 회원가입 API를 만들어 주세요.
-    email, nickname, password 를 입력하여 회원가입을 진행합니다.
-    password는 해싱해 저장합니다.
-- [x] 토큰 기반 인증: 로그인에 성공하면 Access Token을 발급하는 기능을 구현합니다.
+### 프로젝트 세팅
+- [x] tsconfig.json 파일을 생성하고, 필요한 옵션을 설정해 주세요. (예: outDir).
+  - "rootDir": "src"
+  - "outDir": "dist"
+  - "include": ["src/**/*" ]
+- [x] 필요한 npm script를 설정해 주세요. (예: 빌드 및 개발 서버 실행 명령어)
+  - "dev": "nodemon --watch src --exec tsx src/app.ts"
+  - "build": "tsc"
+  - "start": "node dist/app.js"
 
-### 상품 기능 인가
-- [x] 로그인한 유저만 상품을 등록할 수 있습니다.
-- [x] 상품을 등록한 유저만 해당 상품의 정보를 수정하거나 삭제할 수 있습니다.
+### 타입스크립트 마이그레이션
+- [x] 기존 Express.js 프로젝트를 타입스크립트 프로젝트로 마이그레이션 해주세요.
+- [x] 필요한 타입 패키지를 설치해 주세요.
+  - @types/express
+  - @types/node
+  - @types/bcrypt
+  - @types/express-jwt
+  - @types/jsonwebtoken
+- [x] any 타입의 사용은 최소화해주세요.
+- [x] 복잡한 객체 구조나 배열 구조를 가진 변수에 인터페이스 또는 타입 별칭을 사용하세요.
+  - CreateUserDto, LoginDto, TokenDto
+  - ProductWithLikesDto, ArticleWithLikesDto
+  - OffsetQueryDto, CursorQueryDto
+- [x] 필요한 경우, 타입 별칭 또는 유틸리티 타입을 사용해 타입 복잡성을 줄여주세요.
+  - RequestHandler 타입 활용
+  - Partial, Omit 유틸리티 타입 활용
+- [x] 필요한 경우, declare를 사용하여 타입을 오버라이드하거나 확장합니다. (예: req.user)
+  - src/types/express.d.ts에서 req.user, req.validatedQuery 확장
 
-### 게시글 기능 인가
-- [x] 로그인한 유저만 게시글을 등록할 수 있습니다.
-- [x] 게시글을 등록한 유저만 해당 게시글을 수정하거나 삭제할 수 있습니다.
-
-### 댓글 기능 인가
-- [x] 로그인한 유저만 상품에 댓글을 등록할 수 있습니다.
-- [x] 로그인한 유저만 게시글에 댓글을 등록할 수 있습니다.
-- [x] 댓글을 등록한 유저만 해당 댓글을 수정하거나 삭제할 수 있습니다.
-
-### 유저 정보
-- [x] 유저가 자신의 정보를 조회하는 기능을 구현합니다.
-- [x] 유저가 자신의 정보를 수정할 수 있는 기능을 구현합니다.
-- [x] 유저가 자신의 비밀번호를 변경할 수 있는 기능을 구현합니다.
-- [x] 유저가 자신이 등록한 상품의 목록을 조회하는 기능을 구현합니다.
-- [x] 유저의 비밀번호는 리스폰스로 노출하지 않습니다.
+### 개발 환경 설정
+- [x] ts-node 를 사용해 .ts 코드를 바로 실행할 수 있는 npm script를 만들어 주세요. (예: npm run dev)
+  - ts-node 오류로 인해 tsx 를 사용했습니다.
+- [x] nodemon을 사용해 .ts 코드가 변경될 때마다 서버가 다시 실행되는 npm script를 만들어 주세요. (예: npm run dev)
 
 ## 심화
 
-### 인증
-- [x] 토큰 기반 인증: Refresh Token으로 토큰을 갱신하는 기능을 구현합니다.
-
-### 좋아요 기능
-- [x] 로그인한 유저는 상품에 '좋아요'와 '좋아요 취소'를 할 수 있습니다.
-- [x] 로그인한 유저는 게시글에 '좋아요'와 '좋아요 취소'를 할 수 있습니다.
-- [x] 상품 또는 게시글을 조회할 때, 유저가 '좋아요'를 누른 항목인지 확인할 수 있도록 isLiked와 같은 불린형 필드를 리스폰스 객체에 포함시켜 리스폰스해 주세요.
-- [x] 유저가 '좋아요'를 표시한 상품의 목록을 조회하는 기능을 구현합니다.
+### Layered Architecture 적용하기
+- [x] Controller, Service, Repository로 나누어 코드를 리팩토링해 주세요.
+  - **Controllers**: Persentation Layer, HTTP 요청/응답 처리
+  - **Services**: Application Layer, 비즈니스 로직 처리
+  - **Repositories**: Data Access Layer, 데이터베이스 상호작용 및 관련된 구현 추상화
+- [x] 필요하다면, 계층 사이에서 데이터를 주고 받을 때 DTO를 활용해 주세요.
+  - Request/Response DTO 정의
+  - 타입 안전성 보장
 
 # 주요 변경사항
 
-## 요구사항 충족
-- JWT 토큰 기반 인증 시스템 구현 (Access Token + Refresh Token)
-- 사용자 권한 기반 리소스 접근 제어 (verifyResourceAuth)
-- 선택적 인증 미들웨어 (optionalAuth)로 비로그인 사용자도 상품 조회 가능
-- bcrypt를 이용한 비밀번호 해시화 및 안전한 저장
-- 사용자 정보 보안 (filterSensitiveUserData)
-
 ## 피드백 반영
-- findUnique + 404에러 처리로 통일
-- 리스트 totalCount, nextOffset 추가
-- 전역 에러헨들러 추가
+- 변수명이 일치하지 않는 문제 수정.
+- 인증 미들웨어 통과 시 req.user 중복 검증 없이 non-null assertion(!)을 사용하여 타입 추론. (req.user!.id)
+  - auth,userService 레이어에서는 검증 유지하여 예외상황에 대한 방어적 프로그래밍 유지.
 
 ## 기타
-- validate 파일들을 middlewares에서 validators로 분리
-- 에러 처리 유틸 (throwHttpError)
+- 모든 함수 화살표 함수로 변환.
+  - RequestHandler 타입을 사용하기 위해 변환, 통일성을 위해 모든 함수 변환.
+- 에러 처리 유틸 HttpError 클래스로 변환.
+- 타입 관련 선언은 import type 사용.
+
 
 # 멘토에게
-- 인증, 인가 과정의 구현에 대한 이해도가 부족한 상태에서 구현하여 테스트 및 오류 해결에 상당한 시간이 소요됐습니다. AI 도구를 활용한 덕분에 아해도도 높이며 무사히 구현할 수 있었습니다.
+- 타입스크립트 마이그레이션과 Layered Architecture 패턴 적용을 동시에 진행했습니다. 엔드포인트 수가 적은 Comment로 감을 잡고 나머지 변환 작업을 진행했습니다.
+- 먼저 제출된 유진호님 코드를 참고하며 도움을 얻고 제 프로젝트에 맞게 적용하려고 노력했습니다.
+- ts-node가 express.d.ts 타입 확장을 인식하지 못하는 문제가 생겨서 tsx를 활용했습니다.

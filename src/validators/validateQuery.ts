@@ -1,6 +1,7 @@
 import { assert, defaulted, enums, integer, max, min, object, optional, size, string } from 'superstruct';
-import { RequestHandler } from 'express';
-import { OffsetQueryReqDto, OffsetQueryDto, CursorQueryReqDto, CursorQueryDto, OrderByType } from '../types/queryTypes';
+import { OrderByType } from '../types/queryTypes';
+import type { RequestHandler } from 'express';
+import type { OffsetQueryReqDto, OffsetQueryDto, CursorQueryReqDto, CursorQueryDto } from '../types/queryTypes';
 
 const OffsetParamsStruct = object({
   offset: defaulted(min(integer(), 0), 0),

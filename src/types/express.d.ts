@@ -1,5 +1,5 @@
 import { User } from '../generated/prisma';
-import { OffsetQueryDto, CursorQueryDto } from './queryTypes';
+import type { OffsetQueryDto, CursorQueryDto } from './queryTypes';
 
 declare global {
   namespace Express {

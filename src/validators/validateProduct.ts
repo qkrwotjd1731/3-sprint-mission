@@ -1,5 +1,5 @@
 import { array, assert, integer, min, object, partial, size, string } from 'superstruct';
-import { RequestHandler } from 'express';
+import type { RequestHandler } from 'express';
 
 const CreateProductStruct = object({
   name: size(string(), 1, 30),
