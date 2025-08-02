@@ -1,6 +1,6 @@
-import { RequestHandler } from 'express';
-import { UpdateCommentDto } from '../types/commentTypes';
 import * as CommentService from '../services/commentService';
+import type { RequestHandler } from 'express';
+import type { UpdateCommentDto } from '../types/commentTypes';
 
 // 댓글 수정
 export const updateComment: RequestHandler = async (req, res) => {

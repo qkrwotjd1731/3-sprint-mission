@@ -1,8 +1,9 @@
 import * as UserService from '../services/userService';
 import type { RequestHandler } from 'express';
-import { UpdateUserDto, UpdatePasswordDto } from '../types/userTypes';
-import { OffsetQueryDto } from '../types/queryTypes';
+import type { UpdateUserDto, UpdatePasswordDto } from '../types/userTypes';
+import type { OffsetQueryDto } from '../types/queryTypes';
 
+// 내 정보 조회
 export const getMe: RequestHandler = async (req, res) => {
   const id = req.user!.id;
 
@@ -10,6 +11,7 @@ export const getMe: RequestHandler = async (req, res) => {
   res.status(200).json(user);
 }
 
+// 내 정보 수정
 export const updateMe: RequestHandler = async (req, res) => {
   const id = req.user!.id;
   const data: UpdateUserDto = req.body;
@@ -18,6 +20,7 @@ export const updateMe: RequestHandler = async (req, res) => {
   res.status(200).json(updatedUser);
 }
 
+// 비밀번호 변경
 export const updatePassword: RequestHandler = async (req, res) => {
   const id = req.user!.id;
   const data: UpdatePasswordDto = req.body;
@@ -26,6 +29,7 @@ export const updatePassword: RequestHandler = async (req, res) => {
   res.status(200).json({ message: 'Password updated successfully' });
 }
 
+// 내 상품 목록 조회
 export const getMyProductList: RequestHandler = async (req, res) => {
   const userId = req.user!.id;
   const query: OffsetQueryDto = req.validatedQuery;
@@ -39,7 +43,8 @@ export const getMyProductList: RequestHandler = async (req, res) => {
   res.status(200).json({ products, totalCount, nextOffset });
 }
 
-export const getMyLikeList: RequestHandler = async (req, res) => {
+// 내 좋아요 상품 목록 조회
+export const getMyLikeProductList: RequestHandler = async (req, res) => {
   const userId = req.user!.id;
   const query: OffsetQueryDto = req.validatedQuery;
 

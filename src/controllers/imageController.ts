@@ -1,6 +1,7 @@
-import cloudinary from '../utils/cloudinary.js';
+import cloudinary from '../utils/cloudinary';
 import type { RequestHandler } from 'express';
 
+// 이미지 업로드
 export const uploadImage: RequestHandler = async (req, res) => {
   const filePath = req.file?.path;
 

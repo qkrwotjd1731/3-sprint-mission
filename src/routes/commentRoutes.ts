@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { asyncHandler } from '../lib/asyncHandler';
 import * as commentController from '../controllers/commentController';
-import { validateUpdateComment } from '../validators/validateComment.js';
-import { verifyAccessToken, verifyResourceAuth } from '../middlewares/auth.js';
-import { ResourceType } from '../types/authTypes.js';
+import { validateUpdateComment } from '../validators/validateComment';
+import { verifyAccessToken, verifyResourceAuth } from '../middlewares/auth';
+import { ResourceType } from '../types/authTypes';
 
 const commentRouter = Router();
 

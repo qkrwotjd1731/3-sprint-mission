@@ -1,5 +1,5 @@
 import { expressjwt } from 'express-jwt';
-import { PrismaClient } from '../generated/prisma/index.js';
+import { PrismaClient } from '../generated/prisma';
 import { HttpError } from '../utils/httpError';
 import { RequestHandler } from 'express';
 import { ResourceType } from '../types/authTypes';

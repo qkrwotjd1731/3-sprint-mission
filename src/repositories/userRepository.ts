@@ -1,7 +1,7 @@
 import { PrismaClient } from '../generated/prisma';
 import { where, parseOrderBy } from './productRepository';
-import { UpdateUserDto } from '../types/userTypes';
-import { OrderByType } from '../types/queryTypes';
+import type { UpdateUserDto } from '../types/userTypes';
+import type { OrderByType } from '../types/queryTypes';
 
 const prisma = new PrismaClient();
 

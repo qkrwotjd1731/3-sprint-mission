@@ -12,6 +12,6 @@ userRouter.route('/me')
   .patch(validateUpdateUser, verifyAccessToken, asyncHandler(userController.updateMe));
 userRouter.patch('/me/password', validateUpdatePassword, verifyAccessToken, asyncHandler(userController.updatePassword));
 userRouter.get('/me/products', validateOffsetParams, verifyAccessToken, asyncHandler(userController.getMyProductList));
-userRouter.get('/me/likes', validateOffsetParams, verifyAccessToken, asyncHandler(userController.getMyLikeList));
+userRouter.get('/me/likes', validateOffsetParams, verifyAccessToken, asyncHandler(userController.getMyLikeProductList));
 
 export default userRouter; 

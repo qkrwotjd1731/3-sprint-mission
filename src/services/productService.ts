@@ -1,4 +1,4 @@
-import * as ProductRepository from '../repositories/productRepository';
+import * as productRepository from '../repositories/productRepository';
 import { HttpError } from '../utils/httpError';
 import type {
   CreateProductDto,
@@ -12,17 +12,17 @@ import type { LikeResponseDto } from '../types/likeTypes';
 
 // 상품 등록
 export const createProduct = async (data: CreateProductDto): Promise<ProductResponseDto> => {
-  return ProductRepository.create(data);
+  return await productRepository.create(data);
 }
 
 // 상품 조회
 export const getProduct = async (id: number): Promise<ProductWithLikesDto> => {
-  const product = await ProductRepository.findById(id);
+  const product = await productRepository.findById(id);
   if (!product) {
     throw new HttpError('Product not found', 404);
   }
 
-  const likes = await ProductRepository.findLikes(id);
+  const likes = await productRepository.findLikes(id);
   const productWithLikes = {
     ...product,
     likesCount: likes.length,
@@ -33,12 +33,12 @@ export const getProduct = async (id: number): Promise<ProductWithLikesDto> => {
 
 // 상품 수정
 export const updateProduct = async (id: number, data: UpdateProductDto): Promise<ProductResponseDto> => {
-  return ProductRepository.update(id, data);
+  return await productRepository.update(id, data);
 }
 
 // 상품 삭제
 export const deleteProduct = async (id: number): Promise<void> => {
-  await ProductRepository.remove(id);
+  await productRepository.remove(id);
 }
 
 // 상품 목록 조회
@@ -49,12 +49,12 @@ export const getProductList = async (query: OffsetQueryDto): Promise<{
   const { offset, limit, orderBy, keyword } = query;
 
   const [products, totalCount] = await Promise.all([
-    ProductRepository.findMany(offset, limit, orderBy, keyword),
-    ProductRepository.countProducts(keyword)
+    productRepository.findMany(offset, limit, orderBy, keyword),
+    productRepository.countProducts(keyword)
   ]);
 
   const productsWithLikes = await Promise.all(products.map(async (product) => {
-    const likes = await ProductRepository.findLikes(product.id);
+    const likes = await productRepository.findLikes(product.id);
     return {
       ...product,
       likesCount: likes.length,
@@ -67,12 +67,12 @@ export const getProductList = async (query: OffsetQueryDto): Promise<{
 
 // 댓글 등록
 export const createComment = async (data: CreateCommentDto, productId: number, userId: number): Promise<CommentResponseDto> => {
-  const product = await ProductRepository.findById(productId);
+  const product = await productRepository.findById(productId);
   if (!product) {
     throw new HttpError('Product not found', 404);
   }
 
-  return ProductRepository.createComment(data, userId, productId);
+  return await productRepository.createComment(data, userId, productId);
 }
 
 // 댓글 목록 조회
@@ -82,14 +82,14 @@ export const getCommentList = async (productId: number, query: CursorQueryDto): 
 }> => {
   const { cursor, limit } = query;
 
-  const product = await ProductRepository.findById(productId);
+  const product = await productRepository.findById(productId);
   if (!product) {
     throw new HttpError('Product not found', 404);
   }
 
   const [comments, totalCount] = await Promise.all([
-    ProductRepository.findComments(productId, cursor, limit),
-    ProductRepository.countComments(productId)
+    productRepository.findComments(productId, cursor, limit),
+    productRepository.countComments(productId)
   ]);
 
   return { comments, totalCount };
@@ -97,30 +97,30 @@ export const getCommentList = async (productId: number, query: CursorQueryDto): 
 
 // 좋아요 등록
 export const createLike = async (productId: number, userId: number): Promise<LikeResponseDto> => {
-  const product = await ProductRepository.findById(productId);
+  const product = await productRepository.findById(productId);
   if (!product) {
     throw new HttpError('Product not found', 404);
   }
 
-  const existingLike = await ProductRepository.findLike(productId, userId);
+  const existingLike = await productRepository.findLike(productId, userId);
   if (existingLike) {
     throw new HttpError('Like already exists', 400);
   }
 
-  return ProductRepository.createLike(productId, userId);
+  return await productRepository.createLike(productId, userId);
 }
 
 // 좋아요 삭제
 export const deleteLike = async (productId: number, userId: number): Promise<void> => {
-  const product = await ProductRepository.findById(productId);
+  const product = await productRepository.findById(productId);
   if (!product) {
     throw new HttpError('Product not found', 404);
   }
 
-  const targetLike = await ProductRepository.findLike(productId, userId);
+  const targetLike = await productRepository.findLike(productId, userId);
   if (!targetLike) {
     throw new HttpError('Like not found', 404);
   }
 
-  await ProductRepository.deleteLike(targetLike.id);
+  await productRepository.deleteLike(targetLike.id);
 }
