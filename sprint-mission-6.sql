@@ -94,8 +94,8 @@ ORDER BY od.pizza_id;
 SELECT  o.date
     ,   COUNT(DISTINCT o.id) AS order_count
     ,   SUM(od.quantity) AS total_quantity
-FROM order_details od
-JOIN orders o ON od.order_id = o.id
+FROM orders o
+JOIN order_details od ON o.id = od.order_id
 GROUP BY o.date
 ORDER BY o.date;
 
@@ -192,8 +192,8 @@ WHERE od.order_id = 78;
 */
 SELECT  p.size AS pizza_size
     ,   SUM(od.quantity * p.price) AS total_revenue
-FROM order_details od
-JOIN pizzas p ON od.pizza_id = p.id
+FROM pizzas p
+JOIN order_details od ON p.id = od.pizza_id
 GROUP BY p.size
 ORDER BY total_revenue DESC;
 
@@ -212,10 +212,10 @@ ORDER BY total_revenue DESC;
         The Italian Supreme Pizza                  |           33476.75
         ```
 */
-SELECT  pt.name AS pizza_type
+SELECT  pt.name AS pizza_name
     ,   SUM(od.quantity * p.price) AS total_revenue
-FROM order_details od
-JOIN pizzas p ON od.pizza_id = p.id
-JOIN pizza_types pt ON p.type_id = pt.id
+FROM pizza_types pt
+JOIN pizzas p ON pt.id = p.type_id
+JOIN order_details od ON p.id = od.pizza_id
 GROUP BY pt.name
 ORDER BY total_revenue DESC;
