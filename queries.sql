@@ -40,8 +40,10 @@ WHERE user_id = 1;
   - 10개씩 페이지네이션, 3번째 페이지
 */
 
-SELECT p.* FROM products p
+SELECT p.*, u.nickname
+FROM products p
 JOIN product_likes pl ON p.id = pl.product_id
+JOIN users u ON p.user_id = u.id
 WHERE pl.user_id = 1
 ORDER BY p.created_at DESC
 LIMIT 10 OFFSET (3 - 1) * 10;
@@ -78,11 +80,13 @@ SELECT
     p.image_url,
     p.created_at,
     p.updated_at,
+    u.nickname,
     COUNT(pl.id) as like_count
 FROM products p
+JOIN users u ON p.user_id = u.id
 LEFT JOIN product_likes pl ON p.id = pl.product_id
 WHERE p.name LIKE '%test%' OR p.description LIKE '%test%'
-GROUP BY p.id, p.user_id, p.name, p.description, p.price, p.image_url, p.created_at, p.updated_at
+GROUP BY p.id, p.user_id, p.name, p.description, p.price, p.image_url, p.created_at, p.updated_at, u.nickname
 ORDER BY p.created_at DESC
 LIMIT 10 OFFSET (1 - 1) * 10;
 
