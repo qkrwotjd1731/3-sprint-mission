@@ -1,13 +1,12 @@
 import { expressjwt } from 'express-jwt';
-import { PrismaClient } from '../generated/prisma';
+import { prisma } from '../lib/prisma';
+import { JWT_SECRET } from '../lib/constants';
 import { HttpError } from '../utils/httpError';
 import { ResourceType } from '../types/authTypes';
 import type { RequestHandler } from 'express';
 
-const prisma = new PrismaClient();
-
 export const verifyAccessToken = expressjwt({
-  secret: process.env.JWT_SECRET as string,
+  secret: JWT_SECRET as string,
   algorithms: ['HS256'],
   requestProperty: 'user',
   getToken: (req) => req.headers.authorization?.split(' ')[1],
@@ -22,18 +21,20 @@ export const optionalAuth: RequestHandler = (req, res, next) => {
 };
 
 export const verifyRefreshToken = expressjwt({
-  secret: process.env.JWT_SECRET as string,
+  secret: JWT_SECRET as string,
   algorithms: ['HS256'],
   requestProperty: 'user',
   getToken: (req) => req.cookies.refreshToken,
 });
 
-export const verifyResourceAuth = (resourceType: ResourceType): RequestHandler => {
+export const verifyResourceAuth = (
+  resourceType: ResourceType
+): RequestHandler => {
   return async (req, res, next) => {
     const id = parseInt(req.params.id);
     try {
       let resource;
-      
+
       switch (resourceType) {
         case ResourceType.Product:
           resource = await prisma.product.findUnique({ where: { id } });
@@ -61,4 +62,4 @@ export const verifyResourceAuth = (resourceType: ResourceType): RequestHandler =
       return next(err);
     }
   };
-}
+};

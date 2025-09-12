@@ -41,10 +41,10 @@ const main = async () => {
   });
 
   await prisma.like.createMany({
-    data: LIKES, 
+    data: LIKES,
     skipDuplicates: true,
   });
-}
+};
 
 main()
   .then(async () => {

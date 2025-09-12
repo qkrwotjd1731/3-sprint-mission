@@ -8,6 +8,7 @@ import commentRouter from './routes/commentRoutes';
 import imageRouter from './routes/imageRoutes';
 import authRouter from './routes/authRoutes';
 import userRouter from './routes/userRoutes';
+import notificationRouter from './routes/notificationRoutes';
 import { errorHandler } from './middlewares/errorHandler';
 
 const app = express();
@@ -23,11 +24,8 @@ app.use('/comments', commentRouter);
 app.use('/images', imageRouter);
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
+app.use('/notifications', notificationRouter);
 
 app.use(errorHandler);
 
-const PORT: number = parseInt(process.env.PORT || '3000', 10);
-
-app.listen(PORT, () => {
-  console.log(`Server Started on port ${PORT}`);
-}); 
+export default app;

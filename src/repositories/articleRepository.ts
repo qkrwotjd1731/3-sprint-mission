@@ -1,9 +1,7 @@
-import { PrismaClient } from '../generated/prisma';
+import { prisma } from '../lib/prisma';
 import { OrderByType } from '../types/queryTypes';
 import type { CreateArticleDto, UpdateArticleDto } from '../types/articleTypes';
 import type { CreateCommentDto } from '../types/commentTypes';
-
-const prisma = new PrismaClient();
 
 export const create = (data: CreateArticleDto) =>
   prisma.article.create({ data });
@@ -17,8 +15,7 @@ export const findLikes = (id: number) =>
 export const update = (id: number, data: UpdateArticleDto) =>
   prisma.article.update({ where: { id }, data });
 
-export const remove = (id: number) =>
-  prisma.article.delete({ where: { id } });
+export const remove = (id: number) => prisma.article.delete({ where: { id } });
 
 // where 조건 생성 (findMany, countProducts 에서 사용)
 const where = (keyword?: string) =>
@@ -39,9 +36,14 @@ const parseOrderBy = (orderBy?: OrderByType) => {
     default:
       return undefined;
   }
-}
+};
 
-export const findMany = (offset: number, limit: number, orderBy?: OrderByType, keyword?: string) =>
+export const findMany = (
+  offset: number,
+  limit: number,
+  orderBy?: OrderByType,
+  keyword?: string
+) =>
   prisma.article.findMany({
     where: where(keyword),
     orderBy: parseOrderBy(orderBy),
@@ -52,16 +54,24 @@ export const findMany = (offset: number, limit: number, orderBy?: OrderByType, k
 export const countArticles = (keyword?: string) =>
   prisma.article.count({ where: where(keyword) });
 
-export const createComment = (data: CreateCommentDto, articleId: number, userId: number) =>
+export const createComment = (
+  data: CreateCommentDto,
+  articleId: number,
+  userId: number
+) =>
   prisma.comment.create({
     data: {
       ...data,
       article: { connect: { id: articleId } },
       user: { connect: { id: userId } },
-    }
+    },
   });
 
-export const findComments = (articleId: number, cursor: number, limit: number) =>
+export const findComments = (
+  articleId: number,
+  cursor: number,
+  limit: number
+) =>
   prisma.comment.findMany({
     where: { articleId },
     cursor: cursor ? { id: cursor } : undefined,
@@ -79,5 +89,4 @@ export const createLike = (articleId: number, userId: number) =>
 export const findLike = (articleId: number, userId: number) =>
   prisma.like.findFirst({ where: { articleId, userId } });
 
-export const deleteLike = (id: number) =>
-  prisma.like.delete({ where: { id } });
+export const deleteLike = (id: number) => prisma.like.delete({ where: { id } });

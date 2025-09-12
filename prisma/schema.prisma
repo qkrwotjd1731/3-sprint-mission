@@ -48,18 +48,19 @@ model Comment {
 }
 
 model User {
-  id           Int       @id @default(autoincrement())
-  email        String    @unique
-  nickname     String
-  image        String?
-  password     String
-  refreshToken String?
-  products     Product[]
-  articles     Article[]
-  comments     Comment[]
-  likes        Like[]
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id            Int            @id @default(autoincrement())
+  email         String         @unique
+  nickname      String
+  image         String?
+  password      String
+  refreshToken  String?
+  products      Product[]
+  articles      Article[]
+  comments      Comment[]
+  likes         Like[]
+  notifications Notification[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 }
 
 model Like {
@@ -75,4 +76,19 @@ model Like {
 
   @@unique([userId, productId])
   @@unique([userId, articleId])
+}
+
+model Notification {
+  id        Int              @id @default(autoincrement())
+  type      NotificationType
+  message   String
+  isRead    Boolean          @default(false)
+  userId    Int
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime         @default(now())
+}
+
+enum NotificationType {
+  PRICE_CHANGE
+  COMMENT
 }
