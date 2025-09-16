@@ -1,9 +1,9 @@
-import * as notificationRepository from '../repositories/notificationRepository';
-import { io } from '../server';
+import * as notificationRepository from "../repositories/notificationRepository";
+import { io } from "../server";
 import {
   Notification,
   CreateNotificationDto,
-} from '../types/notificationTypes';
+} from "../types/notificationTypes";
 
 // 알림 생성
 export const createNotification = async (
@@ -11,7 +11,7 @@ export const createNotification = async (
 ): Promise<Notification> => {
   const notification = await notificationRepository.create(data);
 
-  io.to(notification.userId.toString()).emit('notification', notification);
+  io.to(notification.userId.toString()).emit("notification", notification);
   return notification;
 };
 
@@ -19,15 +19,15 @@ export const createNotification = async (
 export const getNotificationList = async (
   userId: number
 ): Promise<Notification[]> => {
-  return await notificationRepository.findByUserId(userId);
+  return notificationRepository.findByUserId(userId);
 };
 
 // 알림 미확인 개수 조회
 export const getUnreadCount = async (userId: number): Promise<number> => {
-  return await notificationRepository.countUnread(userId);
+  return notificationRepository.countUnread(userId);
 };
 
 // 알림 읽음 처리
 export const readNotification = async (id: number): Promise<Notification> => {
-  return await notificationRepository.markAsRead(id);
+  return notificationRepository.markAsRead(id);
 };
