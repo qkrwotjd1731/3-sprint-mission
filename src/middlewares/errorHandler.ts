@@ -1,5 +1,5 @@
 import { StructError } from 'superstruct';
-import { 
+import {
   PrismaClientValidationError,
   PrismaClientKnownRequestError,
 } from '@prisma/client/runtime/library';
@@ -9,7 +9,7 @@ import type { ErrorRequestHandler } from 'express';
 export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   // 커스텀 HTTP 에러 (HttpError로 생성된 에러)
   if (err instanceof HttpError) {
-    return res.status(err.code).json({ 
+    return res.status(err.code).json({
       message: err.message,
       data: err.data,
     });
@@ -52,4 +52,4 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
   // 기본 서버 에러
   return res.status(500).json({ message: 'Internal server error.' });
-} 
+};

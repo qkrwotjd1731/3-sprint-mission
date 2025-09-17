@@ -1,9 +1,9 @@
-import * as notificationRepository from "../repositories/notificationRepository";
-import { io } from "../server";
+import * as notificationRepository from '../repositories/notificationRepository';
+import { io } from '../socket';
 import {
   Notification,
   CreateNotificationDto,
-} from "../types/notificationTypes";
+} from '../types/notificationTypes';
 
 // 알림 생성
 export const createNotification = async (
@@ -11,7 +11,7 @@ export const createNotification = async (
 ): Promise<Notification> => {
   const notification = await notificationRepository.create(data);
 
-  io.to(notification.userId.toString()).emit("notification", notification);
+  io.to(notification.userId.toString()).emit('notification', notification);
   return notification;
 };
 

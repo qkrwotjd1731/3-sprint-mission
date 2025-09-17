@@ -5,9 +5,7 @@ import { JWT_SECRET } from '../lib/constants';
 export const socketAuth = (socket: Socket, next: (err?: Error) => void) => {
   try {
     // Postman WebSocket 테스트를 위해 headers 방식 사용
-    const authHeader = socket.handshake.headers.authorization as
-      | string
-      | undefined;
+    const authHeader = socket.handshake.headers.authorization as string | undefined;
     const token = authHeader?.split(' ')[1];
     console.log(`🔑 Auth Token from client: ${token}`);
 

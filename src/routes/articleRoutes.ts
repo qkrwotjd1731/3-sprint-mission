@@ -9,21 +9,34 @@ import { ResourceType } from '../types/authTypes';
 
 const articleRouter = Router();
 
-articleRouter.route('/')
+articleRouter
+  .route('/')
   .post(validateCreateArticle, verifyAccessToken, asyncHandler(articleController.createArticle))
   .get(optionalAuth, validateOffsetParams, asyncHandler(articleController.getArticleList));
 
-articleRouter.route('/:id')
+articleRouter
+  .route('/:id')
   .get(optionalAuth, asyncHandler(articleController.getArticle))
-  .patch(validateUpdateArticle, verifyAccessToken, verifyResourceAuth(ResourceType.Article), asyncHandler(articleController.updateArticle))
-  .delete(verifyAccessToken, verifyResourceAuth(ResourceType.Article), asyncHandler(articleController.deleteArticle));
+  .patch(
+    validateUpdateArticle,
+    verifyAccessToken,
+    verifyResourceAuth(ResourceType.Article),
+    asyncHandler(articleController.updateArticle),
+  )
+  .delete(
+    verifyAccessToken,
+    verifyResourceAuth(ResourceType.Article),
+    asyncHandler(articleController.deleteArticle),
+  );
 
-articleRouter.route('/:id/comments')
+articleRouter
+  .route('/:id/comments')
   .post(validateCreateComment, verifyAccessToken, asyncHandler(articleController.createComment))
   .get(validateCursorParams, asyncHandler(articleController.getCommentList));
 
-articleRouter.route('/:id/likes')
+articleRouter
+  .route('/:id/likes')
   .post(verifyAccessToken, asyncHandler(articleController.createLike))
   .delete(verifyAccessToken, asyncHandler(articleController.deleteLike));
 
-export default articleRouter; 
+export default articleRouter;

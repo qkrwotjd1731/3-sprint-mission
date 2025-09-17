@@ -46,13 +46,9 @@ export const getArticleList: RequestHandler = async (req, res) => {
   const query = req.validatedQuery as OffsetQueryDto;
   const userId = req.user?.id;
 
-  const { articles, totalCount } = await ArticleService.getArticleList(
-    query,
-    userId
-  );
+  const { articles, totalCount } = await ArticleService.getArticleList(query, userId);
 
-  const nextOffset =
-    articles.length === query.limit ? query.offset + articles.length : null;
+  const nextOffset = articles.length === query.limit ? query.offset + articles.length : null;
 
   res.status(200).json({ articles, totalCount, nextOffset });
 };
@@ -63,11 +59,7 @@ export const createComment: RequestHandler = async (req, res) => {
   const userId = req.user!.id;
   const data: CreateCommentDto = req.body;
 
-  const createdComment = await ArticleService.createComment(
-    data,
-    articleId,
-    userId
-  );
+  const createdComment = await ArticleService.createComment(data, articleId, userId);
   res.status(201).json(createdComment);
 };
 
@@ -76,13 +68,9 @@ export const getCommentList: RequestHandler = async (req, res) => {
   const articleId = parseInt(req.params.id, 10);
   const query = req.validatedQuery as CursorQueryDto;
 
-  const { comments, totalCount } = await ArticleService.getCommentList(
-    articleId,
-    query
-  );
+  const { comments, totalCount } = await ArticleService.getCommentList(articleId, query);
 
-  const nextCursor =
-    comments.length === query.limit ? comments[comments.length - 1].id : null;
+  const nextCursor = comments.length === query.limit ? comments[comments.length - 1].id : null;
 
   res.status(200).json({ comments, totalCount, nextCursor });
 };

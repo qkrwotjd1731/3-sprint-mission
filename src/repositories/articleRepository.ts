@@ -3,14 +3,11 @@ import { OrderByType } from '../types/queryTypes';
 import type { CreateArticleDto, UpdateArticleDto } from '../types/articleTypes';
 import type { CreateCommentDto } from '../types/commentTypes';
 
-export const create = (data: CreateArticleDto) =>
-  prisma.article.create({ data });
+export const create = (data: CreateArticleDto) => prisma.article.create({ data });
 
-export const findById = (id: number) =>
-  prisma.article.findUnique({ where: { id } });
+export const findById = (id: number) => prisma.article.findUnique({ where: { id } });
 
-export const findLikes = (id: number) =>
-  prisma.like.findMany({ where: { articleId: id } });
+export const findLikes = (id: number) => prisma.like.findMany({ where: { articleId: id } });
 
 export const update = (id: number, data: UpdateArticleDto) =>
   prisma.article.update({ where: { id }, data });
@@ -38,12 +35,7 @@ const parseOrderBy = (orderBy?: OrderByType) => {
   }
 };
 
-export const findMany = (
-  offset: number,
-  limit: number,
-  orderBy?: OrderByType,
-  keyword?: string
-) =>
+export const findMany = (offset: number, limit: number, orderBy?: OrderByType, keyword?: string) =>
   prisma.article.findMany({
     where: where(keyword),
     orderBy: parseOrderBy(orderBy),
@@ -51,14 +43,9 @@ export const findMany = (
     take: limit,
   });
 
-export const countArticles = (keyword?: string) =>
-  prisma.article.count({ where: where(keyword) });
+export const countArticles = (keyword?: string) => prisma.article.count({ where: where(keyword) });
 
-export const createComment = (
-  data: CreateCommentDto,
-  articleId: number,
-  userId: number
-) =>
+export const createComment = (data: CreateCommentDto, articleId: number, userId: number) =>
   prisma.comment.create({
     data: {
       ...data,
@@ -67,11 +54,7 @@ export const createComment = (
     },
   });
 
-export const findComments = (
-  articleId: number,
-  cursor: number,
-  limit: number
-) =>
+export const findComments = (articleId: number, cursor: number, limit: number) =>
   prisma.comment.findMany({
     where: { articleId },
     cursor: cursor ? { id: cursor } : undefined,
@@ -80,8 +63,7 @@ export const findComments = (
     orderBy: { id: 'asc' },
   });
 
-export const countComments = (articleId: number) =>
-  prisma.comment.count({ where: { articleId } });
+export const countComments = (articleId: number) => prisma.comment.count({ where: { articleId } });
 
 export const createLike = (articleId: number, userId: number) =>
   prisma.like.create({ data: { articleId, userId } });

@@ -8,7 +8,7 @@ export const createUser: RequestHandler = async (req, res) => {
 
   const user = await authService.createUser(data);
   res.status(201).json(user);
-}
+};
 
 // 로그인
 export const login: RequestHandler = async (req, res) => {
@@ -24,7 +24,7 @@ export const login: RequestHandler = async (req, res) => {
   });
 
   res.status(200).json({ accessToken });
-}
+};
 
 // 로그아웃
 export const logout: RequestHandler = async (req, res) => {
@@ -40,7 +40,7 @@ export const logout: RequestHandler = async (req, res) => {
   });
 
   res.status(200).json({ message: 'Logout successfully' });
-}
+};
 
 // 토큰 갱신
 export const refreshToken: RequestHandler = async (req, res) => {
@@ -54,6 +54,6 @@ export const refreshToken: RequestHandler = async (req, res) => {
     sameSite: 'lax',
     secure: false,
   });
-  
+
   res.status(200).json({ accessToken });
-}
+};

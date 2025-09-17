@@ -15,7 +15,7 @@ export const createUser = async (data: CreateUserDto): Promise<UserResponseDto> 
 
   const user = await authRepository.create(email, nickname, hashedPassword);
   return filterSensitiveUserData(user);
-}
+};
 
 // 로그인
 export const login = async (data: LoginDto): Promise<TokenDto> => {
@@ -25,14 +25,14 @@ export const login = async (data: LoginDto): Promise<TokenDto> => {
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) throw new HttpError('Unauthorized', 401);
-  
+
   const accessToken = createToken(user);
   const refreshToken = createToken(user, 'refresh');
 
   await authRepository.saveRefreshToken(user.id, refreshToken);
 
   return { accessToken, refreshToken };
-}
+};
 
 // 로그아웃
 export const logout = async (id: number): Promise<void> => {
@@ -42,7 +42,7 @@ export const logout = async (id: number): Promise<void> => {
   if (!user.refreshToken) throw new HttpError('Already logged out', 401);
 
   await authRepository.clearRefreshToken(id);
-}
+};
 
 // 토큰 갱신
 export const refreshToken = async (id: number): Promise<TokenDto> => {
@@ -55,4 +55,4 @@ export const refreshToken = async (id: number): Promise<TokenDto> => {
   await authRepository.saveRefreshToken(id, newRefreshToken);
 
   return { accessToken, refreshToken: newRefreshToken };
-}
+};

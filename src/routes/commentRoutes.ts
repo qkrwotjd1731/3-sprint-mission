@@ -7,8 +7,18 @@ import { ResourceType } from '../types/authTypes';
 
 const commentRouter = Router();
 
-commentRouter.route('/:id')
-  .patch(validateUpdateComment, verifyAccessToken, verifyResourceAuth(ResourceType.Comment), asyncHandler(commentController.updateComment))
-  .delete(verifyAccessToken, verifyResourceAuth(ResourceType.Comment), asyncHandler(commentController.deleteComment));
+commentRouter
+  .route('/:id')
+  .patch(
+    validateUpdateComment,
+    verifyAccessToken,
+    verifyResourceAuth(ResourceType.Comment),
+    asyncHandler(commentController.updateComment),
+  )
+  .delete(
+    verifyAccessToken,
+    verifyResourceAuth(ResourceType.Comment),
+    asyncHandler(commentController.deleteComment),
+  );
 
-export default commentRouter; 
+export default commentRouter;

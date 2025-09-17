@@ -27,9 +27,7 @@ export const verifyRefreshToken = expressjwt({
   getToken: (req) => req.cookies.refreshToken,
 });
 
-export const verifyResourceAuth = (
-  resourceType: ResourceType
-): RequestHandler => {
+export const verifyResourceAuth = (resourceType: ResourceType): RequestHandler => {
   return async (req, res, next) => {
     const id = parseInt(req.params.id);
     try {

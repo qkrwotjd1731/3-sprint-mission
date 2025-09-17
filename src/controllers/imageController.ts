@@ -10,8 +10,8 @@ export const uploadImage: RequestHandler = async (req, res) => {
   }
 
   const result = await cloudinary.uploader.upload(filePath, {
-     folder: 'sprint_mission'
+    folder: 'sprint_mission',
   });
 
   return res.json({ imagePath: result.secure_url });
-}
+};

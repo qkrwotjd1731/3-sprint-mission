@@ -11,4 +11,4 @@ authRouter.post('/login', validateLogin, asyncHandler(authController.login));
 authRouter.post('/logout', verifyAccessToken, asyncHandler(authController.logout));
 authRouter.post('/refresh', verifyRefreshToken, asyncHandler(authController.refreshToken));
 
-export default authRouter; 
+export default authRouter;

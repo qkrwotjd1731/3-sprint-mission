@@ -9,7 +9,7 @@ export const getMe: RequestHandler = async (req, res) => {
 
   const user = await UserService.getUser(id);
   res.status(200).json(user);
-}
+};
 
 // 내 정보 수정
 export const updateMe: RequestHandler = async (req, res) => {
@@ -18,7 +18,7 @@ export const updateMe: RequestHandler = async (req, res) => {
 
   const updatedUser = await UserService.updateUser(id, data);
   res.status(200).json(updatedUser);
-}
+};
 
 // 비밀번호 변경
 export const updatePassword: RequestHandler = async (req, res) => {
@@ -27,7 +27,7 @@ export const updatePassword: RequestHandler = async (req, res) => {
 
   await UserService.updatePassword(id, data);
   res.status(200).json({ message: 'Password updated successfully' });
-}
+};
 
 // 내 상품 목록 조회
 export const getMyProductList: RequestHandler = async (req, res) => {
@@ -36,12 +36,10 @@ export const getMyProductList: RequestHandler = async (req, res) => {
 
   const { products, totalCount } = await UserService.getUserProductList(userId, query);
 
-  const nextOffset = products.length === query.limit
-    ? query.offset + products.length 
-    : null;
+  const nextOffset = products.length === query.limit ? query.offset + products.length : null;
 
   res.status(200).json({ products, totalCount, nextOffset });
-}
+};
 
 // 내 좋아요 상품 목록 조회
 export const getMyLikeProductList: RequestHandler = async (req, res) => {
@@ -50,9 +48,7 @@ export const getMyLikeProductList: RequestHandler = async (req, res) => {
 
   const { products, totalCount } = await UserService.getUserLikeProductList(userId, query);
 
-  const nextOffset = products.length === query.limit
-    ? query.offset + products.length 
-    : null;
+  const nextOffset = products.length === query.limit ? query.offset + products.length : null;
 
   res.status(200).json({ products, totalCount, nextOffset });
-}
+};

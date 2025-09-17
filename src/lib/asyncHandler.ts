@@ -9,4 +9,4 @@ export const asyncHandler = (handler: RequestHandler): RequestHandler => {
       next(err);
     }
   };
-}
+};

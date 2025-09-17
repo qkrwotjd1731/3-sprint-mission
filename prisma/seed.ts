@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
-const main = async () => {
+const seed = async () => {
   await prisma.like.deleteMany();
   await prisma.comment.deleteMany();
   await prisma.article.deleteMany();
@@ -17,7 +17,7 @@ const main = async () => {
     USERS.map(async (user) => ({
       ...user,
       password: await bcrypt.hash(user.password, 10),
-    }))
+    })),
   );
 
   await prisma.user.createMany({
@@ -46,7 +46,7 @@ const main = async () => {
   });
 };
 
-main()
+seed()
   .then(async () => {
     await prisma.$disconnect();
   })
@@ -55,3 +55,5 @@ main()
     await prisma.$disconnect();
     process.exit(1);
   });
+
+export default seed;

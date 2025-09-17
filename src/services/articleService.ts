@@ -9,24 +9,16 @@ import type {
   ArticleWithLikesDto,
 } from '../types/articleTypes';
 import type { OffsetQueryDto, CursorQueryDto } from '../types/queryTypes';
-import type {
-  CreateCommentDto,
-  CommentResponseDto,
-} from '../types/commentTypes';
+import type { CreateCommentDto, CommentResponseDto } from '../types/commentTypes';
 import type { LikeResponseDto } from '../types/likeTypes';
 
 // 게시글 등록
-export const createArticle = async (
-  data: CreateArticleDto
-): Promise<ArticleResponseDto> => {
+export const createArticle = async (data: CreateArticleDto): Promise<ArticleResponseDto> => {
   return await articleRepository.create(data);
 };
 
 // 게시글 조회
-export const getArticle = async (
-  id: number,
-  userId?: number
-): Promise<ArticleWithLikesDto> => {
+export const getArticle = async (id: number, userId?: number): Promise<ArticleWithLikesDto> => {
   const article = await articleRepository.findById(id);
   if (!article) {
     throw new HttpError('Article not found', 404);
@@ -44,7 +36,7 @@ export const getArticle = async (
 // 게시글 수정
 export const updateArticle = async (
   id: number,
-  data: UpdateArticleDto
+  data: UpdateArticleDto,
 ): Promise<ArticleResponseDto> => {
   return await articleRepository.update(id, data);
 };
@@ -57,7 +49,7 @@ export const deleteArticle = async (id: number): Promise<void> => {
 // 게시글 목록 조회
 export const getArticleList = async (
   query: OffsetQueryDto,
-  userId?: number
+  userId?: number,
 ): Promise<{
   articles: ArticleWithLikesDto[];
   totalCount: number;
@@ -77,7 +69,7 @@ export const getArticleList = async (
         likesCount: likes.length,
         isLiked: userId ? likes.some((like) => like.userId === userId) : false,
       };
-    })
+    }),
   );
 
   return { articles: articlesWithLikes, totalCount };
@@ -87,18 +79,14 @@ export const getArticleList = async (
 export const createComment = async (
   data: CreateCommentDto,
   articleId: number,
-  userId: number
+  userId: number,
 ): Promise<CommentResponseDto> => {
   const article = await articleRepository.findById(articleId);
   if (!article) {
     throw new HttpError('Article not found', 404);
   }
 
-  const comment = await articleRepository.createComment(
-    data,
-    articleId,
-    userId
-  );
+  const comment = await articleRepository.createComment(data, articleId, userId);
 
   if (article.userId !== userId) {
     await createNotification({
@@ -114,7 +102,7 @@ export const createComment = async (
 // 댓글 목록 조회
 export const getCommentList = async (
   articleId: number,
-  query: CursorQueryDto
+  query: CursorQueryDto,
 ): Promise<{
   comments: CommentResponseDto[];
   totalCount: number;
@@ -135,10 +123,7 @@ export const getCommentList = async (
 };
 
 // 좋아요 등록
-export const createLike = async (
-  articleId: number,
-  userId: number
-): Promise<LikeResponseDto> => {
+export const createLike = async (articleId: number, userId: number): Promise<LikeResponseDto> => {
   const article = await articleRepository.findById(articleId);
   if (!article) {
     throw new HttpError('Article not found', 404);
@@ -153,10 +138,7 @@ export const createLike = async (
 };
 
 // 좋아요 삭제
-export const deleteLike = async (
-  articleId: number,
-  userId: number
-): Promise<void> => {
+export const deleteLike = async (articleId: number, userId: number): Promise<void> => {
   const article = await articleRepository.findById(articleId);
   if (!article) {
     throw new HttpError('Article not found', 404);

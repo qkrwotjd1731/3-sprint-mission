@@ -14,7 +14,7 @@ export const updateComment: RequestHandler = async (req, res) => {
 // 댓글 삭제
 export const deleteComment: RequestHandler = async (req, res) => {
   const id = parseInt(req.params.id, 10);
-  
+
   await CommentService.deleteComment(id);
   res.sendStatus(204);
-}; 
+};

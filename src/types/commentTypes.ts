@@ -8,4 +8,4 @@ export interface CreateCommentDto {
 
 export interface UpdateCommentDto {
   content: string;
-} 
+}

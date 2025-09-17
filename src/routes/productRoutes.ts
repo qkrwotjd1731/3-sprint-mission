@@ -9,21 +9,34 @@ import { ResourceType } from '../types/authTypes';
 
 const productRouter = Router();
 
-productRouter.route('/')
+productRouter
+  .route('/')
   .post(validateCreateProduct, verifyAccessToken, asyncHandler(productController.createProduct))
   .get(optionalAuth, validateOffsetParams, asyncHandler(productController.getProductList));
 
-productRouter.route('/:id')
+productRouter
+  .route('/:id')
   .get(optionalAuth, asyncHandler(productController.getProduct))
-  .patch(validateUpdateProduct, verifyAccessToken, verifyResourceAuth(ResourceType.Product), asyncHandler(productController.updateProduct))
-  .delete(verifyAccessToken, verifyResourceAuth(ResourceType.Product), asyncHandler(productController.deleteProduct));
+  .patch(
+    validateUpdateProduct,
+    verifyAccessToken,
+    verifyResourceAuth(ResourceType.Product),
+    asyncHandler(productController.updateProduct),
+  )
+  .delete(
+    verifyAccessToken,
+    verifyResourceAuth(ResourceType.Product),
+    asyncHandler(productController.deleteProduct),
+  );
 
-productRouter.route('/:id/comments')
+productRouter
+  .route('/:id/comments')
   .post(validateCreateComment, verifyAccessToken, asyncHandler(productController.createComment))
   .get(validateCursorParams, asyncHandler(productController.getCommentList));
 
-productRouter.route('/:id/likes')
+productRouter
+  .route('/:id/likes')
   .post(verifyAccessToken, asyncHandler(productController.createLike))
   .delete(verifyAccessToken, asyncHandler(productController.deleteLike));
-  
-export default productRouter; 
+
+export default productRouter;

@@ -1,5 +1,5 @@
 export enum OrderByType {
-  Recent = 'recent'
+  Recent = 'recent',
 }
 
 export interface OffsetQueryReqDto {

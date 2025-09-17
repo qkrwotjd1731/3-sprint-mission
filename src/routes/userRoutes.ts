@@ -7,11 +7,27 @@ import { verifyAccessToken } from '../middlewares/auth';
 
 const userRouter = Router();
 
-userRouter.route('/me')
+userRouter
+  .route('/me')
   .get(verifyAccessToken, asyncHandler(userController.getMe))
   .patch(validateUpdateUser, verifyAccessToken, asyncHandler(userController.updateMe));
-userRouter.patch('/me/password', validateUpdatePassword, verifyAccessToken, asyncHandler(userController.updatePassword));
-userRouter.get('/me/products', validateOffsetParams, verifyAccessToken, asyncHandler(userController.getMyProductList));
-userRouter.get('/me/likes', validateOffsetParams, verifyAccessToken, asyncHandler(userController.getMyLikeProductList));
+userRouter.patch(
+  '/me/password',
+  validateUpdatePassword,
+  verifyAccessToken,
+  asyncHandler(userController.updatePassword),
+);
+userRouter.get(
+  '/me/products',
+  validateOffsetParams,
+  verifyAccessToken,
+  asyncHandler(userController.getMyProductList),
+);
+userRouter.get(
+  '/me/likes',
+  validateOffsetParams,
+  verifyAccessToken,
+  asyncHandler(userController.getMyLikeProductList),
+);
 
-export default userRouter; 
+export default userRouter;

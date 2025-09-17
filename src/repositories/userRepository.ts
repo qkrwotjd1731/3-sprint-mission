@@ -3,8 +3,7 @@ import { where, parseOrderBy } from './productRepository';
 import type { UpdateUserDto } from '../types/userTypes';
 import type { OrderByType } from '../types/queryTypes';
 
-export const findById = (id: number) =>
-  prisma.user.findUnique({ where: { id } });
+export const findById = (id: number) => prisma.user.findUnique({ where: { id } });
 
 export const updateUser = (id: number, data: UpdateUserDto) =>
   prisma.user.update({ where: { id }, data });
@@ -17,7 +16,7 @@ export const findProducts = (
   offset: number,
   limit: number,
   orderBy?: OrderByType,
-  keyword?: string
+  keyword?: string,
 ) =>
   prisma.product.findMany({
     skip: offset,
@@ -34,7 +33,7 @@ export const findLikeProducts = (
   offset: number,
   limit: number,
   orderBy?: OrderByType,
-  keyword?: string
+  keyword?: string,
 ) =>
   prisma.product.findMany({
     skip: offset,
