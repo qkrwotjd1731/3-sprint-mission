@@ -3,25 +3,25 @@ import * as userRepository from '../repositories/userRepository';
 import { findLikes } from '../repositories/productRepository';
 import { HttpError } from '../utils/httpError';
 import { filterSensitiveUserData } from '../utils/userUtils';
-import type { UserResponseDto, UpdateUserDto, UpdatePasswordDto } from '../types/userTypes';
-import type { ProductWithLikesDto } from '../types/productTypes';
+import type { UserResponseDTO, UpdateUserDTO, UpdatePasswordDTO } from '../types/userTypes';
+import type { ProductWithLikesDTO } from '../types/productTypes';
 import type { OffsetQueryDto } from '../types/queryTypes';
 
 // 유저 조회
-export const getUser = async (id: number): Promise<UserResponseDto> => {
+export const getUser = async (id: number): Promise<UserResponseDTO> => {
   const user = await userRepository.findById(id);
   if (!user) throw new HttpError('User not found', 404);
   return filterSensitiveUserData(user);
 };
 
 // 유저 수정
-export const updateUser = async (id: number, data: UpdateUserDto): Promise<UserResponseDto> => {
+export const updateUser = async (id: number, data: UpdateUserDTO): Promise<UserResponseDTO> => {
   const updatedUser = await userRepository.updateUser(id, data);
   return filterSensitiveUserData(updatedUser);
 };
 
 // 비밀번호 변경
-export const updatePassword = async (id: number, data: UpdatePasswordDto): Promise<void> => {
+export const updatePassword = async (id: number, data: UpdatePasswordDTO): Promise<void> => {
   const { currentPassword, newPassword } = data;
 
   const user = await userRepository.findById(id);
@@ -39,7 +39,7 @@ export const getUserProductList = async (
   userId: number,
   query: OffsetQueryDto,
 ): Promise<{
-  products: ProductWithLikesDto[];
+  products: ProductWithLikesDTO[];
   totalCount: number;
 }> => {
   const { offset, limit, orderBy, keyword } = query;
@@ -68,7 +68,7 @@ export const getUserLikeProductList = async (
   userId: number,
   query: OffsetQueryDto,
 ): Promise<{
-  products: ProductWithLikesDto[];
+  products: ProductWithLikesDTO[];
   totalCount: number;
 }> => {
   const { offset, limit, orderBy, keyword } = query;

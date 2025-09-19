@@ -2,13 +2,13 @@ import * as ProductService from '../services/productService';
 import { assert } from 'superstruct';
 import { idParamsStruct } from '../utils/structs';
 import type { RequestHandler } from 'express';
-import type { CreateProductDto, UpdateProductDto } from '../types/productTypes';
+import type { CreateProductDTO, UpdateProductDTO } from '../types/productTypes';
 import type { CreateCommentDto } from '../types/commentTypes';
 import type { OffsetQueryDto, CursorQueryDto } from '../types/queryTypes';
 
 // 상품 등록
 export const createProduct: RequestHandler = async (req, res) => {
-  const data: CreateProductDto = {
+  const data: CreateProductDTO = {
     ...req.body,
     userId: req.user!.id,
   };
@@ -31,7 +31,7 @@ export const getProduct: RequestHandler = async (req, res) => {
 export const updateProduct: RequestHandler = async (req, res) => {
   assert(req.params.id, idParamsStruct);
   const id = parseInt(req.params.id, 10);
-  const data: UpdateProductDto = req.body;
+  const data: UpdateProductDTO = req.body;
 
   const updatedProduct = await ProductService.updateProduct(id, data);
   res.status(200).json(updatedProduct);

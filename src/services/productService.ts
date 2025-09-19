@@ -1,24 +1,24 @@
 import * as productRepository from '../repositories/productRepository';
-import { createNotification } from './notificationService';
 import { HttpError } from '../utils/httpError';
+import { createNotification } from './notificationService';
 import { NotificationType } from '../generated/prisma';
 import type {
-  CreateProductDto,
-  UpdateProductDto,
-  ProductResponseDto,
-  ProductWithLikesDto,
+  Product,
+  CreateProductDTO,
+  UpdateProductDTO,
+  ProductWithLikesDTO,
 } from '../types/productTypes';
 import type { OffsetQueryDto, CursorQueryDto } from '../types/queryTypes';
-import type { CreateCommentDto, CommentResponseDto } from '../types/commentTypes';
-import type { LikeResponseDto } from '../types/likeTypes';
+import type { Comment, CreateCommentDTO } from '../types/commentTypes';
+import type { Like } from '../types/likeTypes';
 
 // 상품 등록
-export const createProduct = async (data: CreateProductDto): Promise<ProductResponseDto> => {
+export const createProduct = async (data: CreateProductDTO): Promise<Product> => {
   return await productRepository.create(data);
 };
 
 // 상품 조회
-export const getProduct = async (id: number, userId?: number): Promise<ProductWithLikesDto> => {
+export const getProduct = async (id: number, userId?: number): Promise<ProductWithLikesDTO> => {
   const product = await productRepository.findById(id);
   if (!product) {
     throw new HttpError('상품을 찾을 수 없습니다.', 404);
@@ -34,10 +34,7 @@ export const getProduct = async (id: number, userId?: number): Promise<ProductWi
 };
 
 // 상품 수정
-export const updateProduct = async (
-  id: number,
-  data: UpdateProductDto,
-): Promise<ProductResponseDto> => {
+export const updateProduct = async (id: number, data: UpdateProductDTO): Promise<Product> => {
   // verifyResourceAuth 미들웨어에서 상품 존재 여부를 확인
   const oldProduct = (await productRepository.findById(id))!;
   const updatedProduct = await productRepository.update(id, data);
@@ -68,7 +65,7 @@ export const getProductList = async (
   query: OffsetQueryDto,
   userId?: number,
 ): Promise<{
-  products: ProductWithLikesDto[];
+  products: ProductWithLikesDTO[];
   totalCount: number;
 }> => {
   const { offset, limit, orderBy, keyword } = query;
@@ -94,10 +91,10 @@ export const getProductList = async (
 
 // 댓글 등록
 export const createComment = async (
-  data: CreateCommentDto,
+  data: CreateCommentDTO,
   productId: number,
   userId: number,
-): Promise<CommentResponseDto> => {
+): Promise<Comment> => {
   const product = await productRepository.findById(productId);
   if (!product) {
     throw new HttpError('상품을 찾을 수 없습니다.', 404);
@@ -111,7 +108,7 @@ export const getCommentList = async (
   productId: number,
   query: CursorQueryDto,
 ): Promise<{
-  comments: CommentResponseDto[];
+  comments: Comment[];
   totalCount: number;
 }> => {
   const { cursor, limit } = query;
@@ -130,7 +127,7 @@ export const getCommentList = async (
 };
 
 // 좋아요 등록
-export const createLike = async (productId: number, userId: number): Promise<LikeResponseDto> => {
+export const createLike = async (productId: number, userId: number): Promise<Like> => {
   const product = await productRepository.findById(productId);
   if (!product) {
     throw new HttpError('상품을 찾을 수 없습니다.', 404);
@@ -138,7 +135,7 @@ export const createLike = async (productId: number, userId: number): Promise<Lik
 
   const existingLike = await productRepository.findLike(productId, userId);
   if (existingLike) {
-    throw new HttpError('이미 좋아요를 누른 상태입니다.', 400);
+    throw new HttpError('이미 좋아요를 누른 상태입니다.', 409);
   }
 
   return await productRepository.createLike(productId, userId);

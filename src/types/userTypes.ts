@@ -1,14 +1,24 @@
-import { User } from '../generated/prisma';
+// 타입 정의
+export interface User {
+  id: number;
+  email: string;
+  nickname: string;
+  password: string;
+  image: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-export type UserResponseDto = Omit<User, 'password' | 'refreshToken'>;
+// DTO
+export type UserResponseDTO = Omit<User, 'password'>;
 
-export interface UpdateUserDto {
+export interface UpdateUserDTO {
   nickname?: string;
   email?: string;
   image?: string;
 }
 
-export interface UpdatePasswordDto {
+export interface UpdatePasswordDTO {
   currentPassword: string;
   newPassword: string;
 }

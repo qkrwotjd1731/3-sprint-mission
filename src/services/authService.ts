@@ -2,11 +2,11 @@ import bcrypt from 'bcrypt';
 import * as authRepository from '../repositories/authRepository';
 import { HttpError } from '../utils/httpError';
 import { createToken, filterSensitiveUserData } from '../utils/userUtils';
-import type { CreateUserDto, LoginDto, TokenDto } from '../types/authTypes';
-import type { UserResponseDto } from '../types/userTypes';
+import type { CreateUserDTO, LoginDTO, TokenDTO } from '../types/authTypes';
+import type { UserResponseDTO } from '../types/userTypes';
 
 // 유저 생성
-export const createUser = async (data: CreateUserDto): Promise<UserResponseDto> => {
+export const createUser = async (data: CreateUserDTO): Promise<UserResponseDTO> => {
   const { email, nickname, password } = data;
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -18,7 +18,7 @@ export const createUser = async (data: CreateUserDto): Promise<UserResponseDto> 
 };
 
 // 로그인
-export const login = async (data: LoginDto): Promise<TokenDto> => {
+export const login = async (data: LoginDTO): Promise<TokenDTO> => {
   const { email, password } = data;
   const user = await authRepository.findByEmail(email);
   if (!user) throw new HttpError('사용자를 찾을 수 없습니다.', 404);
@@ -45,7 +45,7 @@ export const logout = async (id: number): Promise<void> => {
 };
 
 // 토큰 갱신
-export const refreshToken = async (id: number): Promise<TokenDto> => {
+export const refreshToken = async (id: number): Promise<TokenDTO> => {
   const user = await authRepository.findById(id);
   if (!user) throw new HttpError('사용자를 찾을 수 없습니다.', 404);
 

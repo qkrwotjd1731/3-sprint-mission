@@ -1,23 +1,21 @@
-import { User } from '../generated/prisma';
-
 export enum ResourceType {
   Product = 'product',
   Article = 'article',
   Comment = 'comment',
 }
 
-export interface CreateUserDto {
+export interface CreateUserDTO {
   email: string;
   nickname: string;
   password: string;
 }
 
-export interface LoginDto {
+export interface LoginDTO {
   email: string;
   password: string;
 }
 
-export interface TokenDto {
+export interface TokenDTO {
   accessToken: string;
   refreshToken: string;
 }

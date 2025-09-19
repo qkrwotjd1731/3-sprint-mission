@@ -1,5 +1,6 @@
 import { NotificationType } from '../generated/prisma';
 
+// 타입 정의
 export interface Notification {
   id: number;
   userId: number;
@@ -7,9 +8,11 @@ export interface Notification {
   message: string;
   isRead: boolean;
   createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface CreateNotificationDto {
+// DTO
+export interface CreateNotificationDTO {
   userId: number;
   type: NotificationType;
   message: string;

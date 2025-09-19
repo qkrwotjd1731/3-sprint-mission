@@ -1,7 +1,7 @@
 import { prisma } from '../lib/prisma';
-import type { CreateNotificationDto } from '../types/notificationTypes';
+import type { CreateNotificationDTO } from '../types/notificationTypes';
 
-export const create = (data: CreateNotificationDto) => prisma.notification.create({ data });
+export const create = (data: CreateNotificationDTO) => prisma.notification.create({ data });
 
 export const findByUserId = (userId: number) => prisma.notification.findMany({ where: { userId } });
 

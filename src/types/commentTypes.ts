@@ -1,11 +1,15 @@
-import { Comment } from '../generated/prisma';
-
-export type CommentResponseDto = Comment;
-
-export interface CreateCommentDto {
+// 타입 정의
+export interface Comment {
+  id: number;
   content: string;
+  userId: number;
+  productId: number | null;
+  articleId: number | null;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface UpdateCommentDto {
-  content: string;
-}
+// DTO
+export type CreateCommentDTO = Pick<Comment, 'content'>;
+
+export type UpdateCommentDTO = Pick<Comment, 'content'>;

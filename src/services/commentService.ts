@@ -1,10 +1,7 @@
-import type { UpdateCommentDto, CommentResponseDto } from '../types/commentTypes';
 import * as commentRepository from '../repositories/commentRepository';
+import type { Comment, UpdateCommentDTO } from '../types/commentTypes';
 
-export const updateComment = async (
-  id: number,
-  data: UpdateCommentDto,
-): Promise<CommentResponseDto> => {
+export const updateComment = async (id: number, data: UpdateCommentDTO): Promise<Comment> => {
   return await commentRepository.update(id, data);
 };
 

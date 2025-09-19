@@ -1,12 +1,19 @@
-import { Article } from '../generated/prisma';
+// 타입 정의
+export interface Article {
+  id: number;
+  title: string;
+  content: string;
+  userId: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-export type ArticleResponseDto = Article;
+// DTO
+export type CreateArticleDTO = Omit<Article, 'id' | 'createdAt' | 'updatedAt'>;
 
-export type CreateArticleDto = Omit<Article, 'id' | 'createdAt' | 'updatedAt'>;
+export type UpdateArticleDTO = Partial<CreateArticleDTO> & { userId: number };
 
-export type UpdateArticleDto = Partial<Omit<Article, 'id' | 'createdAt' | 'updatedAt'>>;
-
-export interface ArticleWithLikesDto extends ArticleResponseDto {
+export interface ArticleWithLikesDTO extends Article {
   likesCount: number;
   isLiked: boolean;
 }

@@ -1,12 +1,21 @@
-import { Product } from '../generated/prisma';
+// 타입 정의
+export interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  tags: string[];
+  userId: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-export type ProductResponseDto = Product;
+// DTO
+export type CreateProductDTO = Omit<Product, 'id' | 'createdAt' | 'updatedAt'>;
 
-export type CreateProductDto = Omit<Product, 'id' | 'createdAt' | 'updatedAt'>;
+export type UpdateProductDTO = Partial<CreateProductDTO> & { userId: number };
 
-export type UpdateProductDto = Partial<Omit<Product, 'id' | 'createdAt' | 'updatedAt'>>;
-
-export interface ProductWithLikesDto extends ProductResponseDto {
+export interface ProductWithLikesDTO extends Product {
   likesCount: number;
   isLiked: boolean;
 }
