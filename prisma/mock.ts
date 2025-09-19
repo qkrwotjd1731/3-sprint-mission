@@ -4,7 +4,7 @@ export const PRODUCTS = [
     description:
       '랑방의 향기로운 샤워젤 세트입니다. 피부를 부드럽게 케어하며, 향기로운 샤워 시간을 선사합니다.',
     price: 38000,
-    tags: ['BEAUTY'],
+    tags: ['뷰티'],
     userId: 1,
     createdAt: '2023-07-14T10:00:00Z',
     updatedAt: '2023-07-14T10:00:00Z',
@@ -14,7 +14,7 @@ export const PRODUCTS = [
     description:
       '나이키의 테크조그거팬츠입니다. 운동이나 일상 생활에서 편안하게 착용할 수 있으며, 스타일과 기능을 모두 갖추고 있습니다.',
     price: 75000,
-    tags: ['FASHION', 'SPORTS'],
+    tags: ['패션', '스포츠'],
     userId: 2,
     createdAt: '2023-07-14T10:30:00Z',
     updatedAt: '2023-07-14T10:30:00Z',
@@ -24,7 +24,7 @@ export const PRODUCTS = [
     description:
       'Apple의 AirPods 프로는 탁월한 사운드 품질과 노이즈 캔슬링 기능을 갖춘 무선 이어폰입니다. 간편한 터치 컨트롤과 긴 배터리 수명을 제공합니다.',
     price: 320000,
-    tags: ['ELECTRONICS', 'AUDIO'],
+    tags: ['전자제품', '오디오'],
     userId: 3,
     createdAt: '2023-07-14T11:00:00Z',
     updatedAt: '2023-07-14T11:00:00Z',
@@ -34,7 +34,7 @@ export const PRODUCTS = [
     description:
       '베르사체의 화장품 세트로 화려하고 특별한 분위기를 연출할 수 있습니다. 다양한 아이템으로 구성되어 있으며, 고품질 성분을 사용하여 피부에 부드럽고 안정적인 관리를 제공합니다.',
     price: 65000,
-    tags: ['BEAUTY', 'LUXURY'],
+    tags: ['뷰티', '럭셔리'],
     userId: 1,
     createdAt: '2023-07-14T11:30:00Z',
     updatedAt: '2023-07-14T11:30:00Z',
@@ -44,7 +44,7 @@ export const PRODUCTS = [
     description:
       '아이언맨 디자인으로 유명한 골프 클럽 세트입니다. 고품질 소재와 최신 기술로 제작되어 정밀한 스윙과 멋진 샷을 도와줍니다.',
     price: 850000,
-    tags: ['SPORTS'],
+    tags: ['스포츠'],
     userId: 2,
     createdAt: '2023-07-14T12:00:00Z',
     updatedAt: '2023-07-14T12:00:00Z',
@@ -54,7 +54,7 @@ export const PRODUCTS = [
     description:
       '삼성 갤럭시 S21 울트라 5G 스마트폰은 최신 플래그십 기술을 갖춘 뛰어난 성능을 제공합니다. 화려한 디스플레이, 고화질 카메라, 빠른 프로세서 등으로 사용자들에게 탁월한 사용자 경험을 선사합니다.',
     price: 1249000,
-    tags: ['ELECTRONICS'],
+    tags: ['전자제품'],
     userId: 3,
     createdAt: '2023-07-14T14:00:00Z',
     updatedAt: '2023-07-14T14:00:00Z',
@@ -64,7 +64,7 @@ export const PRODUCTS = [
     description:
       'LG 그램 14형 노트북은 가볍고 휴대성이 뛰어난 디자인과 우수한 성능을 제공합니다. 긴 배터리 수명과 선명한 디스플레이로 사용자들에게 편리한 사용자 경험을 선사합니다.',
     price: 1399000,
-    tags: ['ELECTRONICS'],
+    tags: ['전자제품'],
     userId: 3,
     createdAt: '2023-07-14T14:30:00Z',
     updatedAt: '2023-07-14T14:30:00Z',
@@ -74,7 +74,7 @@ export const PRODUCTS = [
     description:
       '나이키 에어맥스 270 운동화는 경량 디자인과 탁월한 고무 밑창으로 편안한 착용감과 훌륭한 트랙션을 제공합니다. 스포티한 디자인과 풍부한 컬러로 다양한 스타일에 어울립니다.',
     price: 169000,
-    tags: ['FASHION'],
+    tags: ['패션'],
     userId: 2,
     createdAt: '2023-07-14T15:00:00Z',
     updatedAt: '2023-07-14T15:00:00Z',
@@ -84,7 +84,7 @@ export const PRODUCTS = [
     description:
       '애플 맥북 프로 13형 노트북은 탁월한 성능과 우수한 디스플레이 품질로 유명합니다. 가벼운 무게와 편리한 사용성으로 사용자들에게 탁월한 컴퓨팅 경험을 제공합니다.',
     price: 1999000,
-    tags: ['ELECTRONICS'],
+    tags: ['전자제품'],
     userId: 3,
     createdAt: '2023-07-14T15:30:00Z',
     updatedAt: '2023-07-14T15:30:00Z',
@@ -94,7 +94,7 @@ export const PRODUCTS = [
     description:
       '랑방 매트 틴트는 풍부한 컬러와 지속력을 제공하는 제품입니다. 입술에 부드럽게 발리며 오래 지속되는 매트한 마무리를 선사합니다.',
     price: 35000,
-    tags: ['BEAUTY'],
+    tags: ['뷰티'],
     userId: 1,
     createdAt: '2023-07-14T16:00:00Z',
     updatedAt: '2023-07-14T16:00:00Z',

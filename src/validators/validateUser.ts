@@ -2,15 +2,17 @@ import { assert, object, partial, size, string } from 'superstruct';
 import { Email, Url } from '../utils/structs';
 import type { RequestHandler } from 'express';
 
-const UpdateUserStruct = partial(object({
-  email: Email,
-  nickname: size(string(), 1, 30),
-  image: Url,
-}));
+const UpdateUserStruct = partial(
+  object({
+    email: Email,
+    nickname: size(string(), 1, 30),
+    image: Url,
+  }),
+);
 
 const UpdatePasswordStruct = object({
-  currentPassword: size(string(), 1, 30),
-  newPassword: size(string(), 1, 30),
+  currentPassword: size(string(), 8, 30),
+  newPassword: size(string(), 8, 30),
 });
 
 export const validateUpdateUser: RequestHandler = (req, res, next) => {
@@ -20,7 +22,7 @@ export const validateUpdateUser: RequestHandler = (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
+};
 
 export const validateUpdatePassword: RequestHandler = (req, res, next) => {
   try {
@@ -29,4 +31,4 @@ export const validateUpdatePassword: RequestHandler = (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
+};

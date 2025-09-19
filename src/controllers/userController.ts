@@ -26,7 +26,7 @@ export const updatePassword: RequestHandler = async (req, res) => {
   const data: UpdatePasswordDto = req.body;
 
   await UserService.updatePassword(id, data);
-  res.status(200).json({ message: 'Password updated successfully' });
+  res.status(200).json({ message: '비밀번호가 성공적으로 변경되었습니다.' });
 };
 
 // 내 상품 목록 조회

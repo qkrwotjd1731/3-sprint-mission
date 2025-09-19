@@ -11,7 +11,7 @@ export const createUser = async (data: CreateUserDto): Promise<UserResponseDto> 
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const existingUser = await authRepository.findByEmail(email);
-  if (existingUser) throw new HttpError('User already exists', 422, { email });
+  if (existingUser) throw new HttpError('이미 존재하는 사용자입니다.', 422, { email });
 
   const user = await authRepository.create(email, nickname, hashedPassword);
   return filterSensitiveUserData(user);
@@ -21,10 +21,10 @@ export const createUser = async (data: CreateUserDto): Promise<UserResponseDto> 
 export const login = async (data: LoginDto): Promise<TokenDto> => {
   const { email, password } = data;
   const user = await authRepository.findByEmail(email);
-  if (!user) throw new HttpError('User not found', 404);
+  if (!user) throw new HttpError('사용자를 찾을 수 없습니다.', 404);
 
   const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) throw new HttpError('Unauthorized', 401);
+  if (!isMatch) throw new HttpError('인증에 실패했습니다.', 401);
 
   const accessToken = createToken(user);
   const refreshToken = createToken(user, 'refresh');
@@ -37,9 +37,9 @@ export const login = async (data: LoginDto): Promise<TokenDto> => {
 // 로그아웃
 export const logout = async (id: number): Promise<void> => {
   const user = await authRepository.findById(id);
-  if (!user) throw new HttpError('User not found', 404);
+  if (!user) throw new HttpError('사용자를 찾을 수 없습니다.', 404);
 
-  if (!user.refreshToken) throw new HttpError('Already logged out', 401);
+  if (!user.refreshToken) throw new HttpError('이미 로그아웃된 상태입니다.', 401);
 
   await authRepository.clearRefreshToken(id);
 };
@@ -47,7 +47,7 @@ export const logout = async (id: number): Promise<void> => {
 // 토큰 갱신
 export const refreshToken = async (id: number): Promise<TokenDto> => {
   const user = await authRepository.findById(id);
-  if (!user) throw new HttpError('User not found', 404);
+  if (!user) throw new HttpError('사용자를 찾을 수 없습니다.', 404);
 
   const accessToken = createToken(user);
   const newRefreshToken = createToken(user, 'refresh');

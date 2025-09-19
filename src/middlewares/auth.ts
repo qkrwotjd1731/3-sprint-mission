@@ -44,15 +44,29 @@ export const verifyResourceAuth = (resourceType: ResourceType): RequestHandler =
           resource = await prisma.comment.findUnique({ where: { id } });
           break;
         default:
-          throw new HttpError('Invalid resource type', 400);
+          throw new HttpError('잘못된 리소스 타입입니다.', 400);
       }
 
       if (!resource) {
-        throw new HttpError('Not found', 404);
+        let message;
+        switch (resourceType) {
+          case ResourceType.Product:
+            message = '상품을 찾을 수 없습니다.';
+            break;
+          case ResourceType.Article:
+            message = '게시글을 찾을 수 없습니다.';
+            break;
+          case ResourceType.Comment:
+            message = '댓글을 찾을 수 없습니다.';
+            break;
+          default:
+            message = '요청한 리소스를 찾을 수 없습니다.';
+        }
+        throw new HttpError(message, 404);
       }
 
       if (resource.userId !== req.user?.id) {
-        throw new HttpError('Forbidden', 403);
+        throw new HttpError('접근 권한이 없습니다.', 403);
       }
 
       return next();

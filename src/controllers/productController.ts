@@ -1,4 +1,6 @@
 import * as ProductService from '../services/productService';
+import { assert } from 'superstruct';
+import { idParamsStruct } from '../utils/structs';
 import type { RequestHandler } from 'express';
 import type { CreateProductDto, UpdateProductDto } from '../types/productTypes';
 import type { CreateCommentDto } from '../types/commentTypes';
@@ -17,6 +19,7 @@ export const createProduct: RequestHandler = async (req, res) => {
 
 // 상품 조회
 export const getProduct: RequestHandler = async (req, res) => {
+  assert(req.params.id, idParamsStruct);
   const id = parseInt(req.params.id, 10);
   const userId = req.user?.id;
 
@@ -26,6 +29,7 @@ export const getProduct: RequestHandler = async (req, res) => {
 
 // 상품 수정
 export const updateProduct: RequestHandler = async (req, res) => {
+  assert(req.params.id, idParamsStruct);
   const id = parseInt(req.params.id, 10);
   const data: UpdateProductDto = req.body;
 
@@ -35,6 +39,7 @@ export const updateProduct: RequestHandler = async (req, res) => {
 
 // 상품 삭제
 export const deleteProduct: RequestHandler = async (req, res) => {
+  assert(req.params.id, idParamsStruct);
   const id = parseInt(req.params.id, 10);
 
   await ProductService.deleteProduct(id);
@@ -55,6 +60,7 @@ export const getProductList: RequestHandler = async (req, res) => {
 
 // 댓글 등록
 export const createComment: RequestHandler = async (req, res) => {
+  assert(req.params.id, idParamsStruct);
   const productId = parseInt(req.params.id, 10);
   const userId = req.user!.id;
   const data: CreateCommentDto = req.body;
@@ -65,6 +71,7 @@ export const createComment: RequestHandler = async (req, res) => {
 
 // 댓글 목록 조회
 export const getCommentList: RequestHandler = async (req, res) => {
+  assert(req.params.id, idParamsStruct);
   const productId = parseInt(req.params.id, 10);
   const query = req.validatedQuery as CursorQueryDto;
 
@@ -72,11 +79,12 @@ export const getCommentList: RequestHandler = async (req, res) => {
 
   const nextCursor = comments.length === query.limit ? comments[comments.length - 1].id : null;
 
-  res.status(200).json({ comments, totalCount, nextCursor });
+  res.status(200).json({ list: comments, totalCount, nextCursor });
 };
 
 // 좋아요 등록
 export const createLike: RequestHandler = async (req, res) => {
+  assert(req.params.id, idParamsStruct);
   const productId = parseInt(req.params.id, 10);
   const userId = req.user!.id;
 
@@ -86,6 +94,7 @@ export const createLike: RequestHandler = async (req, res) => {
 
 // 좋아요 삭제
 export const deleteLike: RequestHandler = async (req, res) => {
+  assert(req.params.id, idParamsStruct);
   const productId = parseInt(req.params.id, 10);
   const userId = req.user!.id;
 

@@ -1,9 +1,12 @@
 import * as CommentService from '../services/commentService';
+import { assert } from 'superstruct';
+import { idParamsStruct } from '../utils/structs';
 import type { RequestHandler } from 'express';
 import type { UpdateCommentDto } from '../types/commentTypes';
 
 // 댓글 수정
 export const updateComment: RequestHandler = async (req, res) => {
+  assert(req.params.id, idParamsStruct);
   const id = parseInt(req.params.id, 10);
   const data: UpdateCommentDto = req.body;
 
@@ -13,6 +16,7 @@ export const updateComment: RequestHandler = async (req, res) => {
 
 // 댓글 삭제
 export const deleteComment: RequestHandler = async (req, res) => {
+  assert(req.params.id, idParamsStruct);
   const id = parseInt(req.params.id, 10);
 
   await CommentService.deleteComment(id);

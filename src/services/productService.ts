@@ -21,7 +21,7 @@ export const createProduct = async (data: CreateProductDto): Promise<ProductResp
 export const getProduct = async (id: number, userId?: number): Promise<ProductWithLikesDto> => {
   const product = await productRepository.findById(id);
   if (!product) {
-    throw new HttpError('Product not found', 404);
+    throw new HttpError('상품을 찾을 수 없습니다.', 404);
   }
 
   const likes = await productRepository.findLikes(id);
@@ -38,11 +38,8 @@ export const updateProduct = async (
   id: number,
   data: UpdateProductDto,
 ): Promise<ProductResponseDto> => {
-  const oldProduct = await productRepository.findById(id);
-  if (!oldProduct) {
-    throw new HttpError('Product not found', 404);
-  }
-
+  // verifyResourceAuth 미들웨어에서 상품 존재 여부를 확인
+  const oldProduct = (await productRepository.findById(id))!;
   const updatedProduct = await productRepository.update(id, data);
 
   if (oldProduct.price !== updatedProduct.price) {
@@ -52,7 +49,7 @@ export const updateProduct = async (
         await createNotification({
           userId: like.userId,
           type: NotificationType.PRICE_CHANGE,
-          message: `Product ${updatedProduct.name} price changed from ${oldProduct.price} to ${updatedProduct.price}`,
+          message: `상품 ${updatedProduct.name}의 가격이 ${oldProduct.price}원에서 ${updatedProduct.price}원으로 변경되었습니다.`,
         });
       }),
     );
@@ -103,7 +100,7 @@ export const createComment = async (
 ): Promise<CommentResponseDto> => {
   const product = await productRepository.findById(productId);
   if (!product) {
-    throw new HttpError('Product not found', 404);
+    throw new HttpError('상품을 찾을 수 없습니다.', 404);
   }
 
   return await productRepository.createComment(data, userId, productId);
@@ -121,7 +118,7 @@ export const getCommentList = async (
 
   const product = await productRepository.findById(productId);
   if (!product) {
-    throw new HttpError('Product not found', 404);
+    throw new HttpError('상품을 찾을 수 없습니다.', 404);
   }
 
   const [comments, totalCount] = await Promise.all([
@@ -136,12 +133,12 @@ export const getCommentList = async (
 export const createLike = async (productId: number, userId: number): Promise<LikeResponseDto> => {
   const product = await productRepository.findById(productId);
   if (!product) {
-    throw new HttpError('Product not found', 404);
+    throw new HttpError('상품을 찾을 수 없습니다.', 404);
   }
 
   const existingLike = await productRepository.findLike(productId, userId);
   if (existingLike) {
-    throw new HttpError('Like already exists', 400);
+    throw new HttpError('이미 좋아요를 누른 상태입니다.', 400);
   }
 
   return await productRepository.createLike(productId, userId);
@@ -151,12 +148,12 @@ export const createLike = async (productId: number, userId: number): Promise<Lik
 export const deleteLike = async (productId: number, userId: number): Promise<void> => {
   const product = await productRepository.findById(productId);
   if (!product) {
-    throw new HttpError('Product not found', 404);
+    throw new HttpError('상품을 찾을 수 없습니다.', 404);
   }
 
   const targetLike = await productRepository.findLike(productId, userId);
   if (!targetLike) {
-    throw new HttpError('Like not found', 404);
+    throw new HttpError('좋아요를 찾을 수 없습니다.', 404);
   }
 
   await productRepository.deleteLike(targetLike.id);

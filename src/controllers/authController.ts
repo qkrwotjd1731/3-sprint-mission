@@ -39,7 +39,7 @@ export const logout: RequestHandler = async (req, res) => {
     secure: false,
   });
 
-  res.status(200).json({ message: 'Logout successfully' });
+  res.status(200).json({ message: '로그아웃을 성공했습니다.' });
 };
 
 // 토큰 갱신

@@ -21,7 +21,7 @@ export const createArticle = async (data: CreateArticleDto): Promise<ArticleResp
 export const getArticle = async (id: number, userId?: number): Promise<ArticleWithLikesDto> => {
   const article = await articleRepository.findById(id);
   if (!article) {
-    throw new HttpError('Article not found', 404);
+    throw new HttpError('게시글을 찾을 수 없습니다.', 404);
   }
 
   const likes = await articleRepository.findLikes(id);
@@ -83,7 +83,7 @@ export const createComment = async (
 ): Promise<CommentResponseDto> => {
   const article = await articleRepository.findById(articleId);
   if (!article) {
-    throw new HttpError('Article not found', 404);
+    throw new HttpError('게시글을 찾을 수 없습니다.', 404);
   }
 
   const comment = await articleRepository.createComment(data, articleId, userId);
@@ -92,7 +92,7 @@ export const createComment = async (
     await createNotification({
       userId: article.userId,
       type: NotificationType.COMMENT,
-      message: `Comment ${data.content} on Article ${article.title}`,
+      message: `게시글 "${article.title}"에 댓글이 달렸습니다: ${data.content}`,
     });
   }
 
@@ -111,7 +111,7 @@ export const getCommentList = async (
 
   const article = await articleRepository.findById(articleId);
   if (!article) {
-    throw new HttpError('Article not found', 404);
+    throw new HttpError('게시글을 찾을 수 없습니다.', 404);
   }
 
   const [comments, totalCount] = await Promise.all([
@@ -126,12 +126,12 @@ export const getCommentList = async (
 export const createLike = async (articleId: number, userId: number): Promise<LikeResponseDto> => {
   const article = await articleRepository.findById(articleId);
   if (!article) {
-    throw new HttpError('Article not found', 404);
+    throw new HttpError('게시글을 찾을 수 없습니다.', 404);
   }
 
   const existingLike = await articleRepository.findLike(articleId, userId);
   if (existingLike) {
-    throw new HttpError('Like already exists', 400);
+    throw new HttpError('이미 좋아요를 누른 상태입니다.', 400);
   }
 
   return await articleRepository.createLike(articleId, userId);
@@ -141,12 +141,12 @@ export const createLike = async (articleId: number, userId: number): Promise<Lik
 export const deleteLike = async (articleId: number, userId: number): Promise<void> => {
   const article = await articleRepository.findById(articleId);
   if (!article) {
-    throw new HttpError('Article not found', 404);
+    throw new HttpError('게시글을 찾을 수 없습니다.', 404);
   }
 
   const targetLike = await articleRepository.findLike(articleId, userId);
   if (!targetLike) {
-    throw new HttpError('Like not found', 404);
+    throw new HttpError('좋아요를 찾을 수 없습니다.', 404);
   }
 
   await articleRepository.deleteLike(targetLike.id);
