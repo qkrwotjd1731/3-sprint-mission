@@ -1,8 +1,8 @@
 import request from 'supertest';
-import app from '../src/app';
-import { prisma } from '../src/lib/prisma';
-import seed from '../prisma/seed';
-import { io } from '../src/socket';
+import app from '../../src/app';
+import { prisma } from '../../src/lib/prisma';
+import seed from '../../prisma/seed';
+import { io } from '../../src/socket';
 
 beforeAll(async () => {
   // .env.test 로 DB 연결된 상태(패키지 스크립트에서 dotenv-cli로 로드)

@@ -3,7 +3,9 @@
     "start": "node dist/main.js",
     "dev": "nodemon --watch src --exec tsx src/main.ts",
     "build": "tsc",
-    "test": "dotenv -e .env.test -- npx prisma migrate deploy && jest --coverage",
+    "test:integration": "dotenv -e .env.test -- npx prisma migrate deploy && jest test/integration --coverage",
+    "test:unit": "jest test/unit --coverage",
+    "test": "npm run test:unit && npm run test:integration",
     "badge": "coverage-badges"
   },
   "dependencies": {
