@@ -97,6 +97,8 @@ const config = {
     '^../socket$': '<rootDir>/test/mocks/socketMock.ts',
     '^../../socket$': '<rootDir>/test/mocks/socketMock.ts',
     '^../../../socket$': '<rootDir>/test/mocks/socketMock.ts',
+    '^../../../../socket$': '<rootDir>/test/mocks/socketMock.ts',
+    '^../../../../../socket$': '<rootDir>/test/mocks/socketMock.ts',
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
