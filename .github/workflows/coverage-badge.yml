@@ -1,0 +1,43 @@
+# 본 Workflow 이름
+name: Coverage Badge
+
+# Workflow 실행 시점
+on:
+  push:  # main 브랜치에 push될 때
+    branches: [ main ]
+  pull_request:  # PR이 열리거나 업데이트 될 때
+
+# 권한
+permissions:
+  contents: write  # Workflow가 Repository에 뱃지 SVG 파일을 커밋하기 위해 필요
+
+# Workflow가 실행할 Job 정의
+jobs:
+  # Job 이름: build-and-badge (원한다면 이름 변경 가능)
+  build-and-badge:
+    runs-on: ubuntu-latest  # GitHub에서 제공하는 우분투 리눅스 VM에서 실행
+    # Job 실행 단계
+    steps:
+      # 현재 Repository 코드 Checkout
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      # Node 설정
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # 패키지 설치
+      - run: npm ci
+
+      # Jest 테스트 및 Coverage Report 생성
+      - run: npm test --coverage   # coverage/coverage-summary.json 생성
+
+      # Converage Badge 생성
+      - name: Generate coverage badges
+        uses: jpb06/jest-badges-action@latest
+        with:
+          branches: main              # 뱃지 커밋할 브랜치
+          output-folder: badges       # ./badges/*.svg 생성
