@@ -5,7 +5,8 @@ dist
 
 uploads
 
-coverage
+coverage/*
+!coverage/badges.svg
 
 /src/generated/prisma
 
