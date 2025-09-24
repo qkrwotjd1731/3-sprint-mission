@@ -1,15 +1,15 @@
 import { prisma } from '../lib/prisma';
 import { OrderByType } from '../types/queryTypes';
-import type { CreateProductDto, UpdateProductDto } from '../types/productTypes';
-import type { CreateCommentDto } from '../types/commentTypes';
+import type { CreateProductDTO, UpdateProductDTO } from '../types/productTypes';
+import type { CreateCommentDTO } from '../types/commentTypes';
 
-export const create = (data: CreateProductDto) => prisma.product.create({ data });
+export const create = (data: CreateProductDTO) => prisma.product.create({ data });
 
 export const findById = (id: number) => prisma.product.findUnique({ where: { id } });
 
 export const findLikes = (id: number) => prisma.like.findMany({ where: { productId: id } });
 
-export const update = (id: number, data: UpdateProductDto) =>
+export const update = (id: number, data: UpdateProductDTO) =>
   prisma.product.update({ where: { id }, data });
 
 export const remove = (id: number) => prisma.product.delete({ where: { id } });
@@ -45,7 +45,7 @@ export const findMany = (offset: number, limit: number, orderBy?: OrderByType, k
 
 export const countProducts = (keyword?: string) => prisma.product.count({ where: where(keyword) });
 
-export const createComment = (data: CreateCommentDto, productId: number, userId: number) =>
+export const createComment = (data: CreateCommentDTO, productId: number, userId: number) =>
   prisma.comment.create({
     data: {
       ...data,

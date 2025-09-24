@@ -1,11 +1,11 @@
 import { prisma } from '../lib/prisma';
 import { where, parseOrderBy } from './productRepository';
-import type { UpdateUserDto } from '../types/userTypes';
+import type { UpdateUserDTO } from '../types/userTypes';
 import type { OrderByType } from '../types/queryTypes';
 
 export const findById = (id: number) => prisma.user.findUnique({ where: { id } });
 
-export const updateUser = (id: number, data: UpdateUserDto) =>
+export const updateUser = (id: number, data: UpdateUserDTO) =>
   prisma.user.update({ where: { id }, data });
 
 export const updatePassword = (id: number, hashedNewPassword: string) =>

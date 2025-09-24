@@ -2,13 +2,13 @@ import * as ArticleService from '../services/articleService';
 import { assert } from 'superstruct';
 import { idParamsStruct } from '../utils/structs';
 import type { RequestHandler } from 'express';
-import type { CreateArticleDto, UpdateArticleDto } from '../types/articleTypes';
-import type { CreateCommentDto } from '../types/commentTypes';
+import type { CreateArticleDTO, UpdateArticleDTO } from '../types/articleTypes';
+import type { CreateCommentDTO } from '../types/commentTypes';
 import type { OffsetQueryDto, CursorQueryDto } from '../types/queryTypes';
 
 // 게시글 등록
 export const createArticle: RequestHandler = async (req, res) => {
-  const data: CreateArticleDto = {
+  const data: CreateArticleDTO = {
     ...req.body,
     userId: req.user!.id,
   };
@@ -31,7 +31,7 @@ export const getArticle: RequestHandler = async (req, res) => {
 export const updateArticle: RequestHandler = async (req, res) => {
   assert(req.params.id, idParamsStruct);
   const id = parseInt(req.params.id, 10);
-  const data: UpdateArticleDto = req.body;
+  const data: UpdateArticleDTO = req.body;
 
   const updatedArticle = await ArticleService.updateArticle(id, data);
   res.status(200).json(updatedArticle);
@@ -63,7 +63,7 @@ export const createComment: RequestHandler = async (req, res) => {
   assert(req.params.id, idParamsStruct);
   const articleId = parseInt(req.params.id, 10);
   const userId = req.user!.id;
-  const data: CreateCommentDto = req.body;
+  const data: CreateCommentDTO = req.body;
 
   const createdComment = await ArticleService.createComment(data, articleId, userId);
   res.status(201).json(createdComment);

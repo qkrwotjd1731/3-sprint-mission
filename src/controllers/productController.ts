@@ -3,7 +3,7 @@ import { assert } from 'superstruct';
 import { idParamsStruct } from '../utils/structs';
 import type { RequestHandler } from 'express';
 import type { CreateProductDTO, UpdateProductDTO } from '../types/productTypes';
-import type { CreateCommentDto } from '../types/commentTypes';
+import type { CreateCommentDTO } from '../types/commentTypes';
 import type { OffsetQueryDto, CursorQueryDto } from '../types/queryTypes';
 
 // 상품 등록
@@ -63,7 +63,7 @@ export const createComment: RequestHandler = async (req, res) => {
   assert(req.params.id, idParamsStruct);
   const productId = parseInt(req.params.id, 10);
   const userId = req.user!.id;
-  const data: CreateCommentDto = req.body;
+  const data: CreateCommentDTO = req.body;
 
   const createdComment = await ProductService.createComment(data, productId, userId);
   res.status(201).json(createdComment);

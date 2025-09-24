@@ -1,15 +1,15 @@
 import { prisma } from '../lib/prisma';
 import { OrderByType } from '../types/queryTypes';
-import type { CreateArticleDto, UpdateArticleDto } from '../types/articleTypes';
-import type { CreateCommentDto } from '../types/commentTypes';
+import type { CreateArticleDTO, UpdateArticleDTO } from '../types/articleTypes';
+import type { CreateCommentDTO } from '../types/commentTypes';
 
-export const create = (data: CreateArticleDto) => prisma.article.create({ data });
+export const create = (data: CreateArticleDTO) => prisma.article.create({ data });
 
 export const findById = (id: number) => prisma.article.findUnique({ where: { id } });
 
 export const findLikes = (id: number) => prisma.like.findMany({ where: { articleId: id } });
 
-export const update = (id: number, data: UpdateArticleDto) =>
+export const update = (id: number, data: UpdateArticleDTO) =>
   prisma.article.update({ where: { id }, data });
 
 export const remove = (id: number) => prisma.article.delete({ where: { id } });
@@ -45,7 +45,7 @@ export const findMany = (offset: number, limit: number, orderBy?: OrderByType, k
 
 export const countArticles = (keyword?: string) => prisma.article.count({ where: where(keyword) });
 
-export const createComment = (data: CreateCommentDto, articleId: number, userId: number) =>
+export const createComment = (data: CreateCommentDTO, articleId: number, userId: number) =>
   prisma.comment.create({
     data: {
       ...data,

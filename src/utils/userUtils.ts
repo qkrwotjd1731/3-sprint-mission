@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { User } from '../generated/prisma';
 import { JWT_SECRET } from '../lib/constants';
-import type { UserResponseDto } from '../types/userTypes';
+import type { UserResponseDTO } from '../types/userTypes';
 
 export const createToken = (user: User, type?: 'refresh' | 'access') => {
   const payload = { id: user.id };
@@ -14,7 +14,7 @@ export const createToken = (user: User, type?: 'refresh' | 'access') => {
   return jwt.sign(payload, JWT_SECRET, { expiresIn });
 };
 
-export const filterSensitiveUserData = (user: User): UserResponseDto => {
+export const filterSensitiveUserData = (user: User): UserResponseDTO => {
   const { password, refreshToken, ...rest } = user;
   return rest;
 };
