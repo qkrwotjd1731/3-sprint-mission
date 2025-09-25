@@ -1,3 +1,16 @@
+// 환경 변수 추출
+const {
+  NODE_ENV = "production",
+  PORT = 3000,
+  SOCKET_PORT = 8080,
+  DATABASE_URL,
+  JWT_SECRET,
+  AWS_S3_REGION,
+  AWS_S3_ACCESS_KEY_ID,
+  AWS_S3_SECRET_KEY_ID,
+  AWS_S3_BUCKET
+} = process.env;
+
 module.exports = {
   apps: [
     {
@@ -8,9 +21,15 @@ module.exports = {
       autorestart: true,           // 크래시 시 자동 재시작
       watch: false,                // 코드 변경 감지 (운영 환경은 보통 false)
       env: {
-        NODE_ENV: "production",
-        PORT: 3000,
-        SOCKET_PORT: 8080
+        NODE_ENV,
+        PORT,
+        SOCKET_PORT,
+        DATABASE_URL,
+        JWT_SECRET,
+        AWS_S3_REGION,
+        AWS_S3_ACCESS_KEY_ID,
+        AWS_S3_SECRET_KEY_ID,
+        AWS_S3_BUCKET
       },
       error_file: "/home/ec2-user/logs/error.log",
       out_file: "/home/ec2-user/logs/out.log",
