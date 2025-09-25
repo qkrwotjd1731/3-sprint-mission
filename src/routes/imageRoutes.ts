@@ -5,7 +5,8 @@ import { uploadImage } from '../controllers/imageController';
 
 const imageRouter = Router();
 
-const upload = multer({ dest: 'uploads/' });
+// 메모리 스토리지 사용 (파일을 디스크에 저장하지 않음)
+const upload = multer({ storage: multer.memoryStorage() });
 
 imageRouter.post('/', upload.single('image'), asyncHandler(uploadImage));
 
