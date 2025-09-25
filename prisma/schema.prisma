@@ -78,17 +78,12 @@ model Like {
 }
 
 model Notification {
-  id        Int              @id @default(autoincrement())
-  type      NotificationType
+  id        Int      @id @default(autoincrement())
+  type      String
   message   String
-  isRead    Boolean          @default(false)
+  isRead    Boolean  @default(false)
   userId    Int
-  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt
-}
-
-enum NotificationType {
-  PRICE_CHANGE @map("PRICE_CHANGE")
-  COMMENT @map("COMMENT")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

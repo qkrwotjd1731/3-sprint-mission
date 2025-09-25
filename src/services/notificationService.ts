@@ -7,12 +7,12 @@ export const createNotification = async (data: CreateNotificationDTO): Promise<N
   const notification = await notificationRepository.create(data);
 
   io.to(notification.userId.toString()).emit('notification', notification);
-  return notification;
+  return notification as Notification;
 };
 
 // 알림 목록 조회
 export const getNotificationList = async (userId: number): Promise<Notification[]> => {
-  return notificationRepository.findByUserId(userId);
+  return notificationRepository.findByUserId(userId) as unknown as Notification[];
 };
 
 // 알림 미확인 개수 조회
@@ -22,5 +22,5 @@ export const getUnreadCount = async (userId: number): Promise<number> => {
 
 // 알림 읽음 처리
 export const readNotification = async (id: number): Promise<Notification> => {
-  return notificationRepository.markAsRead(id);
+  return notificationRepository.markAsRead(id) as unknown as Notification;
 };
