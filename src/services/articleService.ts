@@ -1,7 +1,7 @@
 import * as articleRepository from '../repositories/articleRepository';
 import { HttpError } from '../utils/httpError';
 import { createNotification } from './notificationService';
-import { NotificationType } from '../generated/prisma';
+import { NotificationType } from '../types/notificationTypes';
 import type {
   Article,
   CreateArticleDTO,
@@ -28,7 +28,7 @@ export const getArticle = async (id: number, userId?: number): Promise<ArticleWi
   const articleWithLikes = {
     ...article,
     likesCount: likes.length,
-    isLiked: userId ? likes.some((like) => like.userId === userId) : false,
+    isLiked: userId ? likes.some((like: Like) => like.userId === userId) : false,
   };
   return articleWithLikes;
 };
@@ -59,12 +59,12 @@ export const getArticleList = async (
   ]);
 
   const articlesWithLikes = await Promise.all(
-    articles.map(async (article) => {
+    articles.map(async (article: Article) => {
       const likes = await articleRepository.findLikes(article.id);
       return {
         ...article,
         likesCount: likes.length,
-        isLiked: userId ? likes.some((like) => like.userId === userId) : false,
+        isLiked: userId ? likes.some((like: Like) => like.userId === userId) : false,
       };
     }),
   );

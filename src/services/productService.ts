@@ -1,7 +1,7 @@
 import * as productRepository from '../repositories/productRepository';
 import { HttpError } from '../utils/httpError';
 import { createNotification } from './notificationService';
-import { NotificationType } from '../generated/prisma';
+import { NotificationType } from '../types/notificationTypes';
 import type {
   Product,
   CreateProductDTO,
@@ -28,7 +28,7 @@ export const getProduct = async (id: number, userId?: number): Promise<ProductWi
   const productWithLikes = {
     ...product,
     likesCount: likes.length,
-    isLiked: userId ? likes.some((like) => like.userId === userId) : false,
+    isLiked: userId ? likes.some((like: Like) => like.userId === userId) : false,
   };
   return productWithLikes;
 };
@@ -42,7 +42,7 @@ export const updateProduct = async (id: number, data: UpdateProductDTO): Promise
   if (oldProduct.price !== updatedProduct.price) {
     const likes = await productRepository.findLikes(id);
     await Promise.all(
-      likes.map(async (like) => {
+      likes.map(async (like: Like) => {
         await createNotification({
           userId: like.userId,
           type: NotificationType.PRICE_CHANGE,
@@ -76,12 +76,12 @@ export const getProductList = async (
   ]);
 
   const productsWithLikes = await Promise.all(
-    products.map(async (product) => {
+    products.map(async (product: Product) => {
       const likes = await productRepository.findLikes(product.id);
       return {
         ...product,
         likesCount: likes.length,
-        isLiked: userId ? likes.some((like) => like.userId === userId) : false,
+        isLiked: userId ? likes.some((like: Like) => like.userId === userId) : false,
       };
     }),
   );

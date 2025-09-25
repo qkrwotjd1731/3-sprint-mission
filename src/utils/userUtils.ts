@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { User } from '../generated/prisma';
+import { User } from '../types/userTypes';
 import { JWT_SECRET } from '../lib/constants';
 import type { UserResponseDTO } from '../types/userTypes';
 

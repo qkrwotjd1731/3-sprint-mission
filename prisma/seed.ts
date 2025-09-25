@@ -1,8 +1,6 @@
-import { PrismaClient } from '../src/generated/prisma';
+import { prisma } from '../src/lib/prisma';
 import { PRODUCTS, ARTICLES, COMMENTS, USERS, LIKES } from './mock';
 import bcrypt from 'bcrypt';
-
-const prisma = new PrismaClient();
 
 const seed = async () => {
   await prisma.like.deleteMany();

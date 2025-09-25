@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -90,6 +89,6 @@ model Notification {
 }
 
 enum NotificationType {
-  PRICE_CHANGE
-  COMMENT
+  PRICE_CHANGE @map("PRICE_CHANGE")
+  COMMENT @map("COMMENT")
 }

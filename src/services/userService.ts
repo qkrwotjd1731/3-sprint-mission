@@ -6,6 +6,8 @@ import { filterSensitiveUserData } from '../utils/userUtils';
 import type { UserResponseDTO, UpdateUserDTO, UpdatePasswordDTO } from '../types/userTypes';
 import type { ProductWithLikesDTO } from '../types/productTypes';
 import type { OffsetQueryDto } from '../types/queryTypes';
+import type { Product } from '../types/productTypes';
+import type { Like } from '../types/likeTypes';
 
 // 유저 조회
 export const getUser = async (id: number): Promise<UserResponseDTO> => {
@@ -50,12 +52,12 @@ export const getUserProductList = async (
   ]);
 
   const productsWithLikes = await Promise.all(
-    products.map(async (product) => {
+    products.map(async (product: Product) => {
       const likes = await findLikes(product.id);
       return {
         ...product,
         likesCount: likes.length,
-        isLiked: likes.some((like) => like.userId === userId),
+        isLiked: likes.some((like: Like) => like.userId === userId),
       };
     }),
   );
@@ -79,7 +81,7 @@ export const getUserLikeProductList = async (
   ]);
 
   const productsWithLikes = await Promise.all(
-    products.map(async (product) => {
+    products.map(async (product: Product) => {
       const likes = await findLikes(product.id);
       return {
         ...product,

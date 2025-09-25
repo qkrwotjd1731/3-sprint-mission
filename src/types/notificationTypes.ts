@@ -1,4 +1,7 @@
-import { NotificationType } from '../generated/prisma';
+export enum NotificationType {
+  PRICE_CHANGE = 'PRICE_CHANGE',
+  COMMENT = 'COMMENT',
+}
 
 // 타입 정의
 export interface Notification {
