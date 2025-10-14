@@ -62,7 +62,7 @@ const config = {
   // forceCoverageMatch: [],
 
   // A path to a module which exports an async function that is triggered once before all test suites
-  // globalSetup: undefined,
+  globalSetup: '<rootDir>/jest.globalSetup.ts',
 
   // A path to a module which exports an async function that is triggered once after all test suites
   // globalTeardown: undefined,

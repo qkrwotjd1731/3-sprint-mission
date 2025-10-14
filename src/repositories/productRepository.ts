@@ -49,8 +49,8 @@ export const createComment = (data: CreateCommentDTO, productId: number, userId:
   prisma.comment.create({
     data: {
       ...data,
-      product: { connect: { id: productId } },
-      user: { connect: { id: userId } },
+      productId,
+      userId,
     },
   });
 

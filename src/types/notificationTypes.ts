@@ -7,7 +7,7 @@ export enum NotificationType {
 export interface Notification {
   id: number;
   userId: number;
-  type: NotificationType;
+  type: string;
   message: string;
   isRead: boolean;
   createdAt: Date;
@@ -17,6 +17,6 @@ export interface Notification {
 // DTO
 export interface CreateNotificationDTO {
   userId: number;
-  type: NotificationType;
+  type: string;
   message: string;
 }

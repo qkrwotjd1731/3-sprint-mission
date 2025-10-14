@@ -1,15 +1,15 @@
 import request from 'supertest';
 import app from '../../src/app';
 import { prisma } from '../../src/lib/prisma';
-import seed from '../../prisma/seed';
 
 beforeAll(async () => {
-  // .env.test 로 DB 연결된 상태(패키지 스크립트에서 dotenv-cli로 로드)
-  // 마이그레이션은 package.json 스크립트에서 이미 실행됨
+  // Global setup에서 마이그레이션과 시드가 이미 실행됨
+  // 각 테스트는 트랜잭션 롤백으로 데이터 격리
 });
 
 beforeEach(async () => {
-  await seed();
+  // 시드 실행 제거 - Global setup에서 한 번만 실행됨
+  // 각 테스트는 읽기 전용으로 실행
 });
 
 afterAll(async () => {

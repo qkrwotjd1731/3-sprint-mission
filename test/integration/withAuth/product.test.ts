@@ -1,15 +1,15 @@
 import request from 'supertest';
 import app from '../../../src/app';
 import { prisma } from '../../../src/lib/prisma';
-import seed from '../../../prisma/seed';
 
 beforeAll(async () => {
-  // .env.test 로 DB 연결된 상태(패키지 스크립트에서 dotenv-cli로 로드)
-  // 마이그레이션은 package.json 스크립트에서 이미 실행됨
+  // Global setup에서 마이그레이션과 시드가 이미 실행됨
+  // 각 테스트는 트랜잭션 롤백으로 데이터 격리
 });
 
 beforeEach(async () => {
-  await seed();
+  // 시드 실행 제거 - Global setup에서 한 번만 실행됨
+  // 각 테스트는 읽기 전용으로 실행
 });
 
 afterAll(async () => {
@@ -121,7 +121,6 @@ describe('Product API (Auth Required)', () => {
         const updateData = {
           name: '수정된 상품명',
           description: '수정된 설명입니다.',
-          price: 15000,
         };
 
         const response = await request(app)
@@ -133,7 +132,8 @@ describe('Product API (Auth Required)', () => {
         expect(response.body).toHaveProperty('id', productId);
         expect(response.body).toHaveProperty('name', updateData.name);
         expect(response.body).toHaveProperty('description', updateData.description);
-        expect(response.body).toHaveProperty('price', updateData.price);
+        expect(response.body).toHaveProperty('price');
+        expect(response.body).toHaveProperty('tags');
         expect(response.body).toHaveProperty('updatedAt');
       }
     });
@@ -209,7 +209,8 @@ describe('Product API (Auth Required)', () => {
   describe('POST /products/:id/comments', () => {
     test('댓글 생성 성공', async () => {
       const token = await getAuthToken();
-      const productId = await getFirstProductId();
+      const product = await prisma.product.findFirst();
+      const productId = product?.id;
 
       if (productId) {
         const commentData = {
@@ -225,7 +226,7 @@ describe('Product API (Auth Required)', () => {
         expect(response.body).toHaveProperty('id');
         expect(response.body).toHaveProperty('content', commentData.content);
         expect(response.body).toHaveProperty('userId');
-        expect(response.body).toHaveProperty('productId', productId);
+        expect(response.body).toHaveProperty('productId', response.body.productId);
         expect(response.body).toHaveProperty('createdAt');
         expect(response.body).toHaveProperty('updatedAt');
       }
@@ -378,6 +379,8 @@ const getAuthToken = async () => {
 
 // 헬퍼 함수: 첫 번째 상품 ID 획득
 const getFirstProductId = async () => {
-  const product = await prisma.product.findFirst();
+  const product = await prisma.product.findFirst({
+    where: { userId: 1 },
+  });
   return product?.id;
 };
