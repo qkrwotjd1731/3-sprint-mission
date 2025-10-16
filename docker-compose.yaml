@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      args:
+        NODE_VERSION: 22.16.0
+      dockerfile: ./Dockerfile
+      context: .
+    container_name: sprint-mission-app
+    restart: always
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+    networks:
+      - sprint-mission-network
+    volumes:
+      - uploads-volume:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:17.5
+    container_name: sprint-mission-db
+    restart: always
+    ports:
+      - '5432:5432'
+    env_file:
+      - .env
+    networks:
+      - sprint-mission-network
+    volumes:
+      - db-volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d sprint_mission']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+networks:
+  sprint-mission-network:
+    name: sprint-mission-network
+
+volumes:
+  uploads-volume:
+    name: uploads-volume
+  db-volume:
+    name: db-volume

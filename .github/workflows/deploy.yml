@@ -1,0 +1,56 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 코드 체크아웃
+        uses: actions/checkout@v5
+
+      - name: Node.js 설치
+        uses: actions/setup-node@v5
+        with:
+          node-version: 'lts/*'
+
+      - name: EC2 배포
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script: |
+            # 코드 최신화
+            cd ~/3-sprint-mission
+            git pull origin main
+
+            # 패키지 설치 및 DB 마이그레이션
+            npm install
+            npx prisma generate
+            npx prisma migrate deploy
+
+            # 빌드 및 재시작
+            npm run build
+
+            # PM2로 애플리케이션 관리
+            pm2 stop 3-sprint-mission || true
+            pm2 delete 3-sprint-mission || true
+            pm2 start dist/main.js --name "3-sprint-mission" --env production
+
+            # 배포 검증
+            pm2 status
+            # curl -f http://localhost:3000/health || exit 1
+
+      - name: 배포 성공 알림
+        if: success()
+        run: |
+          echo "✅ 배포가 성공적으로 완료되었습니다!"
+
+      - name: 배포 실패 알림
+        if: failure()
+        run: |
+          echo "❌ 배포가 실패했습니다!"
