@@ -29,7 +29,9 @@ const config = {
   // An array of regexp pattern strings used to skip coverage collection
   coveragePathIgnorePatterns: [
     "\\\\node_modules\\\\",
-    "src/generated/prisma"
+    "src/generated/prisma",
+    "node_modules/@prisma/client",
+    "prisma/"
   ],
 
   // Indicates which provider should be used to instrument code for coverage

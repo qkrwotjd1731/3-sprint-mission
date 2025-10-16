@@ -39,6 +39,11 @@ jobs:
       - name: 패키지 설치
         run: npm install
 
+      - name: Prisma 클라이언트 생성
+        env:
+          DATABASE_URL: postgresql://postgres:test_password@localhost:5432/test-sprint_mission?schema=public
+        run: npx prisma generate
+
       - name: TypeScript 타입 체크
         run: npm run build
 
@@ -59,4 +64,4 @@ jobs:
           PORT: 3000
           ACCESS_TOKEN_SECRET: test_access_token_secret_key_for_ci
           REFRESH_TOKEN_SECRET: test_refresh_token_secret_key_for_ci
-        run: npm run test:all
+        run: npm run test:all -- --coverage=false
