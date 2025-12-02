@@ -15,7 +15,7 @@ export const validateCreateArticle: RequestHandler = (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
+};
 
 export const validateUpdateArticle: RequestHandler = (req, res, next) => {
   try {
@@ -24,4 +24,4 @@ export const validateUpdateArticle: RequestHandler = (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
+};

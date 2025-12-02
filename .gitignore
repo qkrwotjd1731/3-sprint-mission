@@ -13,3 +13,7 @@ coverage/*
 # dev test files
 http
 example
+
+#claude code
+CLAUDE.md
+.claude
